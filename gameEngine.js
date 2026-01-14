@@ -41,6 +41,74 @@ class GameEngine {
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
         });
+
+        function keydownListener (e) {
+            that.keyboardActive = true;
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.left = true;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.right = true;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.up = true;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.down = true;
+                    break;
+                case "KeyZ":
+                case "Comma":
+                    that.B = true;
+                    break;
+                case "KeyX":
+                case "Period":
+                    that.A = true;
+                    break;
+            }
+        }
+        function keyUpListener (e) {
+            that.keyboardActive = false;
+            switch (e.code) {
+                case "ArrowLeft":
+                case "KeyA":
+                    that.left = false;
+                    break;
+                case "ArrowRight":
+                case "KeyD":
+                    that.right = false;
+                    break;
+                case "ArrowUp":
+                case "KeyW":
+                    that.up = false;
+                    break;
+                case "ArrowDown":
+                case "KeyS":
+                    that.down = false;
+                    break;
+                case "KeyZ":
+                case "Comma":
+                    that.B = false;
+                    break;
+                case "KeyX":
+                case "Period":
+                    that.A = false;
+                    break;
+            }
+        }
+
+        that.mousemove = mouseListener;
+        that.leftclick = mouseClickListener;
+        that.wheelscroll = wheelListener;
+        that.keydown = keydownListener;
+        that.keyup = keyUpListener;
+    
+
+
         
         this.ctx.canvas.addEventListener("mousemove", e => {
             if (this.options.debugging) {
