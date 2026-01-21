@@ -14,7 +14,7 @@ class Lily {
             idle: new Animator(
                 ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
                 0, 0,      // x, y position in spritesheet
-                768, 744,  // frame width, height
+                852, 744,  // frame width, height
                 4, 0.5     // frame count, duration
             ),
             walkDown: new Animator(
@@ -87,9 +87,9 @@ class Lily {
         // Draw the current animation
         this.currentAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
         
-        // Debug rectangle
-        ctx.strokeStyle = "red";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
+        // // Debug rectangle
+        // ctx.strokeStyle = "red";
+        // ctx.lineWidth = 2;
+        // ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
 }
