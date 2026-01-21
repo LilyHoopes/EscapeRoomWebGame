@@ -37,6 +37,9 @@ class GameEngine {
     };
 
     startInput() {
+
+        const that = this;
+
         const getXandY = e => ({
             x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
             y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
@@ -101,15 +104,12 @@ class GameEngine {
             }
         }
 
-        that.mousemove = mouseListener;
-        that.leftclick = mouseClickListener;
-        that.wheelscroll = wheelListener;
+        // that.mousemove = mouseListener;
+        // that.leftclick = mouseClickListener;
+        // that.wheelscroll = wheelListener;
         that.keydown = keydownListener;
         that.keyup = keyUpListener;
     
-
-
-        
         this.ctx.canvas.addEventListener("mousemove", e => {
             if (this.options.debugging) {
                 console.log("MOUSE_MOVE", getXandY(e));
