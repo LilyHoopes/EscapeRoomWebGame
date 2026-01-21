@@ -4,6 +4,7 @@ const ASSET_MANAGER = new AssetManager();
 // must queue all assest here
 ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
+ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
 
 
 
@@ -17,7 +18,7 @@ ASSET_MANAGER.downloadAll(() => {
 	const sceneManager = new SceneManager(gameEngine);
 	gameEngine.sceneManager = sceneManager; // 
 
-	sceneManager.loadRoom("room1", 200, 200);
+	sceneManager.loadRoom("room2", 200, 200);
 
 	gameEngine.start();
 

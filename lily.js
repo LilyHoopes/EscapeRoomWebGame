@@ -9,6 +9,7 @@ class Lily {
         this.speed = 90;
         this.velocity = { x: 0, y: 0 };
         
+        // DO NOT CHANGE THESE NUMBERS
         // make an animator for each direction
         this.animations = {
             idle: new Animator(
@@ -24,7 +25,7 @@ class Lily {
                 4, 0.15    
             ),
             walkLeft: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"),  
                 0, 1760,   
                 830, 744, 
                 4, 0.15

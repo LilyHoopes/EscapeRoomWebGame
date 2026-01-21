@@ -65,13 +65,11 @@ class GameEngine {
                     that.down = true;
                     break;
                 //these need to change, make sure we have 'E'
-                case "KeyZ":
-                case "Comma":
-                    that.B = true;
+                case "KeyE":
+                    that.E = true;
                     break;
-                case "KeyX":
-                case "Period":
-                    that.A = true;
+                case "KeyI":
+                    that.I = true;
                     break;
             }
         }
@@ -94,13 +92,11 @@ class GameEngine {
                 case "KeyS":
                     that.down = false;
                     break;
-                case "KeyZ":
-                case "Comma":
-                    that.B = false;
+                case "KeyE":
+                    that.E = true;
                     break;
-                case "KeyX":
-                case "Period":
-                    that.A = false;
+                case "KeyI":
+                    that.I = true;
                     break;
             }
         }

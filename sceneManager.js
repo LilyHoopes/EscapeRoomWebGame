@@ -53,7 +53,7 @@ class SceneManager {
 
         if (roomName === "room2") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 2050, 1025));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 822));
 
             //npc?
 
