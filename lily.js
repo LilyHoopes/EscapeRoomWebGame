@@ -6,7 +6,7 @@ class Lily {
         this.scale = .2; // Add scale property (40% of original size)
         this.width = 230 * this.scale; // Add hitbox size
         this.height = 225 * this.scale;
-        this.speed = 90;
+        this.speed = 500;
         this.velocity = { x: 0, y: 0 };
         
         // DO NOT CHANGE THESE NUMBERS
@@ -90,6 +90,8 @@ class Lily {
         if (!moving) {
             this.currentAnimation = this.animations.idle;
         }
+        this.x = Math.max(-50, Math.min(this.x, 1290 - this.width));
+        this.y = Math.max(100, Math.min(this.y, 700 - this.height));
     }
 
     draw(ctx) {
