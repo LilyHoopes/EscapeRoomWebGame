@@ -13,32 +13,32 @@ class Lily {
         this.animations = {
             idle: new Animator(
                 ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 0,      // x, y position in spritesheet
-                852, 744,  // frame width, height
-                4, 0.5     // frame count, duration
+                0, 60,      // x, y position in spritesheet
+                803, 928,  // frame width, height
+                4, 0.6     // frame count, duration
             ),
             walkDown: new Animator(
                 ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 225,    // Second row (y = 225)
-                230, 225, 
-                4, 0.15    // Faster animation for walking
-            ),
-            walkUp: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 450,    // Third row (y = 450)
-                230, 225, 
-                4, 0.15
+                0, 928,    
+                803, 830, 
+                4, 0.15    
             ),
             walkLeft: new Animator(
                 ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 675,    // Fourth row (y = 675)
-                230, 225, 
+                0, 1760,   
+                830, 744, 
                 4, 0.15
             ),
             walkRight: new Animator(
                 ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 900,    // Fifth row (y = 900)
-                230, 225, 
+                0, 2525,    
+                830, 744, 
+                4, 0.15
+            ),
+            walkUp: new Animator(
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                0, 3270,    
+                803, 744, 
                 4, 0.15
             )
         };
@@ -49,6 +49,9 @@ class Lily {
     }
 
     update() {
+
+        console.log("Keys:", this.game.left, this.game.right, this.game.up, this.game.down);
+
         let moving = false;
         
         // Handle movement and set appropriate animation
@@ -57,24 +60,29 @@ class Lily {
             this.currentAnimation = this.animations.walkLeft;
             this.facing = "left";
             moving = true;
+            console.log("Moving left!");
+
         }
         if (this.game.right) {
             this.x += this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkRight;
             this.facing = "right";
             moving = true;
+            console.log("Moving right!");
         }
         if (this.game.up) {
             this.y -= this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkUp;
             this.facing = "up";
             moving = true;
+            console.log("Moving up!");            
         }
         if (this.game.down) {
             this.y += this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkDown;
             this.facing = "down";
             moving = true;
+            console.log("Moving down!");            
         }
         
         // If not moving, use idle animation

@@ -105,6 +105,9 @@ class GameEngine {
             }
         }
 
+        this.ctx.canvas.addEventListener("keydown", keydownListener);
+        this.ctx.canvas.addEventListener("keyup", keyUpListener);
+
         // that.mousemove = mouseListener;
         // that.leftclick = mouseClickListener;
         // that.wheelscroll = wheelListener;
