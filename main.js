@@ -18,7 +18,7 @@ ASSET_MANAGER.downloadAll(() => {
 	const sceneManager = new SceneManager(gameEngine);
 	gameEngine.sceneManager = sceneManager; // 
 
-	sceneManager.loadRoom("room2", 200, 200);
+	sceneManager.loadRoom("room1", 200, 200);
 
 	gameEngine.start();
 
