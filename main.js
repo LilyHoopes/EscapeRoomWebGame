@@ -6,6 +6,7 @@ ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
 
 
+
 ASSET_MANAGER.downloadAll(() => {
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
@@ -15,7 +16,7 @@ ASSET_MANAGER.downloadAll(() => {
 	const sceneManager = new SceneManager(gameEngine);
 	gameEngine.sceneManager = sceneManager;
 
-	sceneManager.loadRoom("room1", 50, 50);
+	sceneManager.loadRoom("room1", 200, 200);
 
 	gameEngine.start();
 

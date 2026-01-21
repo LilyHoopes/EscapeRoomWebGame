@@ -22,7 +22,7 @@ class SceneManager {
             jin: { met: false, dialogueIndex: 0 }
         };
         
-        this.lily = new Lily(this.game, 50, 400);
+        this.lily = new Lily(this.game, 50, 50);
     }
     
     loadRoom(roomName, spawnX, spawnY) {
@@ -31,7 +31,7 @@ class SceneManager {
 
         if (roomName === "room1") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1025, 2050));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 822));
 
             //interactive objects
             // this.game.addEntity(new Painting(this.game, 200, 300, "diamond_key")); // Falls to reveal key
