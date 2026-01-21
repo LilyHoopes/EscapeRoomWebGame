@@ -9,19 +9,12 @@ class Lily {
         this.speed = 90;
         this.velocity = { x: 0, y: 0 };
         
-        this.animator = new Animator(
-            // these values are for 's' movement moving down 
-            ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 0, 0, 768, 744, 4, 0.5
-            // x start position of image, y start position of image, width, height, frame count, frame duration
-            // DO NOT CHANGE 768 AND 744 NUMBERS
-        );
-
         // make an animator for each direction
         this.animations = {
             idle: new Animator(
                 ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
                 0, 0,      // x, y position in spritesheet
-                230, 225,  // frame width, height
+                768, 744,  // frame width, height
                 4, 0.5     // frame count, duration
             ),
             walkDown: new Animator(
