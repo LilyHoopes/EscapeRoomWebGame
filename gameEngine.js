@@ -48,22 +48,23 @@ class GameEngine {
         function keydownListener (e) {
             that.keyboardActive = true;
             switch (e.code) {
-                //case "ArrowLeft":
+                case "ArrowLeft":
                 case "KeyA":
                     that.left = true;
                     break;
-                //case "ArrowRight":
+                case "ArrowRight":
                 case "KeyD":
                     that.right = true;
                     break;
-                //case "ArrowUp":
+                case "ArrowUp":
                 case "KeyW":
                     that.up = true;
                     break;
-                //case "ArrowDown":
+                case "ArrowDown":
                 case "KeyS":
                     that.down = true;
                     break;
+                //these need to change, make sure we have 'E'
                 case "KeyZ":
                 case "Comma":
                     that.B = true;
@@ -77,19 +78,19 @@ class GameEngine {
         function keyUpListener (e) {
             that.keyboardActive = false;
             switch (e.code) {
-                //case "ArrowLeft":
+                case "ArrowLeft":
                 case "KeyA":
                     that.left = false;
                     break;
-                //case "ArrowRight":
+                case "ArrowRight":
                 case "KeyD":
                     that.right = false;
                     break;
-                //case "ArrowUp":
+                case "ArrowUp":
                 case "KeyW":
                     that.up = false;
                     break;
-                //case "ArrowDown":
+                case "ArrowDown":
                 case "KeyS":
                     that.down = false;
                     break;

@@ -13,8 +13,9 @@ ASSET_MANAGER.downloadAll(() => {
 
 	gameEngine.init(ctx);
 
+	// new scene manager object, takes in this game engine object
 	const sceneManager = new SceneManager(gameEngine);
-	gameEngine.sceneManager = sceneManager;
+	gameEngine.sceneManager = sceneManager; // 
 
 	sceneManager.loadRoom("room1", 200, 200);
 
