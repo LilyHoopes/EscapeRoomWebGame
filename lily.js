@@ -10,34 +10,93 @@ class Lily {
         this.velocity = { x: 0, y: 0 };
         
         this.animator = new Animator(
+            // these values are for 's' movement moving down 
             ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 0, 0, 768, 744, 4, 0.5
             // x start position of image, y start position of image, width, height, frame count, frame duration
             // DO NOT CHANGE 768 AND 744 NUMBERS
         );
+
+        // make an animator for each direction
+        this.animations = {
+            idle: new Animator(
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                0, 0,      // x, y position in spritesheet
+                230, 225,  // frame width, height
+                4, 0.5     // frame count, duration
+            ),
+            walkDown: new Animator(
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                0, 225,    // Second row (y = 225)
+                230, 225, 
+                4, 0.15    // Faster animation for walking
+            ),
+            walkUp: new Animator(
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                0, 450,    // Third row (y = 450)
+                230, 225, 
+                4, 0.15
+            ),
+            walkLeft: new Animator(
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                0, 675,    // Fourth row (y = 675)
+                230, 225, 
+                4, 0.15
+            ),
+            walkRight: new Animator(
+                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
+                0, 900,    // Fifth row (y = 900)
+                230, 225, 
+                4, 0.15
+            )
+        };
+        
+        // Track current state
+        this.currentAnimation = this.animations.idle;
+        this.facing = "down"; // Track which way Lily is facing
     }
 
     update() {
-        // Handle movement based on keys
-        if (this.game.left) this.x -= this.speed * this.game.clockTick;
-        if (this.game.right) this.x += this.speed * this.game.clockTick;
-        if (this.game.up) this.y -= this.speed * this.game.clockTick;
-        if (this.game.down) this.y += this.speed * this.game.clockTick;
-
-        console.log("Lily position:", this.x, this.y); // Debug line
-
+        let moving = false;
+        
+        // Handle movement and set appropriate animation
+        if (this.game.left) {
+            this.x -= this.speed * this.game.clockTick;
+            this.currentAnimation = this.animations.walkLeft;
+            this.facing = "left";
+            moving = true;
+        }
+        if (this.game.right) {
+            this.x += this.speed * this.game.clockTick;
+            this.currentAnimation = this.animations.walkRight;
+            this.facing = "right";
+            moving = true;
+        }
+        if (this.game.up) {
+            this.y -= this.speed * this.game.clockTick;
+            this.currentAnimation = this.animations.walkUp;
+            this.facing = "up";
+            moving = true;
+        }
+        if (this.game.down) {
+            this.y += this.speed * this.game.clockTick;
+            this.currentAnimation = this.animations.walkDown;
+            this.facing = "down";
+            moving = true;
+        }
+        
+        // If not moving, use idle animation
+        if (!moving) {
+            this.currentAnimation = this.animations.idle;
+        }
     }
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
-
-    // // DEBUG: Draw a bright rectangle where Lily should be
-    // ctx.fillStyle = "red";
-    // ctx.fillRect(this.x, this.y, this.width, this.height);
-    
-    // // DEBUG: Draw Lily's position as text
-    // ctx.fillStyle = "yellow";
-    // ctx.font = "20px Arial";
-    // ctx.fillText(`Lily: ${Math.floor(this.x)}, ${Math.floor(this.y)}`, this.x, this.y - 10);
-
+        // Draw the current animation
+        this.currentAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
+        
+        // Debug rectangle
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
 }
