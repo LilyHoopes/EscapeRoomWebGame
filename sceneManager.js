@@ -139,8 +139,6 @@ class SceneManager {
         this.lily.velocity = { x: 0, y: 0 };
         
         this.game.addEntity(this.lily);
-        // testing bookshelf depth for lily to walk behind
-        this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250));
         
         console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
         console.log("Total entities:", this.game.entities.length);
