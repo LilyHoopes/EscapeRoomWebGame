@@ -129,35 +129,13 @@ class SceneManager {
         this.lily.y = spawnY;
         this.lily.velocity = { x: 0, y: 0 };
         
-        // Make sure Lily is in the entity list
-        let lilyExists = false;
-        this.game.entities.forEach(entity => {
-            if (entity === this.lily) lilyExists = true;
-        });
-        if (!lilyExists) {
-            this.game.addEntity(this.lily);
-        }
+        this.game.addEntity(this.lily);
         
         console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
         console.log("Total entities:", this.game.entities.length);
-
-        // Position Lily at spawn point
-        this.lily.x = spawnX;
-        this.lily.y = spawnY;
-        this.lily.velocity = { x: 0, y: 0 };
 
         console.log("SPAWNING LILY AT:", spawnX, spawnY); // ADD THIS
         console.log("Lily actual position:", this.lily.x, this.lily.y); // ADD THIS
-
-
-        console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
-        console.log("Total entities:", this.game.entities.length);
-        
-        this.game.entities.forEach((entity, index) => {
-        console.log(index, entity);
-        });     
-
-
     }
     
     addToInventory(item) {
@@ -178,8 +156,6 @@ class SceneManager {
     }
 
     clearEntities() {
-    this.game.entities.forEach(entity => {
-        entity.removeFromWorld = true;
-    });
-}
+        this.game.entities = []
+    }
 }
