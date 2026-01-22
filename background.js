@@ -13,6 +13,6 @@ class Background {
     }
     
     draw(ctx) {
-        ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
+        ctx.drawImage(this.image, 0, 0, this.width, this.height);
     }
 }

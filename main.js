@@ -5,6 +5,7 @@ const ASSET_MANAGER = new AssetManager();
 ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
+ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
 
 
 

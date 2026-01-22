@@ -30,9 +30,7 @@ class SceneManager {
          this.currentRoom = roomName;
 
         if (roomName === "room1") {
-    
-            //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 882));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 882)); // always add background first
 
             //interactive objects
             // this.game.addEntity(new Painting(this.game, 200, 300, "diamond_key")); // Falls to reveal key
@@ -50,19 +48,19 @@ class SceneManager {
 
             // Exit door (locked initially)
             // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
-            this.game.addEntity(new Door(this.game, 1100, 50, 192, 192, "room2", 100, 400, false));  // set to false for testing
+            
+            // room1 -> room2
+            this.game.addEntity(new Door(this.game, 1100, 50, 192, 192, "room2", 520, 650, false));  // set to false for testing
         }
 
         if (roomName === "room2") {
-            //add background  first to be behind everything else
             this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
 
-            // door that takes us back to room 1
-            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room1", 570, 670, false));
+            // room2 -> room1
+            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room1", 1100, 250, false)); // door will always stay unlocked (false)
 
-            // door that takes us to room 3
-            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room3", 100, 400, false));
-
+            // room2 -> room 3
+            this.game.addEntity(new Door(this.game, 950, 70, 235, 128, "room3", 520, 700, false));
 
             //npc?
 
@@ -95,8 +93,14 @@ class SceneManager {
         }
 
         if (roomName === "room3") {
-            //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1025, 2050));
+            //add background first to be behind everything else
+            this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882));
+
+            // room3 -> room2
+            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room2", 900, 150, false)); // door will always stay unlocked (false)
+
+            // room3 -> room 4
+            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room4", 1100, 250, false));
 
         //Then add other objectsd
         
