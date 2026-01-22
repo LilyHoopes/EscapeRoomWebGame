@@ -30,8 +30,9 @@ class SceneManager {
          this.currentRoom = roomName;
 
         if (roomName === "room1") {
+    
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 822));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 882));
 
             //interactive objects
             // this.game.addEntity(new Painting(this.game, 200, 300, "diamond_key")); // Falls to reveal key
@@ -48,12 +49,20 @@ class SceneManager {
             // this.game.addEntity(new DecorativeSprite(this.game, 200, 600, "./Sprites/Room1/bookshelf_decorative.png", 100, 150));
 
             // Exit door (locked initially)
-            //this.game.addEntity(new Door(this.game, 900, 400, 64, 128, "room2", 50, 400, true));  
+            // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
+            this.game.addEntity(new Door(this.game, 1100, 50, 192, 192, "room2", 100, 400, false));  // set to false for testing
         }
 
         if (roomName === "room2") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 822));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
+
+            // door that takes us back to room 1
+            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room1", 570, 670, false));
+
+            // door that takes us to room 3
+            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room3", 100, 400, false));
+
 
             //npc?
 
@@ -68,17 +77,17 @@ class SceneManager {
             // this.game.addEntity(new Painting(this.game, 400, 500, "abstract3", false));
 
             // Lead pipe
-        if (!this.puzzleStates.room2.pipeObtained) {
-            this.game.addEntity(new LeadPipe(this.game, 100, 230, true));
-        }
+        // if (!this.puzzleStates.room2.pipeObtained) {
+        //     this.game.addEntity(new LeadPipe(this.game, 100, 230, true));
+        // }
         
-        // Frozen lock
-        if (!this.puzzleStates.room2.lockBroken) {
-            this.game.addEntity(new FrozenLock(this.game, 900, 450));
-        }
+        // // Frozen lock
+        // if (!this.puzzleStates.room2.lockBroken) {
+        //     this.game.addEntity(new FrozenLock(this.game, 900, 450));
+        // }
         
-        // Exit door
-        this.game.addEntity(new Door(this.game, 900, 400, 64, 128, "room3", 50, 400, true));
+        // // Exit door
+        // this.game.addEntity(new Door(this.game, 900, 400, 64, 128, "room3", 50, 400, true));
 
 
         //Then add other objects
@@ -89,7 +98,7 @@ class SceneManager {
             //add background  first to be behind everything else
             this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1025, 2050));
 
-        //Then add other objects
+        //Then add other objectsd
         
         }
 
@@ -131,6 +140,24 @@ class SceneManager {
         
         console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
         console.log("Total entities:", this.game.entities.length);
+
+        // Position Lily at spawn point
+        this.lily.x = spawnX;
+        this.lily.y = spawnY;
+        this.lily.velocity = { x: 0, y: 0 };
+
+        console.log("SPAWNING LILY AT:", spawnX, spawnY); // ADD THIS
+        console.log("Lily actual position:", this.lily.x, this.lily.y); // ADD THIS
+
+
+        console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
+        console.log("Total entities:", this.game.entities.length);
+        
+        this.game.entities.forEach((entity, index) => {
+        console.log(index, entity);
+        });     
+
+
     }
     
     addToInventory(item) {

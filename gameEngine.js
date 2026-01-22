@@ -8,7 +8,7 @@ class GameEngine {
         this.entities = [];
 
         // Information on the input
-        this.click = null;
+        this.click = null; 
         this.mouse = null;
         this.wheel = null;
         this.keys = {};
@@ -91,10 +91,10 @@ class GameEngine {
                     that.down = false;
                     break;
                 case "KeyE":
-                    that.E = true;
+                    that.E = false;
                     break;
                 case "KeyI":
-                    that.I = true;
+                    that.I = false;
                     break;
             }
         }

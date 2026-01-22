@@ -51,7 +51,7 @@ class Lily {
 
     update() {
 
-        console.log("Keys:", this.game.left, this.game.right, this.game.up, this.game.down);
+        //console.log("Keys:", this.game.left, this.game.right, this.game.up, this.game.down);
 
         let moving = false;
         
@@ -61,7 +61,7 @@ class Lily {
             this.currentAnimation = this.animations.walkLeft;
             this.facing = "left";
             moving = true;
-            console.log("Moving left!");
+            //console.log("Moving left!");
 
         }
         if (this.game.right) {
@@ -69,21 +69,21 @@ class Lily {
             this.currentAnimation = this.animations.walkRight;
             this.facing = "right";
             moving = true;
-            console.log("Moving right!");
+            //console.log("Moving right!");
         }
         if (this.game.up) {
             this.y -= this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkUp;
             this.facing = "up";
             moving = true;
-            console.log("Moving up!");            
+            //console.log("Moving up!");            
         }
         if (this.game.down) {
             this.y += this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkDown;
             this.facing = "down";
             moving = true;
-            console.log("Moving down!");            
+            //console.log("Moving down!");            
         }
         
         // If not moving, use idle animation
@@ -98,9 +98,9 @@ class Lily {
         // Draw the current animation
         this.currentAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
         
-        // // Debug rectangle
-        // ctx.strokeStyle = "red";
-        // ctx.lineWidth = 2;
-        // ctx.strokeRect(this.x, this.y, this.width, this.height);
+        // Debug rectangle
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(this.x, this.y, this.width, this.height);
     }
 }

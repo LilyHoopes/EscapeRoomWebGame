@@ -8,7 +8,9 @@ ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
 
 
 
+
 ASSET_MANAGER.downloadAll(() => {
+	console.log("Room2 BG loaded?", ASSET_MANAGER.getAsset("./Sprites/Room2/TheGalleryBackground.png")); // testing line
 	const canvas = document.getElementById("gameWorld");
 	const ctx = canvas.getContext("2d");
 

@@ -18,11 +18,11 @@ class Door {
     
     update() {
         // Check if Lily is touching the door
-        if (this.isTouchingLily() && this.game.interact) {
+        if (this.isTouchingLily() && this.game.E) {
             if (this.isLocked) {
                 // Door is locked
                 console.log("The door is locked!");
-                // You could play a sound here
+                // could play a sound here
             } else {
                 // Door is unlocked - LOAD THE NEXT ROOM!
                 console.log("Going to", this.destinationRoom);
