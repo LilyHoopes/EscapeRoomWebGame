@@ -1,16 +1,12 @@
 const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
-// must queue all assest here
+// Queue only image assets
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
 ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
-
-// Room backgrounds
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
-
-// Room 1 Door 
 ASSET_MANAGER.queueDownload("./Sprites/Room1/Bed.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/Plant1.png");
@@ -19,25 +15,57 @@ ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster1.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster2.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
-ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
-
-
+ASSET_MANAGER.queueDownload("./Sprites/TitleScreen.png");
+ASSET_MANAGER.queueDownload("./Sprites/LightningSheet.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/Jin_start.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/Lily_start.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/Shiannel_start.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/Victor_start.png");
 
 ASSET_MANAGER.downloadAll(() => {
-	console.log("Room2 BG loaded?", ASSET_MANAGER.getAsset("./Sprites/Room2/TheGalleryBackground.png")); // testing line
-	const canvas = document.getElementById("gameWorld");
-	const ctx = canvas.getContext("2d");
+    const canvas = document.getElementById("gameWorld");
+    const ctx = canvas.getContext("2d");
 
-	gameEngine.init(ctx);
+    gameEngine.init(ctx);
+    const sceneManager = new SceneManager(gameEngine);
+    gameEngine.sceneManager = sceneManager;
 
-	// new scene manager object, takes in this game engine object
-	const sceneManager = new SceneManager(gameEngine);
-	gameEngine.sceneManager = sceneManager; // 
+    // BGM setup (managed outside AssetManager)
+    const BGM_PATH = "./bgm/House of Souls Intro.mp3";
+    const introAudio = new Audio(BGM_PATH);
+    introAudio.loop = true;
+    introAudio.volume = 0.65;
+    introAudio.preload = "auto";
 
-	sceneManager.loadRoom("room1", 200, 200);
+    // Attach to gameEngine for global access
+    gameEngine.introAudio = introAudio;
 
-	gameEngine.start();
+    let bgmStarted = false;
 
-	console.log("Game started! Entities:", gameEngine.entities.length);
+    // Start music inside a user interaction event due to browser autoplay policies
+    const startBGMOnce = () => {
+        if (bgmStarted) return;
 
+        introAudio.muted = false;
+        introAudio.volume = 0.65;
+
+        const playPromise = introAudio.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                bgmStarted = true;
+                console.log("BGM started successfully.");
+            }).catch(error => {
+                console.log("BGM play blocked:", error);
+            });
+        }
+    };
+
+    // Start BGM on first canvas click
+    canvas.addEventListener("click", startBGMOnce, { once: true });
+    window.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") startBGMOnce();
+    }, { once: true });
+
+    gameEngine.addEntity(new StartSplashScreen(gameEngine));
+    gameEngine.start();
 });
