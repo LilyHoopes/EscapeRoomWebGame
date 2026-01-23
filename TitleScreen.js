@@ -6,34 +6,38 @@ class TitleScreen {
         this.bgPath = "./Sprites/Start/TitleScreen.png";
         this.lightningSheetPath = "./Sprites/Start/LightningSheet.png";
 
-        // TitleScreen.png 안에서 실제 보이는 영역
+        // Visible crop region inside TitleScreen.png
         this.cropX = 35;
         this.cropY = 277;
         this.cropW = 939;
         this.cropH = 588;
 
-        // 번개 스프라이트 시트
+        // Lightning sprite sheet layout
         this.lightningCols = 8;
         this.lightningRows = 4;
         this.lightningCellW = 256;
         this.lightningCellH = 307;
 
-        // 번개 상태
+        // Lightning state
         this.lightningPhase = "idle";
         this.lightningPhaseTime = 0;
         this.lightningAlpha = 0;
 
+        // Lightning timing
         this.nextLightning = this.randRange(2.2, 2.8);
         this.nextLightningAfter = () => this.randRange(6.0, 9.0);
 
+        // Lightning animation sequence
         this.lightningSequence = [0, 2, 4, 6, 8, 6, 4, 2, 0];
         this.lightningFps = 14;
 
-        // START 버튼
+        // START button properties
         this.button = { width: 340, height: 92, x: 0, y: 0 };
 
+        // Cached background draw rectangle
         this.bgRect = null;
 
+        // Keep intro BGM playing if possible
         if (this.game.introAudio && this.game.introAudio.paused) {
             this.game.introAudio.play().catch(() => {});
         }
@@ -43,12 +47,14 @@ class TitleScreen {
         this.updateLightning();
         this.recomputeButton();
 
+        // Start game with Enter key
         if (this.game.keys && this.game.keys["Enter"]) {
             this.game.keys["Enter"] = false;
             this.startGame();
             return;
         }
 
+        // Start game with mouse click
         if (this.game.click) {
             const { x, y } = this.game.click;
             this.game.click = null;
@@ -61,12 +67,14 @@ class TitleScreen {
     updateLightning() {
         this.nextLightning -= this.game.clockTick;
 
+        // Trigger lightning
         if (this.lightningPhase === "idle" && this.nextLightning <= 0) {
             this.lightningPhase = "flash";
             this.lightningPhaseTime = 0;
             this.lightningAlpha = 1;
         }
 
+        // Animate lightning fade
         if (this.lightningPhase !== "idle") {
             this.lightningPhaseTime += this.game.clockTick;
             const total = this.lightningSequence.length / this.lightningFps;
@@ -86,9 +94,11 @@ class TitleScreen {
         const cw = ctx.canvas.width;
         const ch = ctx.canvas.height;
 
+        // Clear background
         ctx.fillStyle = "#000";
         ctx.fillRect(0, 0, cw, ch);
 
+        // Draw title background image
         const bg = ASSET_MANAGER.getAsset(this.bgPath);
         if (bg) {
             const scale = Math.max(cw / this.cropW, ch / this.cropH);
@@ -108,8 +118,10 @@ class TitleScreen {
             this.bgRect = { x: 0, y: 0, w: cw, h: ch };
         }
 
+        // Draw lightning effect
         this.drawLightning(ctx);
 
+        // Draw START button
         const hovering =
             this.game.mouse &&
             this.isInsideButton(this.game.mouse.x, this.game.mouse.y);
