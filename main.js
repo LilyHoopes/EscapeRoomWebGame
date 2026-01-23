@@ -21,6 +21,7 @@ ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
+ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
 
 //title screens
 ASSET_MANAGER.queueDownload("./Sprites/Start/TitleScreen.png");

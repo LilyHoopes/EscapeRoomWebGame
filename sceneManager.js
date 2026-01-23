@@ -67,7 +67,8 @@ class SceneManager {
             // room2 -> room 3
             this.game.addEntity(new Door(this.game, 950, 70, 235, 128, "room3", 520, 700, false));
 
-            //npc?
+            //npc aka shiannel
+            this.game.addEntity(new Shiannel(this.game, 1210, 480));
 
             // Interactive paintings
             // this.game.addEntity(new Painting(this.game, 100, 200, "music_notes", true));
@@ -118,7 +119,7 @@ class SceneManager {
 
         if (roomName === "room4") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room4/insertName.png", 1025, 2050));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room4/TheLibraryBackground.png", 1025, 2050));
 
         //Then add other objects
         
@@ -126,7 +127,7 @@ class SceneManager {
 
         if (roomName === "room5") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room5/insertName.png", 1025, 2050));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room5/Room5.png", 1025, 2050));
 
         //Then add other objects
         
