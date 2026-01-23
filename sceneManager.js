@@ -79,6 +79,11 @@ class SceneManager {
             // this.game.addEntity(new Painting(this.game, 250, 500, "abstract2", false));
             // this.game.addEntity(new Painting(this.game, 400, 500, "abstract3", false));
 
+            //Decorative objects
+            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false));
+            this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false));
+            this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
+
             // Lead pipe
         // if (!this.puzzleStates.room2.pipeObtained) {
         //     this.game.addEntity(new LeadPipe(this.game, 100, 230, true));

@@ -2,6 +2,7 @@ const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 // Queue only image assets
+// room 1
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
 ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
@@ -15,6 +16,13 @@ ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster1.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster2.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
+
+//room 2
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilRug.png");
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
+
+//title screens
 ASSET_MANAGER.queueDownload("./Sprites/Start/TitleScreen.png");
 ASSET_MANAGER.queueDownload("./Sprites/Start/LightningSheet.png");
 ASSET_MANAGER.queueDownload("./Sprites/Start/Jin_start.png");
