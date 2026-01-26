@@ -2,6 +2,12 @@ const gameEngine = new GameEngine();
 const ASSET_MANAGER = new AssetManager();
 
 // Queue only image assets
+
+// general assets
+ASSET_MANAGER.queueDownload("./Sprites/Room1/lockedDORE.png"); //same asset used for each room, do i need to queue multiple then?
+ASSET_MANAGER.queueDownload("./Sprites/Room1/openDORE.png"); //same asset used for each room, do i need to queue multiple then?
+
+
 // room 1
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
 ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");

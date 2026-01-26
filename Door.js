@@ -11,10 +11,9 @@ class Door {
         this.isLocked = isLocked;
         this.removeFromWorld = false;
         this.canTrigger = true;
-        
-        // Load door sprites (you'll need to create these or use placeholders)
-        // this.lockedSprite = ASSET_MANAGER.getAsset("./Sprites/door_locked.png");
-        // this.unlockedSprite = ASSET_MANAGER.getAsset("./Sprites/door_unlocked.png");
+
+        this.lockedDORE = ASSET_MANAGER.getAsset("./Sprites/Room1/lockedDORE.png");
+        this.openDORE   = ASSET_MANAGER.getAsset("./Sprites/Room1/openDORE.png");
     }
     
     update() {
@@ -62,20 +61,22 @@ class Door {
         // You could play an unlock sound here
     }
     
+    //NOTE: the size of the normal doors are 106x126
     draw(ctx) {
-        // For now, draw a simple rectangle so you can see where the door is
-        if (this.isLocked) {
-            ctx.fillStyle = "red";
-        } else {
-            ctx.fillStyle = "green";
+        
+        const sprite = this.isLocked ? this.lockedDORE : this.openDORE; //if locked, use locked sprite, else, use open sprite
+
+        // for testing, if the images havent loaded i will get error here 
+        if (!sprite) {
+            console.error("Door sprite NOT loaded:", this.isLocked ? "locked" : "open");
+            return;
         }
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        
-        // Later, you can replace this with:
-        // let sprite = this.isLocked ? this.lockedSprite : this.unlockedSprite;
-        // ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
-        
-        // Draw a label for debugging
+
+
+
+        ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+
+        // debugging label if needed
         ctx.fillStyle = "white";
         ctx.font = "12px Arial";
         ctx.fillText(this.isLocked ? "LOCKED" : "OPEN", this.x + 5, this.y + 20);
