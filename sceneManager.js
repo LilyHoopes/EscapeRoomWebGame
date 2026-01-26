@@ -55,7 +55,7 @@ class SceneManager {
             // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
             
             // room1 -> room2
-            this.game.addEntity(new Door(this.game, 1105.5, 65, 155, 187, "room2", 600, 650, false));  // set to false for testing
+            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, false));  // set to false for testing
             // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
 
         }
@@ -131,6 +131,11 @@ class SceneManager {
         if (roomName === "room5") {
             //add background  first to be behind everything else
             this.game.addEntity(new Background(this.game, "./Sprites/Room5/FinalRoom.png", 1380, 882));
+
+            // room5 -> room4
+            this.game.addEntity(new Door(this.game, 110, 668, 275, 187, "room4", 1100, 700, false)); // door will always stay unlocked (false)
+
+            // room5 -> EXIT
 
         //Then add other objects
         
