@@ -64,10 +64,10 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
 
             // room2 -> room1
-            this.game.addEntity(new Door(this.game, 570, 650, 155, 187, "room1", 1100, 250, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 565, 736, 200, 150, "room1", 1100, 250, false)); // door will always stay unlocked (false)
 
             // room2 -> room 3
-            this.game.addEntity(new Door(this.game, 950, 70, 155, 187, "room3", 520, 700, false));
+            this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 520, 700, false));
 
             //npc?
 
@@ -107,9 +107,9 @@ class SceneManager {
         if (roomName === "room3") {
             this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882));
             // room3 -> room2
-            this.game.addEntity(new Door(this.game, 600, 670, 155, 187, "room2", 900, 150, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 553, 736, 260, 150, "room2", 900, 150, false)); // door will always stay unlocked (false)
             // room3 -> room 4 
-            this.game.addEntity(new Door(this.game, 100, 100, 155, 187, "room4", 1100, 250, false));
+            this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 1100, 250, false));
 
         //Then add other objectsd
         
@@ -130,7 +130,7 @@ class SceneManager {
 
         if (roomName === "room5") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room5/Room5.png", 1380, 882));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room5/FinalRoom.png", 1380, 882));
 
         //Then add other objects
         

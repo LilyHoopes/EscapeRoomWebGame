@@ -12,8 +12,6 @@ ASSET_MANAGER.queueDownload("./Sprites/Room1/openDORE.png"); //same asset used f
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
 ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
-ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
-ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/Bed.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/Plant1.png");
@@ -23,10 +21,22 @@ ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster1.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster2.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
 
-//room 2
+// room 2
+ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
+
+// room 3
+ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
+
+
+// room 4
+ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");
+
+// room 5
+ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalRoom.png");
+
 
 //title screens
 ASSET_MANAGER.queueDownload("./Sprites/Start/TitleScreen.png");
