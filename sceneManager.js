@@ -105,30 +105,32 @@ class SceneManager {
         }
 
         if (roomName === "room3") {
-            //add background first to be behind everything else
             this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882));
-
             // room3 -> room2
             this.game.addEntity(new Door(this.game, 600, 670, 235, 128, "room2", 900, 150, false)); // door will always stay unlocked (false)
-
             // room3 -> room 4 
-            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room4", 1100, 250, false));
+            this.game.addEntity(new Door(this.game, 100, 100, 235, 128, "room4", 1100, 250, false));
 
         //Then add other objectsd
         
         }
 
         if (roomName === "room4") {
-            //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room4/insertName.png", 1025, 2050));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
-        //Then add other objects
+            // room4 -> room3
+            //this.game.addEntity(new Door(this.game, 100, 100, 235, 128, "room3", 900, 150, false)); // door will always stay unlocked (false)
+
+            // room4 -> room 5
+            this.game.addEntity(new Door(this.game, 100, 100, 235, 128, "room5", 1100, 250, false));
+
+            //Then add other objectsd
         
         }
 
         if (roomName === "room5") {
             //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room5/insertName.png", 1025, 2050));
+            this.game.addEntity(new Background(this.game, "./Sprites/Room5/Room5.png", 1380, 882));
 
         //Then add other objects
         
