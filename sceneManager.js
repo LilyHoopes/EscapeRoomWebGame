@@ -64,7 +64,7 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
 
             // room2 -> room1
-            this.game.addEntity(new Door(this.game, 570, 800, 235, 128, "room1", 1100, 250, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 570, 650, 235, 128, "room1", 1100, 250, false)); // door will always stay unlocked (false)
 
             // room2 -> room 3
             this.game.addEntity(new Door(this.game, 950, 70, 235, 128, "room3", 520, 700, false));
