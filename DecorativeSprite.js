@@ -28,7 +28,9 @@ class DecorativeSprite {
 
 
         //debug hitbox stuff
-        ctx.strokeStyle = "blue";
-        ctx.strokeRect(this.BB.x,this.BB.y, this.BB.width,this.BB.height);
+        if (this.game.debug) {
+            ctx.strokeStyle = "blue";
+            ctx.strokeRect(this.BB.x,this.BB.y, this.BB.width,this.BB.height);
+        }
     }
 }

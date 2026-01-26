@@ -172,9 +172,9 @@ class Lily {
         this.currentAnimation.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
         
         // // Debug rectangle
-        ctx.strokeStyle = "red";
-        // ctx.lineWidth = 2;
-        // ctx.strokeRect(this.x, this.y, this.width, this.height);
-        ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        if (this.game.debug) {
+            ctx.strokeStyle = "red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
     }
 }

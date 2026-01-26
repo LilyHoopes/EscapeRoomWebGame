@@ -74,6 +74,27 @@ ASSET_MANAGER.downloadAll(() => {
         if (e.key === "Enter" || e.key === " ") startBGMOnce();
     }, { once: true });
 
+    //volume, debug, mute part
+    const debugToggle = document.getElementById("debugToggle");
+    const muteBtn = document.getElementById("muteBtn");
+    const volumeSlider = document.getElementById("volumeSlider");
+
+    debugToggle.addEventListener("change", () => {
+        gameEngine.debug = debugToggle.checked;
+    });
+
+    muteBtn.addEventListener("click", () => {
+        gameEngine.muted = !gameEngine.muted;
+        gameEngine.introAudio.muted = gameEngine.muted;
+        muteBtn.textContent = gameEngine.muted ? "Unmute" : "Mute";
+    });
+
+    volumeSlider.addEventListener("input", () => {
+        gameEngine.volume = volumeSlider.value;
+        gameEngine.introAudio.volume = gameEngine.volume;
+    });
+
+
     gameEngine.addEntity(new StartSplashScreen(gameEngine));
     gameEngine.start();
 });

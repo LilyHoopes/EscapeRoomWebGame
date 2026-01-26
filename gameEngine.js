@@ -13,10 +13,10 @@ class GameEngine {
         this.wheel = null;
         this.keys = {};
 
-        // Options and the Details
-        this.options = options || {
-            debugging: false,
-        };
+        //debug and volume stuff
+        this.debug = false;
+        this.muted = false;
+        this.volume = 0.65;
     };
 
     init(ctx) {
@@ -109,21 +109,21 @@ class GameEngine {
         that.keyup = keyUpListener;
     
         this.ctx.canvas.addEventListener("mousemove", e => {
-            if (this.options.debugging) {
+            if (this.debug) {
                 console.log("MOUSE_MOVE", getXandY(e));
             }
             this.mouse = getXandY(e);
         });
 
         this.ctx.canvas.addEventListener("click", e => {
-            if (this.options.debugging) {
+            if (this.debug) {
                 console.log("CLICK", getXandY(e));
             }
             this.click = getXandY(e);
         });
 
         this.ctx.canvas.addEventListener("wheel", e => {
-            if (this.options.debugging) {
+            if (this.debug) {
                 console.log("WHEEL", getXandY(e), e.wheelDelta);
             }
             e.preventDefault(); // Prevent Scrolling
@@ -131,7 +131,7 @@ class GameEngine {
         });
 
         this.ctx.canvas.addEventListener("contextmenu", e => {
-            if (this.options.debugging) {
+            if (this.debug) {
                 console.log("RIGHT_CLICK", getXandY(e));
             }
             e.preventDefault(); // Prevent Context Menu
