@@ -56,13 +56,15 @@ class SceneManager {
             
             // room1 -> room2
             this.game.addEntity(new Door(this.game, 1100, 50, 192, 192, "room2", 520, 650, false));  // set to false for testing
+            // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
+
         }
 
         if (roomName === "room2") {
             this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
 
             // room2 -> room1
-            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room1", 1100, 250, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 570, 800, 235, 128, "room1", 1100, 250, false)); // door will always stay unlocked (false)
 
             // room2 -> room 3
             this.game.addEntity(new Door(this.game, 950, 70, 235, 128, "room3", 520, 700, false));
@@ -107,9 +109,9 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882));
 
             // room3 -> room2
-            this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room2", 900, 150, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 600, 670, 235, 128, "room2", 900, 150, false)); // door will always stay unlocked (false)
 
-            // room3 -> room 4
+            // room3 -> room 4 
             this.game.addEntity(new Door(this.game, 570, 670, 235, 128, "room4", 1100, 250, false));
 
         //Then add other objectsd
@@ -148,8 +150,12 @@ class SceneManager {
         console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
         console.log("Total entities:", this.game.entities.length);
 
-        console.log("SPAWNING LILY AT:", spawnX, spawnY); // ADD THIS
-        console.log("Lily actual position:", this.lily.x, this.lily.y); // ADD THIS
+        console.log("SPAWNING LILY AT:", spawnX, spawnY); 
+        console.log("Lily actual position:", this.lily.x, this.lily.y);
+        
+        //prevents instant retriggering of e button 
+        this.game.E = false;
+
     }
     
     addToInventory(item) {

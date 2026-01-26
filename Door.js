@@ -10,6 +10,7 @@ class Door {
         this.spawnY = spawnY;
         this.isLocked = isLocked;
         this.removeFromWorld = false;
+        this.canTrigger = true;
         
         // Load door sprites (you'll need to create these or use placeholders)
         // this.lockedSprite = ASSET_MANAGER.getAsset("./Sprites/door_locked.png");
@@ -17,6 +18,9 @@ class Door {
     }
     
     update() {
+
+        if (!this.canTrigger) return;
+
         // Check if Lily is touching the door
         if (this.isTouchingLily() && this.game.E) {
             if (this.isLocked) {
@@ -24,21 +28,32 @@ class Door {
                 console.log("The door is locked!");
                 // could play a sound here
             } else {
+                this.canTrigger = false;
                 // Door is unlocked - LOAD THE NEXT ROOM!
                 console.log("Going to", this.destinationRoom);
                 this.game.sceneManager.loadRoom(this.destinationRoom, this.spawnX, this.spawnY);
             }
         }
+
+        // Reset trigger when Lily walks away
+        if (!this.isTouchingLily()) {
+            this.canTrigger = true;
+        }
+
     }
     
     isTouchingLily() {
         let lily = this.game.lily || this.game.sceneManager.lily;
+
+        if (!lily.BB) return false;
         
-        // Bounding box collision detection
-        return this.x < lily.x + lily.width &&
-               this.x + this.width > lily.x &&
-               this.y < lily.y + lily.height &&
-               this.y + this.height > lily.y;
+        // must use the bouding box collisions of lily, not the size or xy of her
+        return (
+            this.x < lily.BB.x + lily.BB.width &&
+            this.x + this.width > lily.BB.x &&
+            this.y < lily.BB.y + lily.BB.height &&
+            this.y + this.height > lily.BB.y
+        );
     }
     
     unlock() {
