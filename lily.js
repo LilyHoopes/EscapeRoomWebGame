@@ -4,8 +4,8 @@ class Lily {
         this.x = x || 50; // Default to 50 if not provided
         this.y = y || 400; // Default to 400 if not provided
         this.scale = .2; // Add scale property (40% of original size)
-        this.width = 230 * this.scale; // Add hitbox size
-        this.height = 225 * this.scale;
+        this.width = 100; // Add hitbox size
+        this.height = 125;
         this.speed = 500;
         //this.velocity = { x: 0, y: 0 };
         
@@ -52,9 +52,19 @@ class Lily {
         this.updateBB();
         this.lastBB = this.BB;
     }
+
     updateBB() {
-        this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.offsetX = 45; // shifts to right
+        this.offsetY = 35; // shifts down 
+        
+        this.BB = new BoundingBox(
+            this.x + this.offsetX, 
+            this.y + this.offsetY, 
+            this.width, 
+            this.height
+        );
     }
+
     updateLastBB() {
         this.lastBB = this.BB;
     }
@@ -126,11 +136,11 @@ class Lily {
                 if (this.BB.collide(entity.BB)) {
                     if (this.lastBB.right <= entity.BB.left) {
                         // Lily hit object from the left
-                        this.x = entity.BB.left - this.width;
+                        this.x = entity.BB.left - this.width - this.offsetX;
                     }
                     else if (this.lastBB.left >= entity.BB.right) {
                         // Lily hit object from the right
-                        this.x = entity.BB.right;
+                        this.x = entity.BB.right - this.offsetX;
                     }
                     this.updateBB();
                 }
@@ -145,11 +155,11 @@ class Lily {
                 if (this.BB.collide(entity.BB)) {
                     if (this.lastBB.bottom <= entity.BB.top) {
                         // Lily hit object from above
-                        this.y = entity.BB.top - this.height;
+                        this.y = entity.BB.top - this.height - this.offsetY;
                     }
                     else if (this.lastBB.top >= entity.BB.bottom) {
                         // Lily hit object from below
-                        this.y = entity.BB.bottom;
+                        this.y = entity.BB.bottom - this.offsetY;
                     }
                     this.updateBB();
                 }
