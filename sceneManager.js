@@ -12,7 +12,7 @@ class SceneManager {
             room1: {hasKey: false, bookUnlocked: false, codeEntered: false },
             room2: {paintingsClicked: [], pipeObtained: false, lockBroken: false},
             room3: {medallions: [], candlesArranged: false, medallionDoor: false },
-            // etc.
+            // etc.dwwa
         };
         
         // NPC dialogue tracking
@@ -55,7 +55,7 @@ class SceneManager {
             // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
             
             // room1 -> room2
-            this.game.addEntity(new Door(this.game, 1105.5, 65, 155, 187, "room2", 520, 650, false));  // set to false for testing
+            this.game.addEntity(new Door(this.game, 1105.5, 65, 155, 187, "room2", 600, 650, false));  // set to false for testing
             // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
 
         }
@@ -64,10 +64,10 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
 
             // room2 -> room1
-            this.game.addEntity(new Door(this.game, 565, 736, 200, 150, "room1", 1100, 250, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 553, 700, 300, 175, "room1", 1100, 150, false)); // door will always stay unlocked (false)
 
             // room2 -> room 3
-            this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 520, 700, false));
+            this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false));
 
             //npc?
 
@@ -107,9 +107,9 @@ class SceneManager {
         if (roomName === "room3") {
             this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882));
             // room3 -> room2
-            this.game.addEntity(new Door(this.game, 553, 736, 260, 150, "room2", 900, 150, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 553, 736, 260, 150, "room2", 950, 100, false)); // door will always stay unlocked (false)
             // room3 -> room 4 
-            this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 1100, 250, false));
+            this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false));
 
         //Then add other objectsd
         
@@ -119,12 +119,12 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
             // room4 -> room3
-            //this.game.addEntity(new Door(this.game, 100, 100, 155, 187, "room3", 900, 150, false)); // door will always stay unlocked (false)
+            this.game.addEntity(new Door(this.game, 230, 714, 230, 187, "room3", 600, 100, false)); // door will always stay unlocked (false)
 
-            // room4 -> room 5
-            this.game.addEntity(new Door(this.game, 100, 100, 155, 187, "room5", 1100, 250, false));
+            // room4 -> room5
+            this.game.addEntity(new Door(this.game, 1075, 714, 230, 187, "room5", 150, 700, false));
 
-            //Then add other objectsd
+            //Then add other objectsda
         
         }
 
