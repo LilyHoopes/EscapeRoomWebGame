@@ -112,8 +112,11 @@ class SceneManager {
             // room3 -> room 4 
             this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false));
 
-        //Then add other objectsd
-        
+            //Decorative objects
+            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/FillerFurniture/Table.png", 220, 135, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, {x: 20, y: 50, w: 60, h: 80}, true));  
+            this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true, {x: 10, y: 20, w: 20, h: 20}));      
+            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true, {x: 0, y: 20, w: 20, h: 30}));
         }
 
         if (roomName === "room4") {
@@ -125,7 +128,7 @@ class SceneManager {
             // room4 -> room5
             this.game.addEntity(new Door(this.game, 1075, 714, 230, 187, "room5", 150, 700, false));
 
-            //Then add other objectsda
+            //Then add other objects
         
         }
 
@@ -138,7 +141,8 @@ class SceneManager {
 
             // room5 -> EXIT
 
-        //Then add other objects
+            //Then add other objects
+            //Door
         
         }
 

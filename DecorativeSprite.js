@@ -1,8 +1,8 @@
-//this is a generic slass for decorative objects that don't have interaction
+//this is a generic class for decorative objects that don't have interaction
 //make an instance of this class in the loadRoom method to specify location, image and size for an object
 
 class DecorativeSprite {
-    constructor(game, x, y, imagePath, width, height, isSolid = true, bbOffset = {x: 0, y: 0, w: 0, h: 0}) {
+    constructor(game, x, y, imagePath, width, height, isSolid = true, bbOffset = {x: 0, y: 0, w: 0, h: 0}, flipHorizontal = false) {
         this.game = game;
         this.x = x;
         this.y = y;
@@ -11,6 +11,7 @@ class DecorativeSprite {
         this.height = height;
         this.isSolid = isSolid; //true = has bounds, false = no bounds(no collision)
         this.bbOffset = bbOffset; //use this to adjust BB of each sprite
+        this.flipHorizontal = flipHorizontal; // Add flip parameter
 
         this.updateBB();
     }
@@ -24,13 +25,20 @@ class DecorativeSprite {
     }
     
     draw(ctx) {
-        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
-
+        // added another param for decorative sprite to flip horizontally
+        if (this.flipHorizontal) {
+            ctx.save();
+            ctx.scale(-1, 1);
+            ctx.drawImage(this.sprite, -(this.x + this.width), this.y, this.width, this.height);
+            ctx.restore();
+        } else {
+            ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        }
 
         //debug hitbox stuff
         if (this.game.debug) {
             ctx.strokeStyle = "blue";
-            ctx.strokeRect(this.BB.x,this.BB.y, this.BB.width,this.BB.height);
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
     }
 }

@@ -30,7 +30,10 @@ ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
 
 // room 3
 ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
-
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Table.png");
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideToilet.png");
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilStool.png");
+ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
 
 // room 4
 ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");
