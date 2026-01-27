@@ -69,7 +69,8 @@ class SceneManager {
             // room2 -> room 3
             this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false));
 
-            //npc?
+            //npc aka shiannel
+            this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
 
             // Interactive paintings
             // this.game.addEntity(new Painting(this.game, 100, 200, "music_notes", true));
