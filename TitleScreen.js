@@ -6,6 +6,26 @@ class TitleScreen {
         this.bgPath = "./Sprites/Start/TitleScreen.png";
         this.lightningSheetPath = "./Sprites/Start/LightningSheet.png";
 
+        // Menu sign assets
+        this.startSignPath = "./Sprites/Start/StartSign.png";
+        this.controlsSignPath = "./Sprites/Start/ControlsSign.png";
+        this.selectorSignPath = "./Sprites/Start/SelectorSign.png";
+
+        // Menu layout (bottom-left area)
+        this.menuX = 70;
+        this.menuY = 520;
+        this.menuSpacing = 75;
+
+        // Menu state
+        // 0 = Start, 1 = Controls
+        this.selectedIndex = 0;
+
+        // Prevent rapid key repeat
+        this.menuCooldown = 0;
+
+        // Controls overlay flag
+        this.showControls = false;
+
         // Visible crop region inside TitleScreen.png
         this.cropX = 35;
         this.cropY = 277;
@@ -31,9 +51,6 @@ class TitleScreen {
         this.lightningSequence = [0, 2, 4, 6, 8, 6, 4, 2, 0];
         this.lightningFps = 14;
 
-        // START button properties
-        this.button = { width: 340, height: 92, x: 0, y: 0 };
-
         // Cached background draw rectangle
         this.bgRect = null;
 
@@ -45,21 +62,40 @@ class TitleScreen {
 
     update() {
         this.updateLightning();
-        this.recomputeButton();
 
-        // Start game with Enter key
-        if (this.game.keys && this.game.keys["Enter"]) {
-            this.game.keys["Enter"] = false;
-            this.startGame();
+        // Handle cooldown timer
+        if (this.menuCooldown > 0) this.menuCooldown--;
+
+        // If controls screen is open, Enter closes it
+        if (this.showControls) {
+            if (this.game.keys && this.game.keys["Enter"] && this.menuCooldown === 0) {
+                this.game.keys["Enter"] = false;
+                this.showControls = false;
+                this.menuCooldown = 12;
+            }
             return;
         }
 
-        // Start game with mouse click
-        if (this.game.click) {
-            const { x, y } = this.game.click;
-            this.game.click = null;
-            if (this.isInsideButton(x, y)) {
-                this.startGame();
+        // Menu navigation (ArrowUp/ArrowDown + Enter)
+        if (this.game.keys && this.menuCooldown === 0) {
+            if (this.game.keys["ArrowDown"]) {
+                this.game.keys["ArrowDown"] = false;
+                this.selectedIndex = Math.min(1, this.selectedIndex + 1);
+                this.menuCooldown = 10;
+            } else if (this.game.keys["ArrowUp"]) {
+                this.game.keys["ArrowUp"] = false;
+                this.selectedIndex = Math.max(0, this.selectedIndex - 1);
+                this.menuCooldown = 10;
+            } else if (this.game.keys["Enter"]) {
+                this.game.keys["Enter"] = false;
+
+                if (this.selectedIndex === 0) {
+                    this.startGame();
+                } else {
+                    this.showControls = true;
+                }
+
+                this.menuCooldown = 12;
             }
         }
     }
@@ -67,14 +103,14 @@ class TitleScreen {
     updateLightning() {
         this.nextLightning -= this.game.clockTick;
 
-        // Trigger lightning
+        // Trigger lightning flash
         if (this.lightningPhase === "idle" && this.nextLightning <= 0) {
             this.lightningPhase = "flash";
             this.lightningPhaseTime = 0;
             this.lightningAlpha = 1;
         }
 
-        // Animate lightning fade
+        // Animate lightning fade-out
         if (this.lightningPhase !== "idle") {
             this.lightningPhaseTime += this.game.clockTick;
             const total = this.lightningSequence.length / this.lightningFps;
@@ -94,11 +130,11 @@ class TitleScreen {
         const cw = ctx.canvas.width;
         const ch = ctx.canvas.height;
 
-        // Clear background
+        // Clear screen
         ctx.fillStyle = "#000";
         ctx.fillRect(0, 0, cw, ch);
 
-        // Draw title background image
+        // Draw background title image
         const bg = ASSET_MANAGER.getAsset(this.bgPath);
         if (bg) {
             const scale = Math.max(cw / this.cropW, ch / this.cropH);
@@ -118,22 +154,55 @@ class TitleScreen {
             this.bgRect = { x: 0, y: 0, w: cw, h: ch };
         }
 
-        // Draw lightning effect
+        // Draw lightning overlay
         this.drawLightning(ctx);
 
-        // Draw START button
-        const hovering =
-            this.game.mouse &&
-            this.isInsideButton(this.game.mouse.x, this.game.mouse.y);
+        // Draw menu signs
+        const startSign = ASSET_MANAGER.getAsset(this.startSignPath);
+        const controlsSign = ASSET_MANAGER.getAsset(this.controlsSignPath);
+        const selectorSign = ASSET_MANAGER.getAsset(this.selectorSignPath);
 
-        this.drawStartButton(
-            ctx,
-            this.button.x,
-            this.button.y,
-            this.button.width,
-            this.button.height,
-            hovering
-        );
+        if (startSign) ctx.drawImage(startSign, this.menuX, this.menuY);
+        if (controlsSign) ctx.drawImage(controlsSign, this.menuX, this.menuY + this.menuSpacing);
+
+        // Draw selector right next to the menu text (stable pixel offset)
+        if (selectorSign) {
+            const gap = 10; // space between selector and the sign
+            const selectorX = this.menuX - 22 - gap; // move it close to the sign
+
+            const selectedSign = (this.selectedIndex === 0) ? startSign : controlsSign;
+
+    let selY = this.menuY + this.menuSpacing * this.selectedIndex; // fallback
+    if (selectedSign) {
+        selY += Math.floor((selectedSign.height - selectorSign.height) / 2);
+    }
+
+    ctx.save();
+    ctx.globalAlpha = 1;
+    ctx.globalCompositeOperation = "source-over";
+    ctx.drawImage(selectorSign, selectorX, selY);
+    ctx.restore();
+}
+
+        // Controls overlay
+        if (this.showControls) {
+            ctx.save();
+            ctx.globalAlpha = 0.85;
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, cw, ch);
+            ctx.restore();
+
+            ctx.fillStyle = "#fff";
+            ctx.font = "28px Arial";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+            ctx.fillText("Controls", 80, 120);
+
+            ctx.font = "20px Arial";
+            ctx.fillText("WASD: Move selector", 80, 170);
+            ctx.fillText("E: Interact", 80, 205);
+            ctx.fillText("I: Inventory", 80, 240);
+        }
     }
 
     drawLightning(ctx) {
@@ -169,43 +238,6 @@ class TitleScreen {
             dx, dy, drawW, drawH
         );
         ctx.restore();
-    }
-
-    drawStartButton(ctx, x, y, w, h, hovering) {
-        ctx.save();
-        ctx.fillStyle = hovering ? "rgba(200,0,0,0.85)" : "rgba(120,0,0,0.75)";
-        ctx.fillRect(x, y, w, h);
-
-        ctx.strokeStyle = "rgba(255,255,255,0.9)";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(x + 1, y + 1, w - 2, h - 2);
-
-        ctx.fillStyle = "#fff";
-        ctx.font = "bold 36px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.fillText("START GAME", x + w / 2, y + h / 2);
-        ctx.restore();
-    }
-
-    recomputeButton() {
-        const r = this.bgRect || {
-            x: 0,
-            y: 0,
-            w: this.game.ctx.canvas.width,
-            h: this.game.ctx.canvas.height
-        };
-        this.button.x = Math.floor(r.x + (r.w - this.button.width) / 2);
-        this.button.y = Math.floor(r.y + r.h * 0.78);
-    }
-
-    isInsideButton(x, y) {
-        return (
-            x >= this.button.x &&
-            x <= this.button.x + this.button.width &&
-            y >= this.button.y &&
-            y <= this.button.y + this.button.height
-        );
     }
 
     startGame() {
