@@ -19,8 +19,14 @@ class TitleScreen {
         this.menuCooldown = 0;
         this.showControls = false;
 
+        // ===== HITBOX TUNED =====
+        this.hitW = 260;
+        this.hitH = 60;
+        this.hitOffsetX = 70;
+        this.hitOffsetY = 120;
+
         // ===== DEBUG =====
-        this.debugHitbox = false;
+        this.debugHitbox = false; 
 
         // ===== BACKGROUND CROP =====
         this.cropX = 35;
@@ -45,8 +51,6 @@ class TitleScreen {
         this.lightningFps = 14;
 
         this.bgRect = null;
-
-        // ===== HITBOX CACHE =====
         this.startRect = null;
         this.controlsRect = null;
 
@@ -61,52 +65,52 @@ class TitleScreen {
 
         if (this.menuCooldown > 0) this.menuCooldown--;
 
-        // Controls overlay
+        // ===== CONTROLS OVERLAY =====
         if (this.showControls) {
+            // Enter to close
             if (this.game.keys["Enter"] && this.menuCooldown === 0) {
                 this.game.keys["Enter"] = false;
                 this.showControls = false;
                 this.menuCooldown = 12;
             }
+
+            // Click to close
+            if (this.game.click && this.menuCooldown === 0) {
+                this.game.click = null;
+                this.showControls = false;
+                this.menuCooldown = 12;
+            }
+
             return;
         }
 
-        // Mouse HITBOX SIZE
-        const hitW = 260;
-        const hitH = 60;
-
-        // Mouse HITBOX POSITION OFFSET
-        const hitOffsetX = 70;    // + right / - left
-        const hitOffsetY = 120;   // + down / - up
-
+        // ===== HITBOX DEFINITIONS =====
         this.startRect = {
-            x: this.menuX + hitOffsetX,
-            y: this.menuY + hitOffsetY,
-            w: hitW,
-            h: hitH
+            x: this.menuX + this.hitOffsetX,
+            y: this.menuY + this.hitOffsetY,
+            w: this.hitW,
+            h: this.hitH
         };
 
         this.controlsRect = {
-            x: this.menuX + hitOffsetX,
-            y: (this.menuY + this.menuSpacing) + hitOffsetY,
-            w: hitW,
-            h: hitH
+            x: this.menuX + this.hitOffsetX,
+            y: this.menuY + this.menuSpacing + this.hitOffsetY,
+            w: this.hitW,
+            h: this.hitH
         };
 
         // ===== MOUSE INPUT =====
         if (this.game.mouse && this.menuCooldown === 0 && !this.game.keyboardActive) {
-            const mx = this.game.mouse.x;
-            const my = this.game.mouse.y;
+            const { x, y } = this.game.mouse;
 
-            if (this.pointInRect(mx, my, this.startRect)) {
+            if (this.pointInRect(x, y, this.startRect)) {
                 this.selectedIndex = 0;
-            } else if (this.pointInRect(mx, my, this.controlsRect)) {
+            } else if (this.pointInRect(x, y, this.controlsRect)) {
                 this.selectedIndex = 1;
             }
 
             if (this.game.click) {
-                const cx = this.game.click.x;
-                const cy = this.game.click.y;
+                const { x: cx, y: cy } = this.game.click;
 
                 if (this.pointInRect(cx, cy, this.startRect)) {
                     this.startGame();
@@ -222,29 +226,60 @@ class TitleScreen {
             const selectorX = this.menuX - 32;
             let selY = this.menuY + this.menuSpacing * this.selectedIndex;
             const ref = this.selectedIndex === 0 ? startSign : controlsSign;
-
             if (ref) selY += (ref.height - selectorSign.height) / 2;
-
             ctx.drawImage(selectorSign, selectorX, selY);
         }
 
-        //  DEBUG HITBOX DRAW 
+        // ===== CONTROLS OVERLAY DRAW =====
+        if (this.showControls) {
+            ctx.save();
+            ctx.globalAlpha = 0.85;
+            ctx.fillStyle = "#000";
+            ctx.fillRect(0, 0, cw, ch);
+            ctx.restore();
+
+            ctx.fillStyle = "#fff";
+            ctx.font = "28px Arial";
+            ctx.textAlign = "left";
+            ctx.textBaseline = "top";
+            ctx.fillText("Controls", 80, 120);
+
+            ctx.font = "20px Arial";
+            ctx.fillText("WASD: Move", 80, 170);
+            ctx.fillText("E: Interact", 80, 205);
+            ctx.fillText("I: Inventory", 80, 240);
+            ctx.fillText("Enter / Click: Back", 80, 275);
+        }
+
+        // ===== DEBUG HITBOX DRAW =====
         if (this.debugHitbox && this.startRect && this.controlsRect) {
+            ctx.save();
             ctx.globalAlpha = 0.35;
             ctx.lineWidth = 2;
 
             ctx.strokeStyle = "lime";
-            ctx.strokeRect(this.startRect.x, this.startRect.y, this.startRect.w, this.startRect.h);
+            ctx.strokeRect(
+                this.startRect.x,
+                this.startRect.y,
+                this.startRect.w,
+                this.startRect.h
+            );
 
             ctx.strokeStyle = "cyan";
-            ctx.strokeRect(this.controlsRect.x, this.controlsRect.y, this.controlsRect.w, this.controlsRect.h);
+            ctx.strokeRect(
+                this.controlsRect.x,
+                this.controlsRect.y,
+                this.controlsRect.w,
+                this.controlsRect.h
+            );
 
-            ctx.globalAlpha = 1;
+            ctx.restore();
         }
     }
 
     drawLightning(ctx) {
         if (this.lightningPhase === "idle") return;
+        if (!this.bgRect) return;
 
         const sheet = ASSET_MANAGER.getAsset(this.lightningSheetPath);
         if (!sheet) return;
@@ -260,6 +295,7 @@ class TitleScreen {
 
         const r = this.bgRect;
 
+        ctx.save();
         ctx.globalCompositeOperation = "screen";
         ctx.globalAlpha = this.lightningAlpha * 0.2;
 
@@ -272,8 +308,7 @@ class TitleScreen {
             r.h * 1.25
         );
 
-        ctx.globalAlpha = 1;
-        ctx.globalCompositeOperation = "source-over";
+        ctx.restore();
     }
 
     startGame() {
