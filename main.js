@@ -49,6 +49,10 @@ ASSET_MANAGER.queueDownload("./Sprites/Start/Jin_start.png");
 ASSET_MANAGER.queueDownload("./Sprites/Start/Lily_start.png");
 ASSET_MANAGER.queueDownload("./Sprites/Start/Shiannel_start.png");
 ASSET_MANAGER.queueDownload("./Sprites/Start/Victor_start.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/StartSign.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/ControlsSign.png");
+ASSET_MANAGER.queueDownload("./Sprites/Start/SelectorSign.png");
+
 
 ASSET_MANAGER.downloadAll(() => {
     const canvas = document.getElementById("gameWorld");
