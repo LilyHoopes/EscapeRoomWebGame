@@ -19,9 +19,9 @@ class BookshelfZoomView {
         this.hasKey = this.game.sceneManager.hasItem("diamond_key");
         
         // Load sprites
-        this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedBook.png");
-        this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenBook.png");
-        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/PaperInBook.png");
+        this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");
+        this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenBook.png");               // fix this
+        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/067Codex.png");                  // or is this the fortnite paper?
         this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");
         
         // Book position in zoom view
