@@ -22,7 +22,7 @@ class SceneManager {
             jin: { met: false, dialogueIndex: 0 }
         };
         
-        this.lily = new Lily(this.game, 50, 50);
+        this.lily = new Lily(this.game, 1000, 50);
     }
     
     loadRoom(roomName, spawnX, spawnY) {
