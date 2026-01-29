@@ -14,6 +14,7 @@ class BookshelfZoomView {
         
         // Has player taken the paper?
         this.paperTaken = false;
+            console.log("Paper taken status:", this.game.sceneManager.puzzleStates.room1.paperTaken);
         
         // Check if player has the diamond key
         this.hasKey = this.game.sceneManager.hasItem("diamond_key");
@@ -93,12 +94,9 @@ class BookshelfZoomView {
     unlockBook() {
         console.log("Unlocking book with diamond key..."); // testing 
         
-        // Remove key from inventory (it's been used)
-        let keyIndex = this.game.sceneManager.inventory.indexOf("diamond_key");
-        if (keyIndex > -1) {
-            this.game.sceneManager.inventory.splice(keyIndex, 1);
-            console.log("Diamond key used and removed from inventory");
-        }
+        // key has been used, mark as used 
+        this.game.sceneManager.markItemAsUsed("diamond_key");
+
          
         // Unlock the book
         this.bookUnlocked = true;
@@ -112,8 +110,11 @@ class BookshelfZoomView {
         console.log("Taking paper from book..."); //testing 
         
         // Add paper to inventory
-        this.game.sceneManager.addToInventory("riddle_paper");
-        
+        // TODO: do i need to rename the riddle paper ? idk 
+        this.game.sceneManager.addToInventory("riddle_paper", "./Sprites/Room1/Room1Note.png");   
+        this.game.sceneManager.puzzleStates.room1.paperTaken = true;
+     
+
         this.paperTaken = true; // update paper state this isnt woking 
     
     }

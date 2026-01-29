@@ -31,7 +31,7 @@ class GameEngine {
         this.keyboardActive = false;
 
         //this prevents movement while viewing interactive objects like the rose painting aka pauses the rest ... ?
-        this.examing = false;
+        this.examining = false;
     }
 
     init(ctx) {
@@ -215,6 +215,11 @@ class GameEngine {
 
     update() {
         let entitiesCount = this.entities.length;
+
+        // Update scene manager FIRST
+        if (this.sceneManager) {
+            this.sceneManager.update(); // ADD THIS LINE
+        }
 
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];

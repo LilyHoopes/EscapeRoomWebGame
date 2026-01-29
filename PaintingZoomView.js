@@ -63,7 +63,7 @@ class PaintingZoomView {
         console.log("Clicked on diamond key!");
         
         // Add to inventory
-        this.game.sceneManager.addToInventory("diamond_key");
+        this.game.sceneManager.addToInventory("diamond_key", "./Sprites/Room1/DiamondKey.png");        
         
         // Notify the painting
         this.painting.onKeyTaken();

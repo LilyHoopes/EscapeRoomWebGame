@@ -5,11 +5,11 @@ class SceneManager {
         
         // Player state
         this.health = 3;
-        this.inventory = [];
+        this.inventory = []; // Will store objects like {name, sprite, used}
         
         // Puzzle progress tracking
         this.puzzleStates = {
-            room1: {hasKey: false, bookUnlocked: false, codeEntered: false },
+            room1: {hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
             room2: {paintingsClicked: [], pipeObtained: false, lockBroken: false},
             room3: {medallions: [], candlesArranged: false, medallionDoor: false },
             // etc.dwwa
@@ -175,16 +175,52 @@ class SceneManager {
     }
     
     // adds thing to inventory 
-    addToInventory(item) {
-        this.inventory.push(item);
-        console.log("Added to inventory: ", item); //testing 
+    addToInventory(itemName, spritePath) {
+        this.inventory.push({
+            name: itemName, 
+            sprite: spritePath, 
+            used: false
+        });
+        console.log("Added to inventory: ", itemName); //testing 
         console.log("Current inventory:", this.inventory); //testing 
         
     }
 
-    // returns true if lily has said item in inventory, for checking logic stuff 
+    // it item is used, mark as used so playr cant use anymore
+    markItemAsUsed(itemName) {
+        let item = this.inventory.find(i => i.name === itemName);
+        if (item) {
+            item.used = true;
+            console.log("Marked as used:", itemName);
+        }
+    }
+
+    update() {
+        // Check if inventory is already open
+        let inventoryIsOpen = this.game.entities.some(e => e instanceof InventoryUI);
+        
+        // Only check for I press if inventory is NOT open
+        if (!inventoryIsOpen) {
+            if (this.game.I && !this.wasIPressed && !this.game.examining) {
+                // Open inventory
+                this.game.addEntity(new InventoryUI(this.game));
+                this.game.examining = true;
+                this.wasIPressed = true; // Set flag
+            } else if (!this.game.I) {
+                this.wasIPressed = false; // Reset when key released
+            }
+        }
+    }
+
+    // Update hasItem to check if unused:
     hasItem(itemName) {
-        return this.inventory.includes(itemName);
+        let item = this.inventory.find(i => i.name === itemName);
+        return item && !item.used; // Only true if exists AND not used
+    }
+
+    // getter method if i need it?w
+    getItem(itemName) {
+        return this.inventory.find(i => i.name === itemName);
     }
     
     checkPuzzleSolved(roomName) {
