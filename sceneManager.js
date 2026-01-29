@@ -33,6 +33,10 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 882)); // always add background first
 
             //interactive objects
+            this.game.addEntity(new RosePainting(this.game, 150, -150)); // rose painting object, x and y coords get changed here
+
+
+
             // this.game.addEntity(new Painting(this.game, 200, 300, "diamond_key")); // Falls to reveal key
             // this.game.addEntity(new DiamondKey(this.game, 200, 350)); // Hidden initially
             // this.game.addEntity(new Bookshelf(this.game, 400, 250));
@@ -40,7 +44,6 @@ class SceneManager {
             // this.game.addEntity(new CodeLock(this.game, 700, 400, "room1_exit")); // 3-digit lock
                 
             // Decorative objects (non-interactive)]
-            // add as many decorations as we want using these lines
             this.game.addEntity(new DecorativeSprite(this.game, 1, 200, "./Sprites/Room1/Bed.png", 300, 300, true, {x: 0, y: 0, w: 40, h: 130}));
             this.game.addEntity(new DecorativeSprite(this.game, 17, 355, "./Sprites/FillerFurniture/SideTable.png", 90, 80));
             this.game.addEntity(new DecorativeSprite(this.game, 30, 325, "./Sprites/Room1/Plant1.png", 40, 60, true, {x: 0, y: 0, w: 0, h: 0}));
@@ -170,9 +173,17 @@ class SceneManager {
 
     }
     
+    // adds thing to inventory 
     addToInventory(item) {
         this.inventory.push(item);
-        // Show notification?
+        console.log("Added to inventory: ", item); //testing 
+        console.log("Current inventory:", this.inventory); //testing 
+        
+    }
+
+    // returns true if lily has said item in inventory, for checking logic stuff 
+    hasItem(itemName) {
+        return this.inventory.includes(itemName);
     }
     
     checkPuzzleSolved(roomName) {

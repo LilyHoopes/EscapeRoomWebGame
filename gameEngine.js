@@ -29,6 +29,9 @@ class GameEngine {
 
         // Track whether keyboard is being used
         this.keyboardActive = false;
+
+        //this prevents movement while viewing interactive objects like the rose painting aka pauses the rest ... ?
+        this.examing = false;
     }
 
     init(ctx) {

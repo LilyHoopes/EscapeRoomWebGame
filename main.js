@@ -20,6 +20,11 @@ ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster1.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster2.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
+    // interactive objects
+    ASSET_MANAGER.queueDownload("./Sprites/Room1/RosePaintingWithKey.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room1/RosePaintingNoKey.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room1/RosePaintingZoom.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room1/DiamondKey.png");
 
 // room 2
 ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
