@@ -6,8 +6,8 @@ class PaintingZoomView {
         // Zoom view dimensions (change these values to get the painting large and centered)
         this.width = 2400;
         this.height = 2400;
-        this.x = (1380 - this.width) / 2; // Center horizontally
-        this.y = (882 - this.height) / 2;  // Center vertically
+        this.x = (1500 - this.width) / 2; // Center horizontally
+        this.y = (1100 - this.height) / 2;  // Center vertically
         
         // load zoomed in painting image
         this.paintingImage = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingZoom.png"); 
@@ -33,6 +33,7 @@ class PaintingZoomView {
             return;
         }
         
+        // THIS IS BROKEN IDK HOW TO FIX IT 
         // Check for click outside the view to close
         if (this.game.click) {
             let clickX = this.game.click.x;
@@ -68,12 +69,6 @@ class PaintingZoomView {
         
         // Mark as taken
         this.keyTaken = true;
-        
-        // Close the view after a brief moment
-        // maybe we remove this and just let the player close out of the frame themselves 
-        setTimeout(() => {
-            this.close();
-        }, 500); // 0.5 second delay so player sees the key disappear
     }
     
     close() {
