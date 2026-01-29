@@ -33,6 +33,7 @@ class PaintingZoomView {
             return;
         }
         
+        // BUG: clicking outside screen does not currently work to close the view 
         // THIS IS BROKEN IDK HOW TO FIX IT 
         // Check for click outside the view to close
         if (this.game.click) {
@@ -119,5 +120,12 @@ class PaintingZoomView {
                 }
             }
         }
+
+        // FIXME: shift location of the instruction so it actaully shows up
+        // Instructions
+        ctx.fillStyle = "white";
+        ctx.font = "16px Arial";
+        ctx.fillText("Press ESC or click outside to close", this.x + 180, this.y + this.height + 30);
+
     }
 }

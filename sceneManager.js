@@ -34,7 +34,7 @@ class SceneManager {
 
             //interactive objects
             this.game.addEntity(new RosePainting(this.game, 150, -150)); // rose painting object, x and y coords get changed here
-            this.game.addEntity(new Bookshelf(this.game, 110, 250)); // ADD THIS - adjust x, y position
+            this.game.addEntity(new Bookshelf(this.game, 805, 440)); // ADD THIS - adjust x, y position
 
 
 

@@ -42,10 +42,10 @@ class Bookshelf {
         let zoomView = new BookshelfZoomView(this.game, this);
         this.game.addEntity(zoomView);
         
-        // Mark that we're examining
+        // Mark that we're examining state
         this.game.examining = true;
         
-        // Prevent immediate re-trigger
+        // Prevent immediate re-trigger same as rose painting issue 
         this.game.E = false;
     }
     
@@ -63,7 +63,8 @@ class Bookshelf {
         if (sprite && sprite.complete && sprite.naturalWidth > 0) {
             ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
         } else {
-            // Placeholder if bugs in image 
+            // Placeholder if image is bugging 
+            // need to change this size here
             ctx.fillStyle = this.bookOpened ? "#654321" : "#8B4513";
             ctx.fillRect(this.x, this.y, this.width, this.height);
             ctx.fillStyle = "white";

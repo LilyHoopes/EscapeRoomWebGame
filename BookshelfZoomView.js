@@ -3,7 +3,7 @@ class BookshelfZoomView {
         this.game = game;
         this.bookshelf = bookshelf;
         
-        // Zoom view dimensions
+        // Zoom view dimensions, theres are what we change if neeeed
         this.width = 700;
         this.height = 800;
         this.x = (1380 - this.width) / 2;
@@ -19,24 +19,25 @@ class BookshelfZoomView {
         this.hasKey = this.game.sceneManager.hasItem("diamond_key");
         
         // Load sprites
-        this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");
-        this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenBook.png");               // fix this
-        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/067Codex.png");                  // or is this the fortnite paper?
-        this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");
+        this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");    // zoomed in locked book 
+        this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenBook.png");               // if key is dragged onto book, show open book w paper inside (the fortnite one)
+        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/067Codex.png");                  // once user clicked paper, they see this i think?
+        this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");                  // key they drag onto book to unlock it 
         
-        // Book position in zoom view
+        // Book position and size 
         this.bookX = this.x + 200;
         this.bookY = this.y + 250;
         this.bookWidth = 300;
         this.bookHeight = 400;
         
-        // Paper position (inside opened book)
+        // Paper position and size in the book 
+        // NOTE i need to decide w group how the whole paper situation is going to work 
         this.paperX = this.bookX + 100;
         this.paperY = this.bookY + 150;
         this.paperWidth = 100;
         this.paperHeight = 150;
         
-        // Key position (if player has it, shown in "inventory" area)
+        // Key position (if player has it, shown in "inventory" area) top left corner 
         this.keyX = this.x + 50;
         this.keyY = this.y + 50;
         this.keyWidth = 60;
@@ -46,12 +47,13 @@ class BookshelfZoomView {
     }
     
     update() {
-        // ESC to close
+        // press ESC to close out of window 
         if (this.game.keys["Escape"]) {
             this.close();
             return;
         }
         
+        // this method works here but rose painting one does not work idk why 
         // Click outside to close
         if (this.game.click) {
             let clickX = this.game.click.x;
@@ -65,7 +67,7 @@ class BookshelfZoomView {
                 return;
             }
             
-            // PHASE 1: Simple auto-unlock if player has key
+            // if player has key and the book is locked 
             if (!this.bookUnlocked && this.hasKey) {
                 // Click anywhere on the book to unlock it
                 if (clickX >= this.bookX && clickX <= this.bookX + this.bookWidth &&
@@ -75,6 +77,8 @@ class BookshelfZoomView {
             }
             
             // Click on paper to take it (if book is open and paper not taken)
+            // this is buggy too the paper shows up each time i go to the bookshelf
+            // BUG: the paper shows up each time i click onto bookshelf even after its collected
             if (this.bookUnlocked && !this.paperTaken) {
                 if (clickX >= this.paperX && clickX <= this.paperX + this.paperWidth &&
                     clickY >= this.paperY && clickY <= this.paperY + this.paperHeight) {
@@ -87,7 +91,7 @@ class BookshelfZoomView {
     }
     
     unlockBook() {
-        console.log("Unlocking book with diamond key...");
+        console.log("Unlocking book with diamond key..."); // testing 
         
         // Remove key from inventory (it's been used)
         let keyIndex = this.game.sceneManager.inventory.indexOf("diamond_key");
@@ -95,33 +99,23 @@ class BookshelfZoomView {
             this.game.sceneManager.inventory.splice(keyIndex, 1);
             console.log("Diamond key used and removed from inventory");
         }
-        
+         
         // Unlock the book
         this.bookUnlocked = true;
         this.hasKey = false; // Key is gone
         
-        // Notify the bookshelf
+        // update bookshelf state to change to the other sprite 
         this.bookshelf.onBookOpened();
-        
-        // Play sound
-        // ASSET_MANAGER.playAsset("./audio/unlock.mp3");
     }
     
     takePaper() {
-        console.log("Taking paper from book...");
+        console.log("Taking paper from book..."); //testing 
         
         // Add paper to inventory
         this.game.sceneManager.addToInventory("riddle_paper");
         
-        this.paperTaken = true;
-        
-        // Play sound
-        // ASSET_MANAGER.playAsset("./audio/paper_pickup.mp3");
-        
-        // Close view after brief delay
-        setTimeout(() => {
-            this.close();
-        }, 500);
+        this.paperTaken = true; // update paper state this isnt woking 
+    
     }
     
     close() {
