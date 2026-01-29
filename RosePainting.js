@@ -11,7 +11,7 @@ class RosePainting {
         
         // Load sprite
         this.sprite = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingWithKey.png"); 
-        this.spriteTaken = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingNoKey.png"); 
+        this.spriteNoKey = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingNoKey.png"); 
         this.removeFromWorld = false;
 
 

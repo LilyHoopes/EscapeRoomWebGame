@@ -16,17 +16,18 @@ class PaintingZoomView {
         this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png"); 
         
         // Key position on painting 
-        this.keyX = this.x + 1000; 
-        this.keyY = this.y + 1000; 
-        this.keyWidth = 60;
-        this.keyHeight = 60;
+        this.keyX = this.x + 1225; 
+        this.keyY = this.y + 1100; 
+        this.keyWidth = 96;
+        this.keyHeight = 192;
+        //162x322 is key ratio about half 
         
         this.keyTaken = this.painting.keyTaken;
         this.removeFromWorld = false;
     }
     
     update() {
-        // Check for ESC key to close
+        // Check for ESC key to closedw
         if (this.game.keys["Escape"]) {
             this.close();
             return;
@@ -108,7 +109,6 @@ class PaintingZoomView {
                 ctx.fillStyle = "cyan";
                 ctx.fillRect(this.keyX, this.keyY, this.keyWidth, this.keyHeight);
             }
-        }
 
         // Hover effect when hovering over the key 
             if (this.game.mouse) {
@@ -118,9 +118,10 @@ class PaintingZoomView {
                 if (mx >= this.keyX && mx <= this.keyX + this.keyWidth &&
                     my >= this.keyY && my <= this.keyY + this.keyHeight) {
                     // Draw highlight border
-                    ctx.strokeStyle = "yellow";
+                    ctx.strokeStyle = "white";
                     ctx.lineWidth = 3;
                     ctx.strokeRect(this.keyX - 5, this.keyY - 5, this.keyWidth + 10, this.keyHeight + 10);
+                }
             }
         }
     }
