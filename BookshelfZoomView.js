@@ -13,7 +13,7 @@ class BookshelfZoomView {
         this.bookUnlocked = this.bookshelf.bookOpened;
         
         // Has player taken the paper?
-        this.paperTaken = false;
+        this.paperTaken = this.game.sceneManager.puzzleStates.room1.paperTaken; 
             console.log("Paper taken status:", this.game.sceneManager.puzzleStates.room1.paperTaken);
         
         // Check if player has the diamond key
@@ -22,27 +22,34 @@ class BookshelfZoomView {
         // Load sprites
         this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");    // zoomed in locked book 
         this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenBook.png");               // if key is dragged onto book, show open book w paper inside (the fortnite one)
-        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/067Codex.png");                  // once user clicked paper, they see this i think?
+        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/Room1Note.png");                  // once user clicked paper, they see this i think?
         this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");                  // key they drag onto book to unlock it 
         
         // Book position and size 
         this.bookX = this.x + 200;
         this.bookY = this.y + 250;
-        this.bookWidth = 300;
-        this.bookHeight = 400;
+        this.bookWidth = 345;
+        this.bookHeight = 480;
         
         // Paper position and size in the book 
         // NOTE i need to decide w group how the whole paper situation is going to work 
         this.paperX = this.bookX + 100;
         this.paperY = this.bookY + 150;
-        this.paperWidth = 100;
-        this.paperHeight = 150;
+        this.paperWidth = 400;
+        this.paperHeight = 400;
         
         // Key position (if player has it, shown in "inventory" area) top left corner 
         this.keyX = this.x + 50;
         this.keyY = this.y + 50;
         this.keyWidth = 60;
-        this.keyHeight = 60;
+        this.keyHeight = 120;
+
+        // Drag-and-drop state for key to book dragging 
+        this.draggingKey = false;
+        this.dragKeyX = this.keyX; // Current position while dragging
+        this.dragKeyY = this.keyY;
+        this.dragOffsetX = 0; // Offset from mouse to key corner
+        this.dragOffsetY = 0;
         
         this.removeFromWorld = false;
     }
@@ -68,15 +75,6 @@ class BookshelfZoomView {
                 return;
             }
             
-            // if player has key and the book is locked 
-            if (!this.bookUnlocked && this.hasKey) {
-                // Click anywhere on the book to unlock it
-                if (clickX >= this.bookX && clickX <= this.bookX + this.bookWidth &&
-                    clickY >= this.bookY && clickY <= this.bookY + this.bookHeight) {
-                    this.unlockBook();
-                }
-            }
-            
             // Click on paper to take it (if book is open and paper not taken)
             // this is buggy too the paper shows up each time i go to the bookshelf
             // BUG: the paper shows up each time i click onto bookshelf even after its collected
@@ -88,6 +86,100 @@ class BookshelfZoomView {
             }
             
             this.game.click = null;
+        }
+
+        // Handle mouse down/up for dragging
+        if (this.game.mouse) {
+            let mx = this.game.mouse.x;
+            let my = this.game.mouse.y;
+                
+            // Check if mouse is pressed (we'll need to track this)
+            // For now, we'll use click to start drag
+        }
+            
+        // DRAG-AND-DROP LOGIC
+        if (this.hasKey && !this.bookUnlocked) {
+            console.log("inside the hasKey and book not unlocked")
+            this.handleKeyDragAndDrop();
+        }        
+
+        
+    }
+
+    handleKeyDragAndDrop() {
+        console.log("inside handleKeyDragAndDrop")
+        console.log("=== handleKeyDragAndDrop called ===");
+        console.log("this.game.mouse:", this.game.mouse);
+        console.log("this.game.mouseDown:", this.game.mouseDown);
+        console.log("this.game.mouseUp:", this.game.mouseUp);
+        console.log("this.hasKey:", this.hasKey);
+        console.log("this.draggingKey:", this.draggingKey);
+
+        if (!this.game.mouse) {
+            console.log("No mouse - returning early");
+            return;
+        }        
+        let mx = this.game.mouse.x;
+        let my = this.game.mouse.y;
+
+        // DEBUG: Log mouse state
+        if (this.game.mouseDown || this.draggingKey) {
+            console.log("Mouse:", mx, my, "MouseDown:", this.game.mouseDown, "Dragging:", this.draggingKey);
+        }
+        
+        // Start dragging on mouse down over key
+        if (this.game.mouseDown && !this.draggingKey) {
+
+            console.log("Checking if mouse over key...");
+            console.log("Key bounds:", this.dragKeyX, this.dragKeyY, this.keyWidth, this.keyHeight);
+            console.log("Mouse pos:", mx, my);
+
+            // Check if mouse is over the key
+            if (mx >= this.dragKeyX && mx <= this.dragKeyX + this.keyWidth &&
+                my >= this.dragKeyY && my <= this.dragKeyY + this.keyHeight) {
+                this.draggingKey = true;
+                this.dragOffsetX = mx - this.dragKeyX;
+                this.dragOffsetY = my - this.dragKeyY;
+                console.log("Started dragging key");
+            } else {
+                console.log("mouse not over key")
+            }
+        }
+        
+        // While dragging, follow mouse
+        if (this.draggingKey && this.game.mouseDown) {
+            this.dragKeyX = mx - this.dragOffsetX;
+            this.dragKeyY = my - this.dragOffsetY;
+            console.log("Dragging to:", this.dragKeyX, this.dragKeyY);
+        }
+        
+        // Release mouse - check if over book
+        if (this.draggingKey && !this.game.mouseDown) {
+            console.log("Released mouse!");
+
+            // Check if key was dropped on the book
+            let keyCenterX = this.dragKeyX + this.keyWidth / 2;
+            let keyCenterY = this.dragKeyY + this.keyHeight / 2;
+            console.log("Released mouse!");
+            
+            let keyOverBook = (
+                keyCenterX >= this.bookX &&
+                keyCenterX <= this.bookX + this.bookWidth &&
+                keyCenterY >= this.bookY &&
+                keyCenterY <= this.bookY + this.bookHeight
+            );
+            
+            if (keyOverBook) {
+                console.log("Key dropped on book - unlocking!");
+                this.unlockBook();
+            } else {
+                console.log("Key dropped elsewhere - snapping back");
+                // Snap key back to original position
+                this.dragKeyX = this.keyX;
+                this.dragKeyY = this.keyY;
+            }
+            
+            this.draggingKey = false;
         }
     }
     
@@ -111,7 +203,7 @@ class BookshelfZoomView {
         
         // Add paper to inventory
         // TODO: do i need to rename the riddle paper ? idk 
-        this.game.sceneManager.addToInventory("riddle_paper", "./Sprites/Room1/Room1Note.png");   
+        this.game.sceneManager.addToInventory("Room1Note", "./Sprites/Room1/Room1Note.png");   
         this.game.sceneManager.puzzleStates.room1.paperTaken = true;
      
 
@@ -136,25 +228,7 @@ class BookshelfZoomView {
         
         ctx.fillStyle = "#D4A574"; // Light brown
         ctx.fillRect(this.x, this.y, this.width, this.height);
-        
-        // Draw inventory area label if player has key
-        if (this.hasKey) {
-            ctx.fillStyle = "#333";
-            ctx.fillRect(this.x + 20, this.y + 20, 150, 100);
-            
-            ctx.fillStyle = "white";
-            ctx.font = "14px Arial";
-            ctx.fillText("INVENTORY:", this.x + 40, this.y + 40);
-            
-            // Draw the diamond key
-            if (this.keySprite && this.keySprite.complete) {
-                ctx.drawImage(this.keySprite, this.keyX, this.keyY, this.keyWidth, this.keyHeight);
-            } else {
-                ctx.fillStyle = "cyan";
-                ctx.fillRect(this.keyX, this.keyY, this.keyWidth, this.keyHeight);
-            }
-        }
-        
+         
         // Draw the book (locked or open)
         if (!this.bookUnlocked) {
             // Locked book
@@ -168,6 +242,7 @@ class BookshelfZoomView {
                 ctx.fillText("Locked Book", this.bookX + 80, this.bookY + this.bookHeight/2);
             }
             
+            // TODO: remove this once the drag drop is working 
             // Hover effect on book if player has key
             if (this.hasKey && this.game.mouse) {
                 let mx = this.game.mouse.x;
@@ -197,7 +272,7 @@ class BookshelfZoomView {
             if (this.openBookSprite && this.openBookSprite.complete) {
                 ctx.drawImage(this.openBookSprite, this.bookX, this.bookY, this.bookWidth, this.bookHeight);
             } else {
-                ctx.fillStyle = "#D2B48C";
+                ctx.fillStyle = "#d28cb3";
                 ctx.fillRect(this.bookX, this.bookY, this.bookWidth, this.bookHeight);
             }
             
@@ -223,6 +298,25 @@ class BookshelfZoomView {
                     }
                 }
             }
+        }
+
+                // Draw inventory area label if player has key
+        if (this.hasKey) {
+            ctx.fillStyle = "#333";
+            ctx.fillRect(this.x + 20, this.y + 20, 125, 175);
+            
+            ctx.fillStyle = "white";
+            ctx.font = "14px Arial";
+            ctx.fillText("INVENTORY:", this.x + 40, this.y + 40);
+            
+            // Draw the diamond key at dragged position (or original if not dragging)
+            if (this.keySprite && this.keySprite.complete) {
+                ctx.drawImage(this.keySprite, this.dragKeyX, this.dragKeyY, this.keyWidth, this.keyHeight);
+            } else {
+                ctx.fillStyle = "cyan";
+                ctx.fillRect(this.dragKeyX, this.dragKeyY, this.keyWidth, this.keyHeight);
+            }
+            
         }
         
         // Instructions

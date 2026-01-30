@@ -29,7 +29,8 @@ ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/BookshelfWithOpenBook.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/LockedDiamondBook.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/OpenDiamondBook.png");             // NOTE: need a sprite for this
-    ASSET_MANAGER.queueDownload("./Sprites/Room1/067Codex.png");                    // NOTE: is this the fortnite one? then once we click its the actual riddle? in that case i should just plop fornite onot open diamond book sprite 
+    ASSET_MANAGER.queueDownload("./Sprites/Room1/067Codex.png");                   
+    ASSET_MANAGER.queueDownload("./Sprites/Room1/Room1Note.png");
 
 
 // room 2

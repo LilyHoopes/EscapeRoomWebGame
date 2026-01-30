@@ -31,7 +31,13 @@ class GameEngine {
         this.keyboardActive = false;
 
         //this prevents movement while viewing interactive objects like the rose painting aka pauses the rest ... ?
+        // BUG: IT DONT WORK THO
         this.examining = false;
+
+        this.mouseDown = false; 
+        this.mouseUp = false;   
+
+
     }
 
     init(ctx) {
@@ -179,6 +185,23 @@ class GameEngine {
             // Clicking also focuses canvas, helps keyboard input
             this.ctx.canvas.focus();
         });
+
+        // Add these event listeners (after the existing click listener)
+        this.ctx.canvas.addEventListener("mousedown", e => {
+            this.mouseDown = true;
+            this.mouseUp = false;
+        });
+
+        this.ctx.canvas.addEventListener("mouseup", e => {
+            this.mouseDown = false;
+            this.mouseUp = true;
+            
+            // Reset mouseUp after one frame
+            setTimeout(() => {
+                this.mouseUp = false;
+            }, 50);
+        });
+
 
         // Mouse wheel
         this.ctx.canvas.addEventListener("wheel", e => {

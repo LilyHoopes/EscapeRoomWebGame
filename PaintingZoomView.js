@@ -114,7 +114,7 @@ class PaintingZoomView {
                 if (mx >= this.keyX && mx <= this.keyX + this.keyWidth &&
                     my >= this.keyY && my <= this.keyY + this.keyHeight) {
                     // Draw highlight border
-                    ctx.strokeStyle = "white";
+                    ctx.strokeStyle = "yellow";
                     ctx.lineWidth = 3;
                     ctx.strokeRect(this.keyX - 5, this.keyY - 5, this.keyWidth + 10, this.keyHeight + 10);
                 }

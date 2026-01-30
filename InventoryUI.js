@@ -65,7 +65,7 @@ class InventoryUI {
         console.log("Clicked on item:", item.name);
         
         // If it's the riddle paper, open the readable view
-        if (item.name === "riddle_paper") {
+        if (item.name === "Room1Note") {
             // Close inventory
             this.close();
             
@@ -106,6 +106,7 @@ class InventoryUI {
         // Draw item slots
         let inventory = this.game.sceneManager.inventory;
         
+        // displaying each item in the inventory 
         inventory.forEach((item, index) => {
             let row = Math.floor(index / this.slotsPerRow);
             let col = index % this.slotsPerRow;
