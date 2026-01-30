@@ -1,241 +1,188 @@
 class SceneManager {
     constructor(game) {
         this.game = game;
-        this.currentRoom = "room1"; 
-        
+        this.currentRoom = "room1";
+
         // Player state
         this.health = 3;
         this.inventory = []; // Will store objects like {name, sprite, used}
-        
+
         // Puzzle progress tracking
         this.puzzleStates = {
-            room1: {hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: {paintingsClicked: [], pipeObtained: false, lockBroken: false},
-            room3: {medallions: [], candlesArranged: false, medallionDoor: false },
-            // etc.dwwa
+            room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
+            room2: { paintingsClicked: [], pipeObtained: false, lockBroken: false },
+            room3: { medallions: [], candlesArranged: false, medallionDoor: false }
         };
-        
+
         // NPC dialogue tracking
         this.npcStates = {
             shiannel: { met: false, dialogueIndex: 0 },
             victor: { met: false, dialogueIndex: 0 },
             jin: { met: false, dialogueIndex: 0 }
         };
-        
+
         this.lily = new Lily(this.game, 1000, 50);
+
+        // ===== BGM STATE =====
+        this.roomBGM = null;
+        this.roomBGMName = null;
     }
-    
+
     loadRoom(roomName, spawnX, spawnY) {
-         this.clearEntities();
-         this.currentRoom = roomName;
+        this.clearEntities();
+        this.currentRoom = roomName;
+
+        // BGM applicator
+        const bgmMap = {
+            room1: "./bgm/House of Souls Room1.mp3"
+            // room2: "./bgm/room2.mp3",
+            // room3: "./bgm/room3.mp3",
+            // room4: "./bgm/room4.mp3",
+            // room5: "./bgm/room5.mp3"
+        };
+
+        const nextBGM = bgmMap[roomName] || null;
+
+        // Stop previous BGM if switching rooms
+        if (nextBGM !== this.roomBGMName) {
+            if (this.roomBGM) {
+                this.roomBGM.pause();
+                this.roomBGM.currentTime = 0;
+                this.roomBGM = null;
+            }
+
+            this.roomBGMName = nextBGM;
+
+            if (nextBGM) {
+                this.roomBGM = new Audio(nextBGM);
+                this.roomBGM.loop = true;
+                this.roomBGM.volume = 0.5;
+                this.roomBGM.play().catch(() => {});
+            }
+        }
 
         if (roomName === "room1") {
-            this.game.addEntity(new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 882)); // always add background first
+            this.game.addEntity(
+                new Background(this.game, "./Sprites/Room1/PlantRoomBackground.png", 1380, 882)
+            );
 
-            //interactive objects
-            this.game.addEntity(new RosePainting(this.game, 150, -150)); // rose painting object, x and y coords get changed here
-            this.game.addEntity(new Bookshelf(this.game, 805, 440)); // ADD THIS - adjust x, y position
+            // Interactive objects
+            this.game.addEntity(new RosePainting(this.game, 150, -150));
+            this.game.addEntity(new Bookshelf(this.game, 805, 440));
 
-
-
-            // this.game.addEntity(new Painting(this.game, 200, 300, "diamond_key")); // Falls to reveal key
-            // this.game.addEntity(new DiamondKey(this.game, 200, 350)); // Hidden initially
-            // this.game.addEntity(new Bookshelf(this.game, 400, 250));
-            // this.game.addEntity(new LockedBook(this.game, 450, 280)); // Needs diamond key
-            // this.game.addEntity(new CodeLock(this.game, 700, 400, "room1_exit")); // 3-digit lock
-                
-            // Decorative objects (non-interactive)]
-            this.game.addEntity(new DecorativeSprite(this.game, 1, 200, "./Sprites/Room1/Bed.png", 300, 300, true, {x: 0, y: 0, w: 40, h: 130}));
+            // Decorative objects
+            this.game.addEntity(new DecorativeSprite(this.game, 1, 200, "./Sprites/Room1/Bed.png", 300, 300, true, { x: 0, y: 0, w: 40, h: 130 }));
             this.game.addEntity(new DecorativeSprite(this.game, 17, 355, "./Sprites/FillerFurniture/SideTable.png", 90, 80));
-            this.game.addEntity(new DecorativeSprite(this.game, 30, 325, "./Sprites/Room1/Plant1.png", 40, 60, true, {x: 0, y: 0, w: 0, h: 0}));
+            this.game.addEntity(new DecorativeSprite(this.game, 30, 325, "./Sprites/Room1/Plant1.png", 40, 60, true));
             this.game.addEntity(new DecorativeSprite(this.game, 50, 400, "./Sprites/Room1/Plant2.png", 40, 70));
             this.game.addEntity(new DecorativeSprite(this.game, 170, 400, "./Sprites/FillerFurniture/BigRedRug.png", 400, 200, false));
-            this.game.addEntity(new DecorativeSprite(this.game, 55, 520, "./Sprites/Room1/PlantCluster1.png", 520, 600, true, {x: 80, y: 225, w: 190, h: 500}));
-            this.game.addEntity(new DecorativeSprite(this.game, -40, 450, "./Sprites/Room1/PlantCluster2.png", 500, 600, true, {x: 50, y: 20, w: 380, h: 200}));
-            this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, {x: 380, y: 120, w: 400, h: 100}));
+            this.game.addEntity(new DecorativeSprite(this.game, 55, 520, "./Sprites/Room1/PlantCluster1.png", 520, 600, true, { x: 80, y: 225, w: 190, h: 500 }));
+            this.game.addEntity(new DecorativeSprite(this.game, -40, 450, "./Sprites/Room1/PlantCluster2.png", 500, 600, true, { x: 50, y: 20, w: 380, h: 200 }));
+            this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, { x: 380, y: 120, w: 400, h: 100 }));
             this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250));
 
-            // Exit door (locked initially)
-            // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
-            
-            // room1 -> room2
-            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, false));  // set to false for testing
-            // Door states: game, x cord, y cord, width, height, destinationRoom, spawnX, spawnY, isLocked
-
+            // Door to room2
+            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, false));
         }
 
         if (roomName === "room2") {
-            this.game.addEntity(new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882));
+            this.game.addEntity(
+                new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882)
+            );
 
-            // room2 -> room1
-            this.game.addEntity(new Door(this.game, 553, 700, 300, 175, "room1", 1100, 150, false)); // door will always stay unlocked (false)
-
-            // room2 -> room 3
+            this.game.addEntity(new Door(this.game, 553, 700, 300, 175, "room1", 1100, 150, false));
             this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false));
-
-            //npc aka shiannel
             this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
 
-            // Interactive paintings
-            // this.game.addEntity(new Painting(this.game, 100, 200, "music_notes", true));
-            // this.game.addEntity(new Painting(this.game, 250, 200, "plants", false));
-            // this.game.addEntity(new Painting(this.game, 400, 200, "flowers", false));
-            // this.game.addEntity(new Painting(this.game, 550, 200, "house", false));
-            // this.game.addEntity(new Painting(this.game, 700, 200, "horizon", false));
-            // this.game.addEntity(new Painting(this.game, 100, 500, "abstract1", false));
-            // this.game.addEntity(new Painting(this.game, 250, 500, "abstract2", false));
-            // this.game.addEntity(new Painting(this.game, 400, 500, "abstract3", false));
-
-            //Decorative objects
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false));
             this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
-
-            // Lead pipe
-        // if (!this.puzzleStates.room2.pipeObtained) {
-        //     this.game.addEntity(new LeadPipe(this.game, 100, 230, true));
-        // }
-        
-        // // Frozen lock
-        // if (!this.puzzleStates.room2.lockBroken) {
-        //     this.game.addEntity(new FrozenLock(this.game, 900, 450));
-        // }
-        
-        // // Exit door
-        // this.game.addEntity(new Door(this.game, 900, 400, 64, 128, "room3", 50, 400, true));
-
-
-        //Then add other objects
-        
         }
 
         if (roomName === "room3") {
-            this.game.addEntity(new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882));
-            // room3 -> room2
-            this.game.addEntity(new Door(this.game, 553, 736, 260, 150, "room2", 950, 100, false)); // door will always stay unlocked (false)
-            // room3 -> room 4 
+            this.game.addEntity(
+                new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882)
+            );
+
+            this.game.addEntity(new Door(this.game, 553, 736, 260, 150, "room2", 950, 100, false));
             this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false));
 
-            //Decorative objects
             this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/FillerFurniture/Table.png", 220, 135, true));
-            this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, {x: 20, y: 50, w: 60, h: 80}, true));  
-            this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true, {x: 10, y: 20, w: 20, h: 20}));      
-            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true, {x: 0, y: 20, w: 20, h: 30}));
+            this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
         }
 
         if (roomName === "room4") {
-            this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
+            this.game.addEntity(
+                new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882)
+            );
 
-            // room4 -> room3
-            this.game.addEntity(new Door(this.game, 230, 714, 230, 187, "room3", 600, 100, false)); // door will always stay unlocked (false)
-
-            // room4 -> room5
+            this.game.addEntity(new Door(this.game, 230, 714, 230, 187, "room3", 600, 100, false));
             this.game.addEntity(new Door(this.game, 1075, 714, 230, 187, "room5", 150, 700, false));
-
-            //Then add other objects
-        
         }
 
         if (roomName === "room5") {
-            //add background  first to be behind everything else
-            this.game.addEntity(new Background(this.game, "./Sprites/Room5/FinalRoom.png", 1380, 882));
+            this.game.addEntity(
+                new Background(this.game, "./Sprites/Room5/FinalRoom.png", 1380, 882)
+            );
 
-            // room5 -> room4
-            this.game.addEntity(new Door(this.game, 110, 668, 275, 187, "room4", 1100, 700, false)); // door will always stay unlocked (false)
-
-            // room5 -> EXIT
-
-            //Then add other objects
-            //Door
-        
+            this.game.addEntity(new Door(this.game, 110, 668, 275, 187, "room4", 1100, 700, false));
         }
-
-        // Clear current entities
-        // Load room data (similar to Mario's level loading)
-        // Spawn objects, NPCs, collectibles
-        // Set background music
-    
 
         // Position Lily at spawn point
         this.lily.x = spawnX;
         this.lily.y = spawnY;
         this.lily.velocity = { x: 0, y: 0 };
-        
         this.game.addEntity(this.lily);
-        
-        console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
-        console.log("Total entities:", this.game.entities.length);
 
-        console.log("SPAWNING LILY AT:", spawnX, spawnY); 
-        console.log("Lily actual position:", this.lily.x, this.lily.y);
-        
-        //prevents instant retriggering of e button 
+        // Prevent instant retriggering of interaction key
         this.game.E = false;
 
-    }
-    
-    // adds thing to inventory 
-    addToInventory(itemName, spritePath) {
-        this.inventory.push({
-            name: itemName, 
-            sprite: spritePath, 
-            used: false
-        });
-        console.log("Added to inventory: ", itemName); //testing 
-        console.log("Current inventory:", this.inventory); //testing 
-        
+        console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
     }
 
-    // it item is used, mark as used so playr cant use anymore
+    // Inventory helpers
+    addToInventory(itemName, spritePath) {
+        this.inventory.push({ name: itemName, sprite: spritePath, used: false });
+    }
+
     markItemAsUsed(itemName) {
-        let item = this.inventory.find(i => i.name === itemName);
-        if (item) {
-            item.used = true;
-            console.log("Marked as used:", itemName);
-        }
+        const item = this.inventory.find(i => i.name === itemName);
+        if (item) item.used = true;
+    }
+
+    hasItem(itemName) {
+        const item = this.inventory.find(i => i.name === itemName);
+        return item && !item.used;
+    }
+
+    getItem(itemName) {
+        return this.inventory.find(i => i.name === itemName);
     }
 
     update() {
-        // Check if inventory is already open
-        let inventoryIsOpen = this.game.entities.some(e => e instanceof InventoryUI);
-        
-        // Only check for I press if inventory is NOT open
-        if (!inventoryIsOpen) {
+        const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
+
+        if (!inventoryOpen) {
             if (this.game.I && !this.wasIPressed && !this.game.examining) {
-                // Open inventory
                 this.game.addEntity(new InventoryUI(this.game));
                 this.game.examining = true;
-                this.wasIPressed = true; // Set flag
+                this.wasIPressed = true;
             } else if (!this.game.I) {
-                this.wasIPressed = false; // Reset when key released
+                this.wasIPressed = false;
             }
         }
     }
 
-    // Update hasItem to check if unused:
-    hasItem(itemName) {
-        let item = this.inventory.find(i => i.name === itemName);
-        return item && !item.used; // Only true if exists AND not used
-    }
-
-    // getter method if i need it?w
-    getItem(itemName) {
-        return this.inventory.find(i => i.name === itemName);
-    }
-    
-    checkPuzzleSolved(roomName) {
-        // Check if all puzzle conditions met for this room
-        // Unlock door if solved
-    }
-    
     takeDamage() {
         this.health--;
         if (this.health <= 0) {
-            // Game over
+            // Game over logic
         }
     }
 
     clearEntities() {
-        this.game.entities = []
+        this.game.entities = [];
     }
 }
