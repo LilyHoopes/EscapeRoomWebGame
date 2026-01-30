@@ -46,6 +46,8 @@ ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Table.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideToilet.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilStool.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
+ASSET_MANAGER.queueDownload("./Sprites/Room3/Alive_VictorSpriteSheet.png");
+ASSET_MANAGER.queueDownload("./Sprites/Room3/Alive_JinSpriteSheet.png");
 
 // room 4
 ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");

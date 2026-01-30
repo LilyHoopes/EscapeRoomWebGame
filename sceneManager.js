@@ -92,6 +92,8 @@ class SceneManager {
 
             this.game.addEntity(new Door(this.game, 553, 700, 300, 175, "room1", 1100, 150, false));
             this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false));
+            
+            // added shiannel 
             this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
 
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false));
@@ -106,6 +108,10 @@ class SceneManager {
 
             this.game.addEntity(new Door(this.game, 553, 736, 260, 150, "room2", 950, 100, false));
             this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false));
+
+            // added victor and jin
+            this.game.addEntity(new Victor(this.game, 955, 510, true));
+            this.game.addEntity(new Jin(this.game, 300, 495, true));    
 
             this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/FillerFurniture/Table.png", 220, 135, true));
             this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
