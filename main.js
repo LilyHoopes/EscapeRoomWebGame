@@ -119,16 +119,33 @@ ASSET_MANAGER.downloadAll(() => {
         gameEngine.debug = debugToggle.checked;
     });
 
-    muteBtn.addEventListener("click", () => {
-        gameEngine.muted = !gameEngine.muted;
-        gameEngine.introAudio.muted = gameEngine.muted;
-        muteBtn.textContent = gameEngine.muted ? "Unmute" : "Mute";
-    });
+   muteBtn.addEventListener("click", () => {
+    gameEngine.muted = !gameEngine.muted;
 
-    volumeSlider.addEventListener("input", () => {
-        gameEngine.volume = volumeSlider.value;
-        gameEngine.introAudio.volume = gameEngine.volume;
-    });
+    // Apply to intro audio
+    if (gameEngine.introAudio) gameEngine.introAudio.muted = gameEngine.muted;
+
+    // Apply to room BGM (if it exists)
+    if (gameEngine.sceneManager && gameEngine.sceneManager.roomBGM) {
+        gameEngine.sceneManager.roomBGM.muted = gameEngine.muted;
+    }
+
+    muteBtn.textContent = gameEngine.muted ? "Unmute" : "Mute";
+});
+
+
+volumeSlider.addEventListener("input", () => {
+    gameEngine.volume = Number(volumeSlider.value);
+
+    // Apply to intro audio
+    if (gameEngine.introAudio) gameEngine.introAudio.volume = gameEngine.volume;
+
+    // Apply to room BGM (if it exists)
+    if (gameEngine.sceneManager && gameEngine.sceneManager.roomBGM) {
+        gameEngine.sceneManager.roomBGM.volume = gameEngine.volume;
+    }
+});
+
 
 
     gameEngine.addEntity(new StartSplashScreen(gameEngine));
