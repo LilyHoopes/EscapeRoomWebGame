@@ -29,7 +29,7 @@ class TitleScreen {
         this.debugHitbox = false; 
 
         // ===== BACKGROUND CROP =====
-        this.cropX = 35;
+        this.cropX = 1055;
         this.cropY = 277;
         this.cropW = 939;
         this.cropH = 588;
