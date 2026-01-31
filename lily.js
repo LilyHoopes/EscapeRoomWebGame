@@ -54,15 +54,14 @@ class Lily {
     }
 
     updateBB() {
-        this.offsetX = 45; // shifts to right
-        this.offsetY = 35; // shifts down 
-        
-        this.BB = new BoundingBox(
-            this.x + this.offsetX, 
-            this.y + this.offsetY, 
-            this.width, 
-            this.height
-        );
+        this.offsetX = 55; // shifts to right
+        this.offsetY = 80; // shifts down 
+
+        //lilys boundingbox 
+        const bbWidth = 80; 
+        const bbHeight = 30; 
+        this.BB = new BoundingBox( this.x + this.offsetX, this.y + this.offsetY, bbWidth, bbHeight );
+    
     }
 
     updateLastBB() {
@@ -126,26 +125,25 @@ class Lily {
 
         //to keep lily detained in room
         this.x = Math.max(-50, Math.min(this.x, 1290 - this.width));
-        this.y = Math.max(100, Math.min(this.y, 750 - this.height));
+        this.y = Math.max(100, Math.min(this.y, 850 - this.height));
     }
 
-    handleHorizontalCollisions() {
-        // Resolve left/right collisions
-        for (let entity of this.game.entities) {
-            if (entity !== this && entity.isSolid && entity.BB) {
-                if (this.BB.collide(entity.BB)) {
-                    if (this.lastBB.right <= entity.BB.left) {
-                        // Lily hit object from the left
-                        this.x = entity.BB.left - this.width - this.offsetX;
-                    }
-                    else if (this.lastBB.left >= entity.BB.right) {
-                        // Lily hit object from the right
-                        this.x = entity.BB.right - this.offsetX;
-                    }
-                    this.updateBB();
-                }
-            }
-        }
+   handleHorizontalCollisions() { 
+        for (let entity of this.game.entities) { 
+            if (entity !== this && entity.isSolid && entity.BB) { 
+                if (this.BB.collide(entity.BB)) { 
+                    if (this.lastBB.right <= entity.BB.left) { 
+                        // hit from left 
+                        this.x = entity.BB.left - this.BB.width - this.offsetX; 
+                    } 
+                    else if (this.lastBB.left >= entity.BB.right) { 
+                        // hit from right 
+                        this.x = entity.BB.right - this.offsetX; 
+                    } 
+                    this.updateBB(); 
+                } 
+            } 
+        } 
     }
 
     handleVerticalCollisions() {
@@ -155,7 +153,7 @@ class Lily {
                 if (this.BB.collide(entity.BB)) {
                     if (this.lastBB.bottom <= entity.BB.top) {
                         // Lily hit object from above
-                        this.y = entity.BB.top - this.height - this.offsetY;
+                        this.y = entity.BB.top - this.BB.height - this.offsetY;
                     }
                     else if (this.lastBB.top >= entity.BB.bottom) {
                         // Lily hit object from below
@@ -166,6 +164,10 @@ class Lily {
             }
         }
     }
+    get depth() {
+        return this.BB.bottom;
+    }
+
 
     draw(ctx) {
         // Draw the current animation

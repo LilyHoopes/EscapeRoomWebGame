@@ -2,6 +2,7 @@ class PaintingZoomView {
     constructor(game, painting) {
         this.game = game;
         this.painting = painting; // painting is the RosePainting class that called this
+        this.isPopup = true;
         
         // Zoom view dimensions (change these values to get the painting large and centered)
         this.width = 2400;
@@ -74,7 +75,8 @@ class PaintingZoomView {
     
     close() {
         console.log("Closing painting zoom view");
-        this.removeFromWorld = true; // remove zoomed painting from world 
+        //this.removeFromWorld = true; // remove zoomed painting from world 
+        this.game.activePopup = null;
         this.game.examining = false;
     }
     

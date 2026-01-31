@@ -11,7 +11,8 @@ class PaperView {
         // Load the readable riddle sprite
         this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/067Codex.png");
         
-        this.removeFromWorld = false;
+        this.isPopup = true;  // mark as popup
+        this.wasIPressed = true;
     }
     
     update() {
@@ -38,7 +39,7 @@ class PaperView {
     
     close() {
         console.log("Closing paper view");
-        this.removeFromWorld = true;
+        this.game.activePopup = null;
         this.game.examining = false;
     }
     

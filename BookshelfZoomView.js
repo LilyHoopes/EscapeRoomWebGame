@@ -2,6 +2,7 @@ class BookshelfZoomView {
     constructor(game, bookshelf) {
         this.game = game;
         this.bookshelf = bookshelf;
+        this.isPopup = true;
         
         // Zoom view dimensions, theres are what we change if neeeed
         this.width = 700;
@@ -203,6 +204,11 @@ class BookshelfZoomView {
         
         // Add paper to inventory
         // TODO: do i need to rename the riddle paper ? idk 
+
+        //below is to show the paper popup right away when user takes the paper
+        this.game.activePopup = new PaperView(this.game);
+        this.game.examining = true;
+        
         this.game.sceneManager.addToInventory("Room1Note", "./Sprites/Room1/Room1Note.png");   
         this.game.sceneManager.puzzleStates.room1.paperTaken = true;
      
@@ -213,7 +219,8 @@ class BookshelfZoomView {
     
     close() {
         console.log("Closing bookshelf zoom view");
-        this.removeFromWorld = true;
+        //this.removeFromWorld = true;
+        this.game.activePopup = null;
         this.game.examining = false;
     }
     

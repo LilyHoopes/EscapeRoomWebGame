@@ -40,6 +40,9 @@ class Jin {
         this.BB.x = this.x + this.bbOffset.x;
         this.BB.y = this.y + this.bbOffset.y;
     }
+    get depth() {
+        return this.BB.bottom;
+    }
 
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);

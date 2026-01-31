@@ -5,6 +5,7 @@ class RosePainting {
         this.y = y;
         this.width = 600;  // change width of sprite here
         this.height = 600; // change height of sprite here 
+        this.depth = 150;
         
         this.keyTaken = false; // from behind the painting or front, don't matter 
         this.isSolid = false; // Not a collision object
@@ -21,18 +22,31 @@ class RosePainting {
     
     // rose painting keeps checking until following happens
     update() {
+        if (this.game.activePopup) return;
         // Only allows interaction if not already examining
         if (this.isNearLily() && this.game.E && !this.game.examining) {
             this.openZoomView();
         }
+    }
+    isNearLily() {
+        let lily = this.game.sceneManager.lily;
+        if (!lily.BB) return false;
+        
+        let distance = Math.sqrt(
+            Math.pow((this.x + this.width/2) - (lily.BB.x + lily.BB.width/2), 2) + 
+            Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
+        );
+        
+        return distance < 100;
     }
 
     openZoomView() {
         console.log("Opening painting zoom view...");
         
         // Create the zoom view entity
-        let zoomView = new PaintingZoomView(this.game, this);
-        this.game.addEntity(zoomView);
+        //let zoomView = new PaintingZoomView(this.game, this);
+        //this.game.addEntity(zoomView);
+        this.game.activePopup = new PaintingZoomView(this.game, this);
         
         // Mark that we're examining something (prevents other interactions)
         this.game.examining = true;
@@ -48,23 +62,14 @@ class RosePainting {
         console.log("Diamond key added to inventory!");
     }
     
-    isNearLily() {
-        let lily = this.game.sceneManager.lily;
-        if (!lily.BB) return false;
-        
-        let distance = Math.sqrt(
-            Math.pow((this.x + this.width/2) - (lily.BB.x + lily.BB.width/2), 2) + 
-            Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
-        );
-        
-        return distance < 100;
-    }
+
     
     draw(ctx) {
+         console.log("Drawing RosePainting at", this.x, this.y);
         // Use sprite without key if already taken
         let sprite = this.keyTaken ? this.spriteNoKey : this.sprite;
         
-        if (sprite) {
+        if (sprite && sprite.complete && sprite.naturalWidth > 0) {
             ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
         } else {
             // Placeholder if key sprite isnt loaded or broken 

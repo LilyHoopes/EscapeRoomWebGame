@@ -7,8 +7,9 @@ class Bookshelf {
         this.height = 250; //sizing 
         
         this.bookOpened = false; // Has the book been unlocked and opened?
-        this.isSolid = false;
+        this.isSolid = true;
         this.removeFromWorld = false;
+        this.bbOffset = { x: 5, y: 80, w: 0, h: 150 };
         
         // Bookshelf with closed/locked book
         this.sprite = ASSET_MANAGER.getAsset("./Sprites/Room1/BookshelfWithBook.png");
@@ -17,10 +18,23 @@ class Bookshelf {
     }
     
     update() {
+        if (this.game.activePopup) return;
         // Only allow interaction if not already examining something
         if (this.isNearLily() && this.game.E && !this.game.examining) {
             this.openZoomView();
         }
+        this.updateBB();
+    }
+    updateBB() {
+        this.BB = new BoundingBox(
+            this.x + this.bbOffset.x, 
+            this.y + this.bbOffset.y, 
+            this.width - this.bbOffset.w, 
+            this.height - this.bbOffset.h
+        );
+    }
+    get depth() {
+        return this.BB ? this.BB.bottom : this.y + this.height;
     }
     
     isNearLily() {
@@ -32,16 +46,17 @@ class Bookshelf {
             Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
         );
         
-        return distance < 120; // Within 120 pixels
+        return distance < 140; // Within 120 pixels
     }
     
     openZoomView() {
         console.log("Opening bookshelf zoom view...");
         
         // Create the zoom view
-        let zoomView = new BookshelfZoomView(this.game, this);
-        this.game.addEntity(zoomView);
-        
+        // let zoomView = new BookshelfZoomView(this.game, this);
+        // this.game.addEntity(zoomView);
+        this.game.activePopup = new BookshelfZoomView(this.game, this);
+        //this.game.activePopup = true
         // Mark that we're examining state
         this.game.examining = true;
         
@@ -85,6 +100,11 @@ class Bookshelf {
             
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);
+        }
+        //debug hitbox stuff
+        if (this.game.debug) {
+            ctx.strokeStyle = "blue";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
     }
 }

@@ -36,6 +36,7 @@ class GameEngine {
 
         this.mouseDown = false; 
         this.mouseUp = false;   
+        this.activePopup = null;
 
 
     }
@@ -224,17 +225,31 @@ class GameEngine {
 
     addEntity(entity) {
         this.entities.push(entity);
+        //these comments are for the depth issues
+        //this.entities.sort((a, b) => (a.depth ?? (a.y ?? 0)) - (b.depth ?? (b.y ?? 0)));
+        //let worldEntities = this.entities.filter(e => !e.isPopup);
+        //worldEntities.sort((a, b) => (a.depth ?? (a.y ?? 0)) - (b.depth ?? (b.y ?? 0)));
     }
 
-    draw() {
-        // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+draw() {
+    // Clear canvas
+    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-        // Draw latest things first
-        for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw(this.ctx, this);
-        }
+    // Draw world entities sorted by depth
+    let worldEntities = this.entities.filter(e => !e.isPopup); // Only world entities
+    worldEntities.sort((a, b) => (a.depth ?? (a.y ?? 0)) - (b.depth ?? (b.y ?? 0))); // Sort by depth
+    for (let entity of worldEntities) {
+        entity.draw(this.ctx, this);
     }
+
+    // Draw active popup on top
+    if (this.activePopup) {
+        this.activePopup.draw(this.ctx, this);
+    }
+}
+
+
+
 
     update() {
         let entitiesCount = this.entities.length;
@@ -242,6 +257,19 @@ class GameEngine {
         // Update scene manager FIRST
         if (this.sceneManager) {
             this.sceneManager.update(); // ADD THIS LINE
+        }
+
+        if (this.I && !this.wasIPressed) {
+            if (!this.activePopup) {             // Only open if no popup is active
+                this.activePopup = new InventoryUI(this);
+                this.examining = true;          // Freeze player movement
+            }
+        }
+        this.wasIPressed = this.I;
+        
+        if (this.activePopup) {
+        this.activePopup.update(); // route all input to popup
+        return; // skip updating world entities while popup open
         }
 
         for (let i = 0; i < entitiesCount; i++) {

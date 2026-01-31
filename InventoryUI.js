@@ -19,6 +19,7 @@ class InventoryUI {
 
         
         this.removeFromWorld = false;
+        this.isPopup = true;
     }
     
     update() {
@@ -70,7 +71,9 @@ class InventoryUI {
             this.close();
             
             // Open paper view
-            this.game.addEntity(new PaperView(this.game));
+            //this.game.addEntity(new PaperView(this.game));
+            this.game.activePopup = new PaperView(this.game);
+            this.game.examining = true;
         }
         
         // If it's a used item, show message
@@ -82,7 +85,8 @@ class InventoryUI {
     
     close() {
         console.log("Closing inventory");
-        this.removeFromWorld = true;
+        //this.removeFromWorld = true;
+        this.game.activePopup = null;
         this.game.examining = false;
     }
     
