@@ -105,6 +105,9 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, {x:0, y:0, w:150, h:250}, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, {x:0, y:0, w:100, h:140}, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
+            // wall
+            this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, {x:0, y:40, w:0, h:10}));
+            this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, {x:0, y:40, w:0, h:10}));
 
             //invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
@@ -113,6 +116,7 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 645, 550, 230));    //bottom left
             this.game.addEntity(new InvisibleCollider(this.game, 855, 645, 550, 230));  //bottom right
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
+
         }
 
         if (roomName === "room3") {

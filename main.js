@@ -39,6 +39,7 @@ ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
 ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
+ASSET_MANAGER.queueDownload("./Sprites/Room2/Room2InvisWall.png");
 
 // room 3
 ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
