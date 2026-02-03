@@ -242,8 +242,8 @@ draw() {
         entity.draw(this.ctx, this);
     }
 
-    // Draw active popup on top
-    if (this.activePopup) {
+    // Draw active popup on top that way those other entities wont be with the popup
+    if (this.activePopup) { 
         this.activePopup.draw(this.ctx, this);
     }
 }
@@ -259,6 +259,7 @@ draw() {
             this.sceneManager.update(); // ADD THIS LINE
         }
 
+        //for the inventory popup
         if (this.I && !this.wasIPressed) {
             if (!this.activePopup) {             // Only open if no popup is active
                 this.activePopup = new InventoryUI(this);

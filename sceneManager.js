@@ -81,6 +81,11 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, { x: 400, y: 120, w: 400, h: 50 }));
             this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250, true, { x: 0, y: 80, w: 0, h: 150 }, false));
 
+            //invisible walls
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 200)); //top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); //right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); //bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));    //left
             // Door to room2
             this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, false));
         }
@@ -96,9 +101,18 @@ class SceneManager {
             // added shiannel 
             this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
 
+            //decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, {x:0, y:0, w:150, h:250}, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, {x:0, y:0, w:100, h:140}, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
+
+            //invisible wall
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822));     //right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2));     //bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 645, 550, 230));    //bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 855, 645, 550, 230));  //bottom right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
         }
 
         if (roomName === "room3") {
@@ -113,19 +127,35 @@ class SceneManager {
             this.game.addEntity(new Victor(this.game, 955, 510, true));
             this.game.addEntity(new Jin(this.game, 300, 495, true));    
 
+            //decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/FillerFurniture/Table.png", 220, 135, true));
             this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
             this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
             this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
+
+            //invisible wall
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822));     //right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2));     //bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 550, 230));    //bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 815, 680, 560, 230));  //bottom right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
         }
 
         if (roomName === "room4") {
-            this.game.addEntity(
-                new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882)
-            );
+            this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
             this.game.addEntity(new Door(this.game, 230, 714, 230, 187, "room3", 600, 100, false));
-            this.game.addEntity(new Door(this.game, 1075, 714, 230, 187, "room5", 150, 700, false));
+            this.game.addEntity(new Door(this.game, 1075, 714, 230, 187, "room5", 150, 700, false)); 
+
+            //invisible wall
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822));     //right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2));     //bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 225, 230));    //bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 465, 660, 610, 230));  //bottom mid
+            this.game.addEntity(new InvisibleCollider(this.game, 1305, 660, 100, 225));  //bottom right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
         }
 
         if (roomName === "room5") {

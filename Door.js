@@ -1,5 +1,5 @@
 class Door {
-    constructor(game, x, y, width, height, destinationRoom, spawnX, spawnY, isLocked = true) {
+    constructor(game, x, y, width, height, destinationRoom, spawnX, spawnY, isLocked = true, depthOverride = 50) {
         this.game = game;
         this.x = x;
         this.y = y;
@@ -11,6 +11,7 @@ class Door {
         this.isLocked = isLocked;
         this.removeFromWorld = false;
         this.canTrigger = true;
+        this.depthOverride = depthOverride; //depth override (basically if ur stacking sprites on each other)
 
         this.lockedDORE = ASSET_MANAGER.getAsset("./Sprites/Room1/lockedDORE.png");
         this.openDORE   = ASSET_MANAGER.getAsset("./Sprites/Room1/openDORE.png");
@@ -80,5 +81,8 @@ class Door {
         ctx.fillStyle = "white";
         ctx.font = "12px Arial";
         ctx.fillText(this.isLocked ? "LOCKED" : "OPEN", this.x + 5, this.y + 20);
+    }
+    get depth() {
+        return this.depthOverride ?? (this.BB ? this.BB.bottom : this.y + this.height);
     }
 }
