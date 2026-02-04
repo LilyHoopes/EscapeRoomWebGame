@@ -231,25 +231,23 @@ class GameEngine {
         //worldEntities.sort((a, b) => (a.depth ?? (a.y ?? 0)) - (b.depth ?? (b.y ?? 0)));
     }
 
-draw() {
-    // Clear canvas
-    this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    draw() {
+        // Clear canvas
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
-    // Draw world entities sorted by depth
-    let worldEntities = this.entities.filter(e => !e.isPopup); // Only world entities
-    worldEntities.sort((a, b) => (a.depth ?? (a.y ?? 0)) - (b.depth ?? (b.y ?? 0))); // Sort by depth
-    for (let entity of worldEntities) {
-        entity.draw(this.ctx, this);
+        // Draw world entities sorted by depth
+        let worldEntities = this.entities.filter(e => !e.isPopup);
+        worldEntities.sort((a, b) => (a.depth ?? (a.y ?? 0)) - (b.depth ?? (b.y ?? 0)));
+        for (let entity of worldEntities) {
+            entity.draw(this.ctx, this);
+        }
+
+        // Draw ALL popups on top (in case multiple are open)
+        let popups = this.entities.filter(e => e.isPopup);
+        for (let popup of popups) {
+            popup.draw(this.ctx, this);
+        }
     }
-
-    // Draw active popup on top that way those other entities wont be with the popup
-    if (this.activePopup) { 
-        this.activePopup.draw(this.ctx, this);
-    }
-}
-
-
-
 
     update() {
         let entitiesCount = this.entities.length;

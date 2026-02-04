@@ -67,8 +67,9 @@ class SceneManager {
             );
 
             // Interactive objects
-            this.game.addEntity(new RosePainting(this.game, 150, -150));
+            this.game.addEntity(new RosePainting(this.game, 150, -150)); //NOTE: why is rosepainting yellow and the others are blue? 
             this.game.addEntity(new Bookshelf(this.game, 805, 440));
+            this.game.addEntity(new Keypad(this.game, 800, 300)); 
 
             // Decorative objects
             this.game.addEntity(new DecorativeSprite(this.game, 1, 200, "./Sprites/Room1/Bed.png", 300, 300, true, { x: 0, y: 0, w: 40, h: 180 }));
@@ -87,7 +88,7 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); //bottom
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));    //left
             // Door to room2
-            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, false));
+            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, true));
         }
 
         if (roomName === "room2") {
