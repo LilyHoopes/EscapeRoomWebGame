@@ -78,9 +78,9 @@ class Door {
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
 
         // debugging label if needed
-        ctx.fillStyle = "white";
-        ctx.font = "12px Arial";
-        ctx.fillText(this.isLocked ? "LOCKED" : "OPEN", this.x + 5, this.y + 20);
+        //ctx.fillStyle = "white";
+        //ctx.font = "12px Arial";
+        //ctx.fillText(this.isLocked ? "LOCKED" : "OPEN", this.x + 5, this.y + 20);
     }
     get depth() {
         return this.depthOverride ?? (this.BB ? this.BB.bottom : this.y + this.height);

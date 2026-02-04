@@ -28,16 +28,16 @@ class KeypadZoomView {
         ];
         
         // Button positioning
-        this.buttonSize = 100;
+        this.buttonSize = 165;
         this.buttonPadding = 20;
-        this.buttonStartX = this.x + 100;
-        this.buttonStartY = this.y + 350;
+        this.buttonStartX = this.x + 35;
+        this.buttonStartY = this.y + 280;
         
-        // Display area for entered digits (adjust these to match your background sprite)
-        this.displayX = this.x + 150;
-        this.displayY = this.y + 150;
-        this.displayWidth = 300;
-        this.displayHeight = 100;
+        // Display area for entered digits 
+        this.displayX = this.x + 0;
+        this.displayY = this.y + 50;
+        this.displayWidth = 600;
+        this.displayHeight = 200;
         
         // Track which button is pressed
         this.pressedButton = null;
@@ -247,6 +247,7 @@ class KeypadZoomView {
             }
         });
         
+        // TODO: change this to become the sprites that i made 
         // Draw result overlay if showing (green glow or red glow)
         if (this.showingResult) {
             ctx.fillStyle = this.isCorrect ? "rgba(0, 255, 0, 0.2)" : "rgba(255, 0, 0, 0.2)";
