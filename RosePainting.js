@@ -22,7 +22,6 @@ class RosePainting {
     
     // rose painting keeps checking until following happens
     update() {
-        if (this.game.activePopup) return;
         // Only allows interaction if not already examining
         if (this.isNearLily() && this.game.E && !this.game.examining) {
             this.openZoomView();
@@ -40,20 +39,14 @@ class RosePainting {
         return distance < 100;
     }
 
-    openZoomView() {
-        console.log("Opening painting zoom view...");
-        
-        // Create the zoom view entity
-        //let zoomView = new PaintingZoomView(this.game, this);
-        //this.game.addEntity(zoomView);
-        this.game.activePopup = new PaintingZoomView(this.game, this);
-        
-        // Mark that we're examining something (prevents other interactions)
-        this.game.examining = true;
-        
-        // Prevent immediate re-trigger
-        this.game.E = false;
-    }
+openZoomView() {
+    console.log("Opening painting zoom view...");
+    
+    this.game.addEntity(new PaintingZoomView(this.game, this));
+    
+    this.game.examining = true;
+    this.game.E = false;
+}
 
     // Called by PaintingZoomView when key is taken
     onKeyTaken() {

@@ -75,8 +75,7 @@ class PaintingZoomView {
     
     close() {
         console.log("Closing painting zoom view");
-        //this.removeFromWorld = true; // remove zoomed painting from world 
-        this.game.activePopup = null;
+        this.removeFromWorld = true; // remove zoomed painting from world 
         this.game.examining = false;
     }
     
@@ -123,7 +122,7 @@ class PaintingZoomView {
             }
         }
 
-        // FIXME: shift location of the instruction so it actaully shows up
+        // TODO: shift location of the instruction so it actaully shows up
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "16px Arial";

@@ -18,7 +18,6 @@ class Bookshelf {
     }
     
     update() {
-        if (this.game.activePopup) return;
         // Only allow interaction if not already examining something
         if (this.isNearLily() && this.game.E && !this.game.examining) {
             this.openZoomView();
@@ -52,15 +51,9 @@ class Bookshelf {
     openZoomView() {
         console.log("Opening bookshelf zoom view...");
         
-        // Create the zoom view
-        // let zoomView = new BookshelfZoomView(this.game, this);
-        // this.game.addEntity(zoomView);
-        this.game.activePopup = new BookshelfZoomView(this.game, this);
-        //this.game.activePopup = true
-        // Mark that we're examining state
-        this.game.examining = true;
+        this.game.addEntity(new BookshelfZoomView(this.game, this));
         
-        // Prevent immediate re-trigger same as rose painting issue 
+        this.game.examining = true;
         this.game.E = false;
     }
     

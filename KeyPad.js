@@ -3,8 +3,8 @@ class Keypad {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.width = 60;  
-        this.height = 60;
+        this.width = 50;  
+        this.height = 50;
         
         this.codeEntered = false; // Has correct code been entered
         this.showingResult = false; // Showing red/green feedback

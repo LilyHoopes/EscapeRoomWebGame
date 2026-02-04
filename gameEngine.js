@@ -254,23 +254,10 @@ class GameEngine {
 
         // Update scene manager FIRST
         if (this.sceneManager) {
-            this.sceneManager.update(); // ADD THIS LINE
+            this.sceneManager.update(); 
         }
-
-        //for the inventory popup
-        if (this.I && !this.wasIPressed) {
-            if (!this.activePopup) {             // Only open if no popup is active
-                this.activePopup = new InventoryUI(this);
-                this.examining = true;          // Freeze player movement
-            }
-        }
-        this.wasIPressed = this.I;
         
-        if (this.activePopup) {
-        this.activePopup.update(); // route all input to popup
-        return; // skip updating world entities while popup open
-        }
-
+        // updates all entities (including pop ups like inventory and interactables)
         for (let i = 0; i < entitiesCount; i++) {
             let entity = this.entities[i];
 
@@ -279,6 +266,7 @@ class GameEngine {
             }
         }
 
+        // remove entities that should be gone 
         for (let i = this.entities.length - 1; i >= 0; --i) {
             if (this.entities[i] && this.entities[i].removeFromWorld) {
                 this.entities.splice(i, 1);
