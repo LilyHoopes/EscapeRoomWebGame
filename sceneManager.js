@@ -89,7 +89,7 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));    //left
 
             // Door to room2
-            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, true)); // room1 -> room2
+            this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, true, 1.0)); // room1 -> room2
         }
 
         if (roomName === "room2") {
@@ -97,8 +97,8 @@ class SceneManager {
                 new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882)
             );
 
-            this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, false)); // room2 -> room1
-            this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false)); // room2 -> room3
+            this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, false, 0.0)); // room2 -> room1
+            this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false, 1.0)); // room2 -> room3
             
             // added shiannel 
             this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
@@ -126,8 +126,8 @@ class SceneManager {
                 new Background(this.game, "./Sprites/Room3/TheCellsBackground.png", 1380, 882)
             );
 
-            this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, false)); // room3 -> room2
-            this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false)); // room3 -> room4
+            this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, false, 0.0)); // room3 -> room2
+            this.game.addEntity(new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false, 1.0)); // room3 -> room4
 
             // added victor and jin
             this.game.addEntity(new Victor(this.game, 955, 510, true));
@@ -151,8 +151,8 @@ class SceneManager {
         if (roomName === "room4") {
             this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
-            this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, false)); // room4 -> room3
-            this.game.addEntity(new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, false)); // room4 -> room5
+            this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, false, 0.0)); // room4 -> room3
+            this.game.addEntity(new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, false, 0.0)); // room4 -> room5
 
             //invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
@@ -169,7 +169,7 @@ class SceneManager {
                 new Background(this.game, "./Sprites/Room5/FinalRoom.png", 1380, 882)
             );
 
-            this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, false)); // room5 -> room4
+            this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, false, 0.0)); // room5 -> room4
         }
 
         // Position Lily at spawn point

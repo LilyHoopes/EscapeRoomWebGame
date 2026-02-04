@@ -1,5 +1,5 @@
 class Door {
-    constructor(game, x, y, width, height, destinationRoom, spawnX, spawnY, isLocked = true, depthOverride = 50) {
+    constructor(game, x, y, width, height, destinationRoom, spawnX, spawnY, isLocked = true, opacity = 1.0, depthOverride = 50,) {
         this.game = game;
         this.x = x;
         this.y = y;
@@ -12,6 +12,7 @@ class Door {
         this.removeFromWorld = false;
         this.canTrigger = true;
         this.depthOverride = depthOverride; //depth override (basically if ur stacking sprites on each other)
+        this.opacity = opacity; // for trasnparent doors, 1.0 is solid and 0.0 is totally invisible 
 
         this.lockedDORE = ASSET_MANAGER.getAsset("./Sprites/Room1/lockedDORE.png");
         this.openDORE   = ASSET_MANAGER.getAsset("./Sprites/Room1/openDORE.png");
@@ -64,23 +65,25 @@ class Door {
     
     //NOTE: the size of the normal doors are 106x126
     draw(ctx) {
-        
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
         const sprite = this.isLocked ? this.lockedDORE : this.openDORE; //if locked, use locked sprite, else, use open sprite
-
-        // for testing, if the images havent loaded i will get error here 
-        if (!sprite) {
-            console.error("Door sprite NOT loaded:", this.isLocked ? "locked" : "open");
-            return;
-        }
-
-
-
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
+        ctx.restore();
 
-        // debugging label if needed
-        //ctx.fillStyle = "white";
-        //ctx.font = "12px Arial";
-        //ctx.fillText(this.isLocked ? "LOCKED" : "OPEN", this.x + 5, this.y + 20);
+        if (this.isTouchingLily() && !this.game.examining) {
+            ctx.fillStyle = "white";
+            ctx.strokeStyle = "black";
+            ctx.lineWidth = 3;
+            ctx.font = "16px Arial";
+            
+            let text = this.isLocked ? "Door is locked" : "Press E to enter";
+            let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
+            let textY = this.y - 10;
+            
+            ctx.strokeText(text, textX, textY);
+            ctx.fillText(text, textX, textY);
+        }
     }
     get depth() {
         return this.depthOverride ?? (this.BB ? this.BB.bottom : this.y + this.height);
