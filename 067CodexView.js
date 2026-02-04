@@ -51,14 +51,6 @@ class PaperView {
         // Draw paper with riddle
         if (this.paperSprite && this.paperSprite.complete && this.paperSprite.naturalWidth > 0) {
             ctx.drawImage(this.paperSprite, this.x, this.y, this.width, this.height);
-        } else {
-            // Placeholder
-            ctx.fillStyle = "#FFF8DC";
-            ctx.fillRect(this.x, this.y, this.width, this.height);
-            ctx.fillStyle = "black";
-            ctx.font = "24px Arial";
-            ctx.fillText("RIDDLE GOES HERE", this.x + 200, this.y + 400);
-            ctx.fillText("(067Codex.png)", this.x + 230, this.y + 430);
         }
         
         // Instructions

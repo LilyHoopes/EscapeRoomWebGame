@@ -27,15 +27,14 @@ class BookshelfZoomView {
         this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");                  // key they drag onto book to unlock it 
         
         // Book position and size 
-        this.bookX = this.x + 200;
-        this.bookY = this.y + 250;
-        this.bookWidth = 345;
-        this.bookHeight = 480;
+        this.bookX = this.x + 150;
+        this.bookY = this.y + 200;
+        this.bookWidth = 391;
+        this.bookHeight = 544;
         
         // Paper position and size in the book 
-        // NOTE i need to decide w group how the whole paper situation is going to work 
-        this.paperX = this.bookX + 100;
-        this.paperY = this.bookY + 150;
+        this.paperX = this.bookX + 0;
+        this.paperY = this.bookY + 100;
         this.paperWidth = 400;
         this.paperHeight = 400;
         
@@ -201,13 +200,7 @@ class BookshelfZoomView {
     
     takePaper() {
         console.log("Taking paper from book..."); //testing 
-        
-        // Add paper to inventory
-        // TODO: do i need to rename the riddle paper ? idk 
-
-        //below is to show the paper popup right away when user takes the paper
-        this.game.addEntity(new PaperView(this.game));
-        
+            
         this.game.sceneManager.addToInventory("Room1Note", "./Sprites/Room1/Room1Note.png");   
         this.game.sceneManager.puzzleStates.room1.paperTaken = true;
         this.paperTaken = true; // update paper state this isnt woking 
@@ -243,24 +236,6 @@ class BookshelfZoomView {
                 ctx.fillStyle = "white";
                 ctx.font = "16px Arial";
                 ctx.fillText("Locked Book", this.bookX + 80, this.bookY + this.bookHeight/2);
-            }
-            
-            // TODO: remove this once the drag drop is working 
-            // Hover effect on book if player has key
-            if (this.hasKey && this.game.mouse) {
-                let mx = this.game.mouse.x;
-                let my = this.game.mouse.y;
-                
-                if (mx >= this.bookX && mx <= this.bookX + this.bookWidth &&
-                    my >= this.bookY && my <= this.bookY + this.bookHeight) {
-                    ctx.strokeStyle = "yellow";
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(this.bookX - 5, this.bookY - 5, this.bookWidth + 10, this.bookHeight + 10);
-                    
-                    ctx.fillStyle = "white";
-                    ctx.font = "16px Arial";
-                    ctx.fillText("Click to use key", this.bookX + 70, this.bookY - 15);
-                }
             }
             
             // Message if no key

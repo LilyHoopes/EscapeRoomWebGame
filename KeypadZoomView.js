@@ -167,7 +167,7 @@ class KeypadZoomView {
             this.isCorrect = true;
             this.showingResult = true;
             this.keypad.onCorrectCode();
-            console.log("✅ Correct code!");
+            console.log("Correct code!");
         } else {
             // WRONG!
             this.isCorrect = false;
@@ -178,7 +178,7 @@ class KeypadZoomView {
             setTimeout(() => {
                 this.enteredCode = "";
                 this.showingResult = false;
-                console.log("❌ Wrong code - cleared");
+                console.log("Wrong code - cleared");
             }, 2000);
         }
     }
@@ -207,7 +207,6 @@ class KeypadZoomView {
             ctx.fillRect(this.displayX, this.displayY, this.displayWidth, this.displayHeight);
         }
         
-        // ✅ Draw entered digits using digit spritesheet
         this.drawDigits(ctx);
         
         // Draw buttons
@@ -250,7 +249,7 @@ class KeypadZoomView {
         // TODO: change this to become the sprites that i made 
         // Draw result overlay if showing (green glow or red glow)
         if (this.showingResult) {
-            ctx.fillStyle = this.isCorrect ? "rgba(0, 255, 0, 0.2)" : "rgba(255, 0, 0, 0.2)";
+            ctx.fillStyle = this.isCorrect ? "rgba(0, 255, 0, 0.2)" : "rgba(255, 0, 0, 0.29)";
             ctx.fillRect(this.x, this.y, this.width, this.height);
         }
         
@@ -260,15 +259,14 @@ class KeypadZoomView {
         ctx.textAlign = "center";
         
         if (this.showingResult && this.isCorrect) {
-            ctx.fillText("ACCESS GRANTED - Press ESC to close", this.x + this.width/2, this.y + this.height - 30);
+            ctx.fillText("ACCESS GRANTED", this.x + this.width/2, this.y + this.height - 30);
         } else if (this.showingResult && !this.isCorrect) {
             ctx.fillText("ACCESS DENIED", this.x + this.width/2, this.y + this.height - 30);
         } else {
-            ctx.fillText("Enter 3-digit code (Click buttons or use keyboard)", this.x + this.width/2, this.y + this.height - 30);
+            ctx.fillText("Enter 3-digit code", this.x + this.width/2, this.y + this.height - 30);
         }
     }
     
-    // ✅ NEW METHOD: Draw digits using spritesheet
     drawDigits(ctx) {
         // Position for displaying digits (adjust these to match your keypad display area)
         let digitWidth = 60;  // Width of each digit to display
