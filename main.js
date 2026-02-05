@@ -39,7 +39,7 @@ const ASSET_MANAGER = new AssetManager();
             ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadRed.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadGreen.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadZoomBackground.png");
-            ASSET_MANAGER.queueDownload("./Sprites/Room1/DigitSpritesheet.png"); 
+            ASSET_MANAGER.queueDownload("./Sprites/Room1/DigitSpriteSheet.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/Button0Normal.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/Button0Pressed.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/Button2Normal.png");

@@ -299,7 +299,6 @@ class KeypadZoomView {
         }
     }
     
-    // ✅ NEW METHOD: Draw individual digit from spritesheet
     drawDigitSprite(ctx, digit, x, y, width, height) {
         if (!this.digitSpritesheet || !this.digitSpritesheet.complete) {
             // Fallback: draw text
