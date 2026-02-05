@@ -69,7 +69,7 @@ class SceneManager {
             // Interactive objects
             this.game.addEntity(new RosePainting(this.game, 150, -150)); //NOTE: why is rosepainting yellow and the others are blue? 
             this.game.addEntity(new Bookshelf(this.game, 805, 440));
-            this.game.addEntity(new Keypad(this.game, 1025, 150)); 
+            this.game.addEntity(new KeyPad(this.game, 1025, 150)); 
 
             // Decorative objects
             this.game.addEntity(new DecorativeSprite(this.game, 1, 200, "./Sprites/Room1/Bed.png", 300, 300, true, { x: 0, y: 0, w: 40, h: 180 }));

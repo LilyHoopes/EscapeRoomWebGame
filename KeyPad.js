@@ -1,4 +1,4 @@
-class Keypad {
+class KeyPad {
     constructor(game, x, y) {
         this.game = game;
         this.x = x;

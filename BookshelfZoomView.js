@@ -204,7 +204,7 @@ class BookshelfZoomView {
         this.game.sceneManager.addToInventory("Room1Note", "./Sprites/Room1/Room1Note.png");   
         this.game.sceneManager.puzzleStates.room1.paperTaken = true;
         this.paperTaken = true; // update paper state this isnt woking 
-    
+
     }
     
     close() {
