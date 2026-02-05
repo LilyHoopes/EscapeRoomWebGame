@@ -49,7 +49,7 @@ class KeypadZoomView {
         
         // Load sprites
         this.backgroundSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/KeypadZoomBackground.png");
-        this.digitSpritesheet = ASSET_MANAGER.getAsset("./Sprites/Room1/DigitSpritesheet.png");
+        this.digitSpritesheet = ASSET_MANAGER.getAsset("./Sprites/Room1/DigitSpriteSheet.png");
         
         // Load button sprites
         this.buttonSprites = {};
