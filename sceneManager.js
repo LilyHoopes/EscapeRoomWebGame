@@ -26,6 +26,14 @@ class SceneManager {
         // ===== BGM STATE =====
         this.roomBGM = null;
         this.roomBGMName = null;
+
+        // ===== DIALOGUE UI =====
+        this.dialogueBox = new DialogueBox();
+        this.dialogueBox.isPopup = true;
+        this.wasEPressed = false;
+
+        // Added: Shiannel "E to Talk" prompt handle
+        this.shiannelPrompt = null;
     }
 
     loadRoom(roomName, spawnX, spawnY) {
@@ -56,7 +64,8 @@ class SceneManager {
             if (nextBGM) {
                 this.roomBGM = new Audio(nextBGM);
                 this.roomBGM.loop = true;
-                this.roomBGM.volume = 0.5;
+                this.roomBGM.muted = !!this.game.muted;
+                this.roomBGM.volume = (typeof this.game.volume === "number") ? this.game.volume : 0.5;
                 this.roomBGM.play().catch(() => {});
             }
         }
@@ -67,26 +76,26 @@ class SceneManager {
             );
 
             // Interactive objects
-            this.game.addEntity(new RosePainting(this.game, 150, -150)); //NOTE: why is rosepainting yellow and the others are blue? 
+            this.game.addEntity(new RosePainting(this.game, 150, -150)); // NOTE: why is rosepainting yellow and the others are blue?
             this.game.addEntity(new Bookshelf(this.game, 805, 440));
-            this.game.addEntity(new KeyPad(this.game, 1025, 150)); 
+            this.game.addEntity(new KeyPad(this.game, 1025, 150));
 
             // Decorative objects
             this.game.addEntity(new DecorativeSprite(this.game, 1, 200, "./Sprites/Room1/Bed.png", 300, 300, true, { x: 0, y: 0, w: 40, h: 180 }));
             this.game.addEntity(new DecorativeSprite(this.game, 17, 355, "./Sprites/FillerFurniture/SideTable.png", 90, 80));
             this.game.addEntity(new DecorativeSprite(this.game, 30, 345, "./Sprites/Room1/Plant1.png", 40, 60, true, {}, false, 500));
             this.game.addEntity(new DecorativeSprite(this.game, 50, 400, "./Sprites/Room1/Plant2.png", 40, 70));
-            this.game.addEntity(new DecorativeSprite(this.game, 170, 400, "./Sprites/FillerFurniture/BigRedRug.png", 400, 200, false, {x:0,y:0,w:400,h:200}, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 170, 400, "./Sprites/FillerFurniture/BigRedRug.png", 400, 200, false, { x: 0, y: 0, w: 400, h: 200 }, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 55, 520, "./Sprites/Room1/PlantCluster1.png", 520, 600, true, { x: 80, y: 250, w: 200, h: 500 }));
             this.game.addEntity(new DecorativeSprite(this.game, -40, 450, "./Sprites/Room1/PlantCluster2.png", 500, 600, true, { x: 50, y: 70, w: 400, h: 200 }));
             this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, { x: 400, y: 120, w: 400, h: 50 }));
             this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250, true, { x: 0, y: 80, w: 0, h: 150 }, false));
 
-            //invisible walls
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 200)); //top
-            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); //right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); //bottom
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));    //left
+            // invisible walls
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 200)); // top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
 
             // Door to room2
             this.game.addEntity(new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, true, 1.0)); // room1 -> room2
@@ -99,26 +108,25 @@ class SceneManager {
 
             this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, false, 0.0)); // room2 -> room1
             this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false, 1.0)); // room2 -> room3
-            
-            // added shiannel 
-            this.game.addEntity(new Shiannel(this.game, -5, 184, true));
 
-            //decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, {x:0, y:0, w:150, h:250}, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 1185, 205, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, {x:0, y:0, w:100, h:140}, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 1275, 158, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: 20, y: 50, w: 60, h: 80 }, true));
+            // added shiannel
+            this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
+
+            // decorative sprites
+            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, { x: 0, y: 0, w: 100, h: 140 }, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
             // wall
-            this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, {x:0, y:40, w:0, h:10}));
-            this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, {x:0, y:40, w:0, h:10}));
+            this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }));
+            this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, { x: 0, y: 40, w: 0, h: 10 }));
 
-            //invisible wall
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
-            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822));     //right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2));     //bottom
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 645, 550, 230));    //bottom left
-            this.game.addEntity(new InvisibleCollider(this.game, 855, 645, 550, 230));  //bottom right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
-
+            // invisible wall
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 645, 550, 230)); // bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 855, 645, 550, 230)); // bottom right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
         }
 
         if (roomName === "room3") {
@@ -131,25 +139,21 @@ class SceneManager {
 
             // added victor and jin
             this.game.addEntity(new Victor(this.game, 955, 510, true));
-            this.game.addEntity(new Jin(this.game, 300, 495, true));    
+            this.game.addEntity(new Jin(this.game, 300, 495, true));
 
-            //decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/Room3/TableWithBlood.png", 235, 135, true, { x: 0, y: 0, w: 0, h: 50 }, true));
+            // decorative sprites
+            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/FillerFurniture/Table.png", 220, 135, true));
             this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
             this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
-            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true, { x: 0, y: 0, w: 0, h: 35 }, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
 
-            // THIS IS CODE FOR THE PIG HEAD...
-            //this.game.addEntity(new DecorativeSprite(this.game, 195, 95, "./Sprites/Room3/PigHead_Medallion.png", 140, 100, true, { x: 20, y: 20, w: 40, h: 40 }, false, 250));
-            //this.game.addEntity(new DecorativeSprite(this.game, 195, 95, "./Sprites/Room3/PigHeadEmptyMouth.png", 140, 100, true, { x: 20, y: 20, w: 40, h: 40 }, false, 250));
-
-            //invisible wall
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
-            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822));     //right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2));     //bottom
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 550, 230));    //bottom left
-            this.game.addEntity(new InvisibleCollider(this.game, 815, 680, 560, 230));  //bottom right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
+            // invisible wall
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 550, 230)); // bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 815, 680, 560, 230)); // bottom right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
         }
 
         if (roomName === "room4") {
@@ -158,14 +162,14 @@ class SceneManager {
             this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, false, 0.0)); // room4 -> room3
             this.game.addEntity(new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, false, 0.0)); // room4 -> room5
 
-            //invisible wall
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
-            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822));     //right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2));     //bottom
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 225, 230));    //bottom left
-            this.game.addEntity(new InvisibleCollider(this.game, 465, 660, 610, 230));  //bottom mid
-            this.game.addEntity(new InvisibleCollider(this.game, 1305, 660, 100, 225));  //bottom right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822));        //left
+            // invisible wall
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 225, 230)); // bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 465, 660, 610, 230)); // bottom mid
+            this.game.addEntity(new InvisibleCollider(this.game, 1305, 660, 100, 225)); // bottom right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
         }
 
         if (roomName === "room5") {
@@ -181,9 +185,20 @@ class SceneManager {
         this.lily.y = spawnY;
         this.lily.velocity = { x: 0, y: 0 };
         this.game.addEntity(this.lily);
+        this.game.addEntity(this.dialogueBox);
 
         // Prevent instant retriggering of interaction key
         this.game.E = false;
+        this.wasEPressed = false;
+
+        // Close dialogue on room change
+        this.dialogueBox.close();
+
+        // Added: remove Shiannel prompt on room change
+        if (this.shiannelPrompt) {
+            this.shiannelPrompt.removeFromWorld = true;
+            this.shiannelPrompt = null;
+        }
 
         console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
     }
@@ -207,6 +222,40 @@ class SceneManager {
         return this.inventory.find(i => i.name === itemName);
     }
 
+    // NPC DIALOGUE
+    handleNPCInteraction(npcName, dialogueLines) {
+        const npc = this.npcStates[npcName];
+        if (!npc || !Array.isArray(dialogueLines) || dialogueLines.length === 0) return;
+
+        // If already open, advance
+        if (this.dialogueBox.active) {
+            npc.dialogueIndex++;
+            if (npc.dialogueIndex >= dialogueLines.length) {
+                npc.dialogueIndex = 0;
+                this.dialogueBox.close();
+                this.game.examining = false;
+            } else {
+                this.dialogueBox.open(dialogueLines[npc.dialogueIndex]);
+            }
+            return;
+        }
+
+        // Open fresh
+        npc.met = true;
+        npc.dialogueIndex = 0;
+        this.dialogueBox.open(dialogueLines[0]);
+
+        // Optional: lock player interaction while dialogue is open
+        this.game.examining = true;
+    }
+
+    // Basic distance check 
+    isNear(x, y, range = 90) {
+        const dx = (this.lily.x - x);
+        const dy = (this.lily.y - y);
+        return (dx * dx + dy * dy) <= (range * range);
+    }
+
     update() {
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
 
@@ -219,12 +268,104 @@ class SceneManager {
                 this.wasIPressed = false;
             }
         }
+
+        // E key NPC talk (GOTTA FIX THIS ONE)
+        // We only trigger once per key press
+        if (this.game.E && !this.wasEPressed) {
+            // If dialogue is open, E advances it no matter what room you are in
+            if (this.dialogueBox.active) {
+
+                if (this.currentRoom === "room2") {
+                    this.handleNPCInteraction("shiannel", [
+                        "testing 1",
+                        "testing 2",
+                        "testing 3"
+                    ]);
+                } else if (this.currentRoom === "room3") {
+                    
+                    this.handleNPCInteraction("victor", [
+                        "Testing1",
+                        "Testing2",
+                        "Testing3"
+                    ]);
+                } else {
+                    // Default: close if open and not matched
+                    this.dialogueBox.close();
+                    this.game.examining = false;
+                }
+            } else {
+                // Dialogue not open yet, decide who you are near
+
+                if (this.currentRoom === "room2") {
+                    // Shiannel spawn in your loadRoom: (1210, 480)
+                    if (this.isNear(1210, 480, 120)) {
+                        // Added: remove prompt when starting dialogue
+                        if (this.shiannelPrompt) {
+                            this.shiannelPrompt.removeFromWorld = true;
+                            this.shiannelPrompt = null;
+                        }
+
+                        this.handleNPCInteraction("shiannel", [
+                            "You should not be here.",
+                            "The paintings watch more than you think.",
+                            "If you hear footsteps behind you, do not turn around."
+                        ]);
+                    }
+                }
+
+                if (this.currentRoom === "room3") {
+                    // Victor spawn: (955, 510)
+                    if (this.isNear(955, 510, 120)) {
+                        this.handleNPCInteraction("victor", [
+                            "The door never opened for me.",
+                            "Do not repeat my mistake.",
+                            "If you find a symbol, remember its order."
+                        ]);
+                    }
+
+                    // Jin spawn: (300, 495)
+                    if (this.isNear(300, 495, 120)) {
+                        this.handleNPCInteraction("jin", [
+                            "You made it this far.",
+                            "Stay calm, the room is designed to confuse you.",
+                            "Look for patterns, not objects."
+                        ]);
+                    }
+                }
+            }
+
+            this.wasEPressed = true;
+        } else if (!this.game.E) {
+            this.wasEPressed = false;
+        }
+
+        // Keep prompt updated even when E is not pressed (room2 Shiannel only)
+        if (!this.dialogueBox.active && this.currentRoom === "room2") {
+            const nearShiannel = this.isNear(1210, 480, 120);
+
+            if (nearShiannel) {
+                if (!this.shiannelPrompt) {
+                    this.shiannelPrompt = new TalkPrompt(this.game, 1210, 480 - 80, "E to Talk");
+                    this.game.addEntity(this.shiannelPrompt);
+                }
+            } else {
+                if (this.shiannelPrompt) {
+                    this.shiannelPrompt.removeFromWorld = true;
+                    this.shiannelPrompt = null;
+                }
+            }
+        } else {
+            if (this.shiannelPrompt) {
+                this.shiannelPrompt.removeFromWorld = true;
+                this.shiannelPrompt = null;
+            }
+        }
     }
 
     takeDamage() {
         this.health--;
         if (this.health <= 0) {
-            // Game over logic
+            // i am going to fix this later
         }
     }
 
@@ -232,3 +373,101 @@ class SceneManager {
         this.game.entities = [];
     }
 }
+
+// Dialogue UI class 
+class DialogueBox {
+    constructor() {
+        this.active = false;
+        this.text = "";
+        this.isPopup = true;
+    }
+
+    update() {}
+
+    open(text) {
+        this.active = true;
+        this.text = String(text || "");
+    }
+
+    close() {
+        this.active = false;
+        this.text = "";
+    }
+
+    draw(ctx) {
+        if (!this.active) return;
+
+        const boxX = 120;
+        const boxY = 560;
+        const boxW = 1140;
+        const boxH = 170;
+
+        // Box
+        ctx.fillStyle = "rgba(0, 0, 0, 0.80)";
+        ctx.fillRect(boxX, boxY, boxW, boxH);
+
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(boxX, boxY, boxW, boxH);
+
+        // Main text
+        ctx.fillStyle = "white";
+        ctx.font = "22px Arial";
+        wrapText(ctx, this.text, boxX + 200, boxY + 45, boxW - 80, 28);
+
+        // Instruction
+        ctx.font = "16px Arial";
+        ctx.fillText("Press E to continue", boxX + 80, boxY + boxH - 20);
+    }
+}
+
+// Added: "E to Talk" prompt entity
+class TalkPrompt {
+    constructor(game, x, y, text) {
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.text = text || "E to Talk";
+        this.removeFromWorld = false;
+
+        // Added: draw above everything in GameEngine (popup layer)
+        this.isPopup = true;
+    }
+
+    update() {}
+
+    draw(ctx) {
+        ctx.save();
+        ctx.font = "18px Arial";
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = "black";
+        ctx.fillStyle = "white";
+        ctx.strokeText(this.text, this.x, this.y);
+        ctx.fillText(this.text, this.x, this.y);
+        ctx.restore();
+    }
+}
+
+// Simple text wrapping helper for canvas
+function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+    const words = String(text || "").split(" ");
+    let line = "";
+
+    for (let n = 0; n < words.length; n++) {
+        const testLine = line + words[n] + " ";
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+
+        if (testWidth > maxWidth && n > 0) {
+            ctx.fillText(line, x, y);
+            line = words[n] + " ";
+            y += lineHeight;
+        } else {
+            line = testLine;
+        }
+    }
+    ctx.fillText(line, x, y);
+}
+
