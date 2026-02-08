@@ -101,12 +101,12 @@ class SceneManager {
             this.game.addEntity(new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false, 1.0)); // room2 -> room3
             
             // added shiannel 
-            this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
+            this.game.addEntity(new Shiannel(this.game, -5, 184, true));
 
             //decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, {x:0, y:0, w:150, h:250}, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, {x:0, y:0, w:100, h:140}, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 1185, 205, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, {x:0, y:0, w:100, h:140}, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 1275, 158, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: 20, y: 50, w: 60, h: 80 }, true));
             // wall
             this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, {x:0, y:40, w:0, h:10}));
             this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, {x:0, y:40, w:0, h:10}));
