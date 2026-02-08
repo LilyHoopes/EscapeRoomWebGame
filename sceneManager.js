@@ -134,10 +134,14 @@ class SceneManager {
             this.game.addEntity(new Jin(this.game, 300, 495, true));    
 
             //decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/FillerFurniture/Table.png", 220, 135, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/Room3/TableWithBlood.png", 235, 135, true, { x: 0, y: 0, w: 0, h: 50 }, true));
             this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
             this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
-            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true, { x: 0, y: 0, w: 0, h: 35 }, true));
+
+            // THIS IS CODE FOR THE PIG HEAD...
+            //this.game.addEntity(new DecorativeSprite(this.game, 195, 95, "./Sprites/Room3/PigHead_Medallion.png", 140, 100, true, { x: 20, y: 20, w: 40, h: 40 }, false, 250));
+            //this.game.addEntity(new DecorativeSprite(this.game, 195, 95, "./Sprites/Room3/PigHeadEmptyMouth.png", 140, 100, true, { x: 20, y: 20, w: 40, h: 40 }, false, 250));
 
             //invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150));     //top
