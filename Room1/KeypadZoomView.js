@@ -3,7 +3,7 @@ class KeypadZoomView {
         this.game = game;
         this.keypad = keypad;
         
-        this.isPopup = true; // ✅ Marks as popup - draws on top
+        this.isPopup = true; 
         
         // Zoom view dimensions
         this.width = 600;
@@ -141,7 +141,6 @@ class KeypadZoomView {
     }
     
     pressButton(num) {
-        console.log("Button pressed:", num);
         
         // Show button press animation
         this.pressedButton = num;
@@ -150,7 +149,6 @@ class KeypadZoomView {
         // Add to entered code (max 3 digits)
         if (this.enteredCode.length < 3) {
             this.enteredCode += num;
-            console.log("Entered code:", this.enteredCode);
             
             // Check if 3 digits entered
             if (this.enteredCode.length === 3) {
@@ -160,14 +158,12 @@ class KeypadZoomView {
     }
     
     checkCode() {
-        console.log("Checking code:", this.enteredCode, "vs", this.correctCode);
         
         if (this.enteredCode === this.correctCode) {
             // CORRECT!
             this.isCorrect = true;
             this.showingResult = true;
             this.keypad.onCorrectCode();
-            console.log("Correct code!");
         } else {
             // WRONG!
             this.isCorrect = false;
@@ -178,13 +174,11 @@ class KeypadZoomView {
             setTimeout(() => {
                 this.enteredCode = "";
                 this.showingResult = false;
-                console.log("Wrong code - cleared");
             }, 2000);
         }
     }
     
     close() {
-        console.log("Closing keypad zoom view");
         this.removeFromWorld = true;
         this.game.examining = false;
     }

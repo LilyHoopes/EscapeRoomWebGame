@@ -14,10 +14,6 @@ class RosePainting {
         this.sprite = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingWithKey.png"); 
         this.spriteNoKey = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingNoKey.png"); 
         this.removeFromWorld = false;
-
-
-            console.log("RosePainting sprite loaded?", this.sprite);
-            console.log("RosePaintingNoKey loaded?", this.spriteNoKey);
     }
     
     // rose painting keeps checking until following happens

@@ -52,7 +52,6 @@ class KeyPad {
     }
     
     openZoomView() {
-        console.log("Opening keypad zoom view...");
         
         let zoomView = new KeypadZoomView(this.game, this);
         this.game.addEntity(zoomView);
@@ -66,7 +65,6 @@ class KeyPad {
         this.showingResult = true;
         this.isRed = true;
         this.resultTimer = 0;
-        console.log("Wrong code - showing red");
     }
     
     // Called by KeypadZoomView when correct code entered
@@ -77,7 +75,6 @@ class KeyPad {
         
         // Unlock the door to Room 2
         this.unlockDoor();
-        console.log("Correct code - keypad green, door unlocked!");
     }
     
     unlockDoor() {
