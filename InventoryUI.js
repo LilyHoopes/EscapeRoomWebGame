@@ -66,12 +66,11 @@ class InventoryUI {
         console.log("Clicked on item:", item.name);
         
         // If it's the riddle paper, open the readable view
-        if (item.name === "Room1Note") {
+        if (item.name === "Strange Note") {
             // Close inventory
             this.close();
             
             // Open paper view
-            //this.game.addEntity(new PaperView(this.game));
             this.game.addEntity(new PaperView(this.game));
         }
                 

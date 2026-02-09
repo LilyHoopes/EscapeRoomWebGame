@@ -67,6 +67,9 @@ const ASSET_MANAGER = new AssetManager();
         ASSET_MANAGER.queueDownload("./Sprites/Room2/MusicNoteFrameClosed.png");
         ASSET_MANAGER.queueDownload("./Sprites/Room2/MusicNoteFrameOpen.png");
 
+    // frozen lock
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/FrozenLock.png");   
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/BrokenLock.png");     
         
     ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilRug.png");

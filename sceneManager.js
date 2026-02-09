@@ -113,11 +113,12 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, false, 0.0)); // room2 -> room1
-            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, false, 1.0); // room2 -> room3
-            if (this.puzzleStates.room1.codeEntered) {
+            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, true, 1.0); // room2 -> room3
+            this.game.addEntity(room2To3Door);
+
+            if (this.puzzleStates.room2.lockBroken) {
                 room2To3Door.unlock();
             }
-            this.game.addEntity(room2To3Door);
 
             // added shiannel
             this.game.addEntity(new Shiannel(this.game, 1210, 150, true));
@@ -148,6 +149,9 @@ class SceneManager {
             // wall
             this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
             this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
+
+            // lock on door 
+            this.game.addEntity(new FrozenLock(this.game, 1090, 95));
 
         }
 
