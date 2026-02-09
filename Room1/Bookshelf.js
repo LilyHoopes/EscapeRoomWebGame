@@ -6,7 +6,7 @@ class Bookshelf {
         this.width = 200;  // sizing 
         this.height = 250; //sizing 
         
-        this.bookOpened = false; // Has the book been unlocked and opened?
+        this.bookOpened = this.game.sceneManager.puzzleStates.room1.bookUnlocked;
         this.isSolid = true;
         this.removeFromWorld = false;
         this.bbOffset = { x: 5, y: 80, w: 0, h: 150 };

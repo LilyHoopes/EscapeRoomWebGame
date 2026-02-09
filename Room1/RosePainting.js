@@ -7,7 +7,7 @@ class RosePainting {
         this.height = 600; // change height of sprite here 
         this.depth = 150;
         
-        this.keyTaken = false; // from behind the painting or front, don't matter 
+        this.keyTaken = this.game.sceneManager.puzzleStates.room1.hasKey;
         this.isSolid = false; // Not a collision object
         
         // Load sprite

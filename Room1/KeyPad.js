@@ -6,7 +6,7 @@ class KeyPad {
         this.width = 50;  
         this.height = 50;
         
-        this.codeEntered = false; // Has correct code been entered
+        this.codeEntered = this.game.sceneManager.puzzleStates.room1.codeEntered;
         this.showingResult = false; // Showing red/green feedback
         this.resultTimer = 0;
         this.isRed = false; 
