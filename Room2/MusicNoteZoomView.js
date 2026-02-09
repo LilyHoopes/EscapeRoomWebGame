@@ -10,6 +10,7 @@ class MusicNoteZoomView {
         this.x = (1380 - this.width) / 2;
         this.y = (882 - this.height) / 2;
         
+        // TODO: this needs to be changed so that if you go to view it again its already open 
         this.frameOpened = false;
         
         this.pipeTaken = this.frame.pipeTaken;
