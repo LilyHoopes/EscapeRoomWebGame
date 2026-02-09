@@ -55,12 +55,29 @@ const ASSET_MANAGER = new AssetManager();
 
 
 // room 2
+
+    // frames
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/CatFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/DogFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/FlowerFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/HouseFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/IslandFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/PepeFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/SkeletonFrame.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/MusicNoteFrameClosed.png");
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/MusicNoteFrameOpen.png");
+
+        
     ASSET_MANAGER.queueDownload("./Sprites/Room2/TheGalleryBackground.png");
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/LilRug.png");
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Room2InvisWall.png");
+
+    // pipe
+        ASSET_MANAGER.queueDownload("./Sprites/Room2/Pipe.png");
+
 
 // room 3
     ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
@@ -73,7 +90,6 @@ const ASSET_MANAGER = new AssetManager();
 
     ASSET_MANAGER.queueDownload("./Sprites/Room3/PigHead_Medallion.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/PigHeadEmptyMouth.png");
-
 
 // room 4
     ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");

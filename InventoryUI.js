@@ -74,7 +74,7 @@ class InventoryUI {
             //this.game.addEntity(new PaperView(this.game));
             this.game.addEntity(new PaperView(this.game));
         }
-        
+                
         // If it's a used item, show message
         if (item.used) {
             console.log("This item has already been used.");

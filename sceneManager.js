@@ -119,15 +119,8 @@ class SceneManager {
             this.game.addEntity(room2To3Door);
 
             // added shiannel
-            this.game.addEntity(new Shiannel(this.game, 1210, 480, true));
+            this.game.addEntity(new Shiannel(this.game, 1210, 150, true));
 
-            // decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 100, 560, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, { x: 0, y: 0, w: 100, h: 140 }, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 5, 500, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
-            // wall
-            this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }));
-            this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, { x: 0, y: 40, w: 0, h: 10 }));
 
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
@@ -136,6 +129,25 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 645, 550, 230)); // bottom left
             this.game.addEntity(new InvisibleCollider(this.game, 855, 645, 550, 230)); // bottom right
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
+
+            // frames
+            this.game.addEntity(new GenericFrame(this.game, 50, 390, "./Sprites/Room2/CatFrame.png", 100, 100, 480));
+            this.game.addEntity(new GenericFrame(this.game, 175, 390, "./Sprites/Room2/DogFrame.png", 100, 100, 480));
+            this.game.addEntity(new GenericFrame(this.game, 300, 390, "./Sprites/Room2/FlowerFrame.png", 100, 100, 480));
+            this.game.addEntity(new GenericFrame(this.game, 425, 390, "./Sprites/Room2/HouseFrame.png", 100, 100, 480));
+            this.game.addEntity(new GenericFrame(this.game, 875, 390, "./Sprites/Room2/IslandFrame.png", 100, 100, 480));
+            this.game.addEntity(new GenericFrame(this.game, 1000, 390, "./Sprites/Room2/PepeFrame.png", 100, 100, 480));
+            this.game.addEntity(new GenericFrame(this.game, 1250, 390, "./Sprites/Room2/SkeletonFrame.png", 100, 100, 480)); 
+
+            // decorative sprites
+            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 100, 210, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, { x: 0, y: 0, w: 100, h: 140 }, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 5, 150, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
+            
+            // wall
+            this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
+            this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
+
         }
 
         if (roomName === "room3") {
