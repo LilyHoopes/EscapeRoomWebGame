@@ -25,13 +25,10 @@ class Door {
         // Check if Lily is touching the door
         if (this.isTouchingLily() && this.game.E) {
             if (this.isLocked) {
-                // Door is locked
-                console.log("The door is locked!");
-                // could play a sound here
+                // play locked door sound here?
             } else {
                 this.canTrigger = false;
-                // Door is unlocked - LOAD THE NEXT ROOM!
-                console.log("Going to", this.destinationRoom);
+                // Door is unlocked
                 this.game.sceneManager.loadRoom(this.destinationRoom, this.spawnX, this.spawnY);
             }
         }
@@ -40,7 +37,6 @@ class Door {
         if (!this.isTouchingLily()) {
             this.canTrigger = true;
         }
-
     }
     
     isTouchingLily() {
@@ -59,8 +55,6 @@ class Door {
     
     unlock() {
         this.isLocked = false;
-        console.log("Door unlocked!");
-        // You could play an unlock sound here
     }
     
     //NOTE: the size of the normal doors are 106x126

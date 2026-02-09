@@ -39,9 +39,7 @@ class RosePainting {
         return distance < 100;
     }
 
-openZoomView() {
-    console.log("Opening painting zoom view...");
-    
+openZoomView() {    
     this.game.addEntity(new PaintingZoomView(this.game, this));
     
     this.game.examining = true;
@@ -52,13 +50,11 @@ openZoomView() {
     onKeyTaken() {
         this.keyTaken = true;
         this.game.sceneManager.puzzleStates.room1.hasKey = true;
-        console.log("Diamond key added to inventory!");
     }
     
 
     
     draw(ctx) {
-         console.log("Drawing RosePainting at", this.x, this.y);
         // Use sprite without key if already taken
         let sprite = this.keyTaken ? this.spriteNoKey : this.sprite;
         

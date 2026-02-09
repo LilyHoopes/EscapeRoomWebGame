@@ -38,7 +38,6 @@ class PaperView {
     }
     
     close() {
-        console.log("Closing paper view");
         this.removeFromWorld = true; 
         this.game.examining = false;
     }

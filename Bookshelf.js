@@ -49,7 +49,6 @@ class Bookshelf {
     }
     
     openZoomView() {
-        console.log("Opening bookshelf zoom view...");
         
         this.game.addEntity(new BookshelfZoomView(this.game, this));
         
@@ -61,7 +60,6 @@ class Bookshelf {
     onBookOpened() {
         this.bookOpened = true;
         this.game.sceneManager.puzzleStates.room1.bookUnlocked = true;
-        console.log("Book has been opened!"); //testing 
     }
     
     draw(ctx) {

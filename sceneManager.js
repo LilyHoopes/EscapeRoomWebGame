@@ -199,8 +199,6 @@ class SceneManager {
             this.shiannelPrompt.removeFromWorld = true;
             this.shiannelPrompt = null;
         }
-
-        console.log("Room loaded:", roomName, "Lily at:", spawnX, spawnY);
     }
 
     // Inventory helpers

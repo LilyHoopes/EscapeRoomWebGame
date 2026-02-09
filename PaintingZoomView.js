@@ -61,7 +61,6 @@ class PaintingZoomView {
     
     // if key is clicked on, add to inventory, update the painting, and change state 
     takeKey() {
-        console.log("Clicked on diamond key!");
         
         // Add to inventory
         this.game.sceneManager.addToInventory("diamond_key", "./Sprites/Room1/DiamondKey.png");        
@@ -74,7 +73,6 @@ class PaintingZoomView {
     }
     
     close() {
-        console.log("Closing painting zoom view");
         this.removeFromWorld = true; // remove zoomed painting from world 
         this.game.examining = false;
     }
