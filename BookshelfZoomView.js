@@ -15,16 +15,15 @@ class BookshelfZoomView {
         
         // Has player taken the paper?
         this.paperTaken = this.game.sceneManager.puzzleStates.room1.paperTaken; 
-        console.log("Paper taken status:", this.game.sceneManager.puzzleStates.room1.paperTaken);
         
         // Check if player has the diamond key
         this.hasKey = this.game.sceneManager.hasItem("diamond_key");
         
         // Load sprites
-        this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");    // zoomed in locked book 
-        this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenDiamondBook.png");        // if key is dragged onto book, show open book w paper inside
-        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/Room1Note.png");                 // paper inside the book
-        this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");                  // key they drag onto book to unlock it 
+        this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");   
+        this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenDiamondBook.png");        
+        this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/Room1Note.png");               
+        this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png");                
         
         // Closed book position and size 
         this.closedBookX = this.x + 150;
@@ -33,8 +32,8 @@ class BookshelfZoomView {
         this.closedBookHeight = 544;
 
         // Open book position and size 
-        this.openBookX = this.x - 100;
-        this.openBookY = this.y - 200;
+        this.openBookX = this.x - 50;
+        this.openBookY = this.y + 100;
         this.openBookWidth = 836;
         this.openBookHeight = 596;
         
@@ -112,7 +111,6 @@ class BookshelfZoomView {
                 this.draggingKey = true;
                 this.dragOffsetX = mx - this.dragKeyX;
                 this.dragOffsetY = my - this.dragKeyY;
-                console.log("Started dragging key");
             }
         }
         
@@ -136,10 +134,8 @@ class BookshelfZoomView {
             );
             
             if (keyOverBook) {
-                console.log("Key dropped on book - unlocking!");
                 this.unlockBook();
             } else {
-                console.log("Key dropped elsewhere - snapping back");
                 // Snap key back to original position
                 this.dragKeyX = this.keyX;
                 this.dragKeyY = this.keyY;
@@ -149,9 +145,7 @@ class BookshelfZoomView {
         }
     }
     
-    unlockBook() {
-        console.log("Unlocking book with diamond key..."); 
-        
+    unlockBook() {        
         // key has been used, mark as used 
         this.game.sceneManager.markItemAsUsed("diamond_key");
          
@@ -163,16 +157,13 @@ class BookshelfZoomView {
         this.bookshelf.onBookOpened();
     }
     
-    takePaper() {
-        console.log("Taking paper from book...");
-            
+    takePaper() {            
         this.game.sceneManager.addToInventory("Room1Note", "./Sprites/Room1/Room1Note.png");   
         this.game.sceneManager.puzzleStates.room1.paperTaken = true;
         this.paperTaken = true;
     }
     
     close() {
-        console.log("Closing bookshelf zoom view");
         this.removeFromWorld = true;
         this.game.examining = false;
     }
@@ -181,13 +172,6 @@ class BookshelfZoomView {
         // Darken background
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
         ctx.fillRect(0, 0, 1380, 882);
-        
-        // Draw frame
-        ctx.fillStyle = "#5C4033"; // Dark brown
-        ctx.fillRect(this.x - 10, this.y - 10, this.width + 20, this.height + 20);
-        
-        ctx.fillStyle = "#D4A574"; // Light brown
-        ctx.fillRect(this.x, this.y, this.width, this.height);
          
         // Draw the book (locked or open)
         if (!this.bookUnlocked) {
@@ -216,6 +200,7 @@ class BookshelfZoomView {
             } else {
                 ctx.fillStyle = "#d28cb3";
                 ctx.fillRect(this.openBookX, this.openBookY, this.openBookWidth, this.openBookHeight);
+            }
             
             // Draw paper inside (if not taken)
             if (!this.paperTaken) {
@@ -264,5 +249,4 @@ class BookshelfZoomView {
         ctx.font = "16px Arial";
         ctx.fillText("Press ESC or click outside to close", this.x + 180, this.y + this.height + 30);
     }
-}
 }
