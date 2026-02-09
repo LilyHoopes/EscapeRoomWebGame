@@ -38,10 +38,10 @@ class BookshelfZoomView {
         this.openBookHeight = 596;
         
         // Paper position and size in the book 
-        this.paperX = this.openBookX + 0; 
-        this.paperY = this.openBookY + 100; 
-        this.paperWidth = 200;
-        this.paperHeight = 200;
+        this.paperX = this.openBookX + 400; 
+        this.paperY = this.openBookY + 50; 
+        this.paperWidth = 400;
+        this.paperHeight = 400;
         
         // Key position (if player has it, shown in "inventory" area) top left corner 
         this.keyX = this.x + 50;
