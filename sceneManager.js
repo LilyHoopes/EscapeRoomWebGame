@@ -90,6 +90,7 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, -40, 450, "./Sprites/Room1/PlantCluster2.png", 500, 600, true, { x: 50, y: 70, w: 400, h: 200 }));
             this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, { x: 400, y: 120, w: 400, h: 50 }));
             this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250, true, { x: 0, y: 80, w: 0, h: 150 }, false));
+            this.game.addEntity(new DecorativeSprite(this.game, 1275, 300, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: -20, y: 0, w: 0, h: 0 }, true));
 
             // invisible walls
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 200)); // top
@@ -141,8 +142,7 @@ class SceneManager {
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 100, 210, "./Sprites/FillerFurniture/BigRedRug.png", 100, 140, false, { x: 0, y: 0, w: 100, h: 140 }, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 5, 150, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 5, 160, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true));
             
             // wall
             this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
