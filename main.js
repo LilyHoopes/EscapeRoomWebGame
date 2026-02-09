@@ -31,7 +31,7 @@ const ASSET_MANAGER = new AssetManager();
             ASSET_MANAGER.queueDownload("./Sprites/Room1/BookshelfWithBook.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/BookshelfWithOpenBook.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/LockedDiamondBook.png");
-            ASSET_MANAGER.queueDownload("./Sprites/Room1/OpenDiamondBook.png");             // NOTE: need a sprite for this
+            ASSET_MANAGER.queueDownload("./Sprites/Room1/OpenDiamondBook.png");             
             ASSET_MANAGER.queueDownload("./Sprites/Room1/067Codex.png");                   
             ASSET_MANAGER.queueDownload("./Sprites/Room1/Room1Note.png");
         // keypad
