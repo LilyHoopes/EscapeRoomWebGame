@@ -3,8 +3,8 @@ class MusicNoteFrame {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.width = 150;
-        this.height = 200;
+        this.width = 100;
+        this.height = 100;
         
         this.pipeTaken = this.game.sceneManager.puzzleStates.room2.pipeObtained;
         

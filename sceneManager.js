@@ -139,6 +139,7 @@ class SceneManager {
             this.game.addEntity(new GenericFrame(this.game, 875, 390, "./Sprites/Room2/IslandFrame.png", 100, 100, 480));
             this.game.addEntity(new GenericFrame(this.game, 1000, 390, "./Sprites/Room2/PepeFrame.png", 100, 100, 480));
             this.game.addEntity(new GenericFrame(this.game, 1250, 390, "./Sprites/Room2/SkeletonFrame.png", 100, 100, 480)); 
+            this.game.addEntity(new MusicNoteFrame(this.game, 1125, 390, 100, 100));
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));

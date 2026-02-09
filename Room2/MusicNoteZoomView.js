@@ -6,7 +6,7 @@ class MusicNoteZoomView {
         
         // Zoom view dimensions
         this.width = 800;
-        this.height = 900;
+        this.height = 800;
         this.x = (1380 - this.width) / 2;
         this.y = (882 - this.height) / 2;
         
@@ -19,10 +19,10 @@ class MusicNoteZoomView {
         
         this.pipeSprite = ASSET_MANAGER.getAsset("./Sprites/Room2/Pipe.png");
         
-        this.pipeX = this.x + 300;
-        this.pipeY = this.y + 400;
-        this.pipeWidth = 200;
-        this.pipeHeight = 100;
+        this.pipeX = this.x + 70;
+        this.pipeY = this.y + 150;
+        this.pipeWidth = 340;
+        this.pipeHeight = 390;
         
         this.removeFromWorld = false;
     }
