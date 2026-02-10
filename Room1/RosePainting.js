@@ -3,8 +3,8 @@ class RosePainting {
         this.game = game;
         this.x = x;         // location on screen I think 
         this.y = y;
-        this.width = 600;  // change width of sprite here
-        this.height = 600; // change height of sprite here 
+        this.width = 135;  // change width of sprite here
+        this.height = 135; // change height of sprite here 
         this.depth = 150;
         
         this.keyTaken = this.game.sceneManager.puzzleStates.room1.hasKey;
@@ -35,12 +35,12 @@ class RosePainting {
         return distance < 100;
     }
 
-openZoomView() {    
-    this.game.addEntity(new PaintingZoomView(this.game, this));
-    
-    this.game.examining = true;
-    this.game.E = false;
-}
+    openZoomView() {    
+        this.game.addEntity(new PaintingZoomView(this.game, this));
+        
+        this.game.examining = true;
+        this.game.E = false;
+    }
 
     // Called by PaintingZoomView when key is taken
     onKeyTaken() {

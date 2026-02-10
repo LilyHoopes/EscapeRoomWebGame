@@ -5,10 +5,10 @@ class PaintingZoomView {
         this.isPopup = true;
         
         // Zoom view dimensions (change these values to get the painting large and centered)
-        this.width = 2400;
-        this.height = 2400;
-        this.x = (1500 - this.width) / 2; // Center horizontally
-        this.y = (1100 - this.height) / 2;  // Center vertically
+        this.width = 800;
+        this.height = 800;
+        this.x = 300
+        this.y = 50
         
         // load zoomed in painting image
         this.paintingImage = ASSET_MANAGER.getAsset("./Sprites/Room1/RosePaintingZoom.png"); 
@@ -17,8 +17,8 @@ class PaintingZoomView {
         this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/DiamondKey.png"); 
         
         // Key position on painting 
-        this.keyX = this.x + 1225; 
-        this.keyY = this.y + 1100; 
+        this.keyX = this.x + 535; 
+        this.keyY = this.y + 474; 
         this.keyWidth = 96;
         this.keyHeight = 192;
         //162x322 is key ratio about half 
@@ -34,8 +34,6 @@ class PaintingZoomView {
             return;
         }
         
-        // BUG: clicking outside screen does not currently work to close the view 
-        // THIS IS BROKEN IDK HOW TO FIX IT 
         // Check for click outside the view to close
         if (this.game.click) {
             let clickX = this.game.click.x;

@@ -20,10 +20,12 @@ class FrameZoomView {
             return;
         }
         
-        // Click anywhere to close (simple for generic frames)
-        if (this.game.click) {
+        // if user clicks outside the painting it will close 
+        if (clickX < this.x || clickX > this.x + this.width ||
+            clickY < this.y || clickY > this.y + this.height) {
             this.close();
             this.game.click = null;
+            return;
         }
     }
     
