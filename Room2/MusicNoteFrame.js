@@ -67,7 +67,7 @@ class MusicNoteFrame {
             ctx.lineWidth = 3;
             ctx.font = "16px Arial";
             
-            let text = "Press E to examine";
+            let text = "Press E to Examine";
             let textX = this.x + this.width/2 - ctx.measureText(text).width/2 + 80;
             let textY = this.y - 20;
             
