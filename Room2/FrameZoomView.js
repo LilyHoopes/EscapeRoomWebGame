@@ -20,13 +20,22 @@ class FrameZoomView {
             return;
         }
         
-        // if user clicks outside the painting it will close 
-        if (clickX < this.x || clickX > this.x + this.width ||
-            clickY < this.y || clickY > this.y + this.height) {
-            this.close();
+        // Check for click outside the view to close
+        if (this.game.click) {
+            let clickX = this.game.click.x;
+            let clickY = this.game.click.y;
+            
+            // if user clicks outside the painting it will close 
+            if (clickX < this.x || clickX > this.x + this.width ||
+                clickY < this.y || clickY > this.y + this.height) {
+                this.close();
+                this.game.click = null;
+                return;
+            }
+            
             this.game.click = null;
-            return;
         }
+
     }
     
     close() {
