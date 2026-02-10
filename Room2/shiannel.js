@@ -29,8 +29,6 @@ class Shiannel {
             this.height - this.bbOffset.h
         );
 
-
-
         this.isSolid = isSolid;
         this.removeFromWorld = false;
     }

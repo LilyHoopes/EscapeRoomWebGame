@@ -68,8 +68,8 @@ class MusicNoteFrame {
             ctx.font = "16px Arial";
             
             let text = "Press E to examine";
-            let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
-            let textY = this.y - 10;
+            let textX = this.x + this.width/2 - ctx.measureText(text).width/2 + 80;
+            let textY = this.y - 20;
             
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);

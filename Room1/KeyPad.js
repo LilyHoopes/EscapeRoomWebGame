@@ -116,7 +116,7 @@ class KeyPad {
             ctx.lineWidth = 3;
             ctx.font = "16px Arial";
             
-            let text = "Press E to use";
+            let text = "Examine";
             let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
             let textY = this.y - 10;
             
