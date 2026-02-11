@@ -2,7 +2,7 @@ class PigHeadZoomView {
 
     constructor(game, PigHead) {
         this.game = game;
-        this.painting = painting; 
+        this.PigHead = PigHead; 
         this.isPopup = true;
         
         this.width = 800;
@@ -10,14 +10,14 @@ class PigHeadZoomView {
         this.x = 300
         this.y = 50
         
-        // load zoomed in painting image
-        this.paintingImage = ASSET_MANAGER.getAsset("./Sprites/Room3/PigHead_Medallion.png"); 
+        // load zoomed in PigHead image
+        this.pigHeadImage = ASSET_MANAGER.getAsset("./Sprites/Room3/PigHead_Medallion.png"); 
         
-        // Diamond key sprite will be layed on top of painting 
+        // Diamond key sprite will be layed on top of PigHead 
         // TODO: should be a bloody version of the snowflake key as its own sprite 
         this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/BloodySnowflakeMedallion.png"); 
         
-        // Medallion position on painting 
+        // Medallion position on PigHead 
         this.snowX = this.x + 535; 
         this.snowY = this.y + 474; 
         this.snowWidth = 96;
@@ -39,7 +39,7 @@ class PigHeadZoomView {
             let clickX = this.game.click.x;
             let clickY = this.game.click.y;
             
-            // if user clicks outside the painting it will close 
+            // if user clicks outside the PigHead it will close 
             if (clickX < this.x || clickX > this.x + this.width ||
                 clickY < this.y || clickY > this.y + this.height) {
                 this.close();
@@ -71,18 +71,18 @@ class PigHeadZoomView {
     }
     
     close() {
-        this.removeFromWorld = true; // remove zoomed painting from world 
+        this.removeFromWorld = true; // remove zoomed PigHead from world 
         this.game.examining = false;
     }
     
     draw(ctx) {
-        // Darken the background (transparaent so it's just shade darker to focus on painting)
+        // Darken the background (transparaent so it's just shade darker to focus on PigHead)
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
         ctx.fillRect(0, 0, 1380, 882);
         
-        // Draw the zoomed painting
-        if (this.paintingImage) {
-            ctx.drawImage(this.paintingImage, this.x, this.y, this.width, this.height);
+        // Draw the zoomed paintPigHeading
+        if (this.pigHeadImage) {
+            ctx.drawImage(this.pigHeadImage, this.x, this.y, this.width, this.height);
         // if image fails draw lame ahh red rectangle 
         } else {
             // Placeholder
