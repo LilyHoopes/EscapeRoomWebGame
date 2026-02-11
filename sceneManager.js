@@ -171,6 +171,9 @@ class SceneManager {
             this.game.addEntity(new Victor(this.game, 955, 510, true));
             this.game.addEntity(new Jin(this.game, 300, 495, true));
 
+            // interactable objects
+            this.game.addEntity(new PigHead(this.game, 200, 200));
+
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/Room3/TableWithBlood.png", 220, 135, true));
             this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
