@@ -190,6 +190,11 @@ class BookshelfZoomView {
         this.game.examining = false;
     }
     
+    /**
+     * Draws the zoom view and all interactive elements and sprites
+     * Displays messages, text, manages background tint, effects, etc. 
+     * @param {CanvasRenderingContext2D} ctx - The rendering context
+     */
     draw(ctx) {
         // Darken background
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";

@@ -1,6 +1,20 @@
+/**
+ * Represents the bookshelf entity in the normal room view.
+ * Handles proximity interaction with Lily and opens the
+ * BookshelfZoomView when examined.
+ */
 class Bookshelf {
+    
+    /**
+     * 
+     * @param {GameEngine} game - The main game engine instance 
+     * @param {number} x - The x-coordinate of the bookshelf
+     * @param {number} y - The y-coordinate of the bookshelf
+     */
     constructor(game, x, y) {
         this.game = game;
+
+        // Initialize bookshelf dimensions and xy coordinates
         this.x = x;
         this.y = y;
         this.width = 200;  
@@ -11,12 +25,15 @@ class Bookshelf {
         this.removeFromWorld = false;
         this.bbOffset = { x: 5, y: 80, w: 0, h: 150 };
         
-        // Bookshelf with closed/locked book
+        // Initialize sprites
         this.sprite = ASSET_MANAGER.getAsset("./Sprites/Room1/BookshelfWithBook.png");
-        // Bookshelf with opened book (after unlocking)
         this.spriteOpened = ASSET_MANAGER.getAsset("./Sprites/Room1/BookshelfWithOpenBook.png");
     }
     
+    /**
+     * Updates bookshelf logic each frame
+     * Handles player proximity interaction and bounding box updates.
+     */
     update() {
         // Only allow interaction if not already examining something
         if (this.isNearLily() && this.game.E && !this.game.examining) {
@@ -24,6 +41,10 @@ class Bookshelf {
         }
         this.updateBB();
     }
+
+    /**
+     * Updates the bounding box used for collision detection.
+     */
     updateBB() {
         this.BB = new BoundingBox(
             this.x + this.bbOffset.x, 
@@ -32,10 +53,16 @@ class Bookshelf {
             this.height - this.bbOffset.h
         );
     }
+
     get depth() {
         return this.BB ? this.BB.bottom : this.y + this.height;
     }
     
+    /**
+     * Checks if Lily is within interaction distance of the bookshelf
+     *
+     * @returns {boolean} True if Lily is close enough to interact
+     */
     isNearLily() {
         let lily = this.game.sceneManager.lily;
         if (!lily.BB) return false;
@@ -49,9 +76,7 @@ class Bookshelf {
     }
     
     openZoomView() {
-        
         this.game.addEntity(new BookshelfZoomView(this.game, this));
-        
         this.game.examining = true;
         this.game.E = false;
     }
@@ -92,6 +117,7 @@ class Bookshelf {
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);
         }
+
         //debug hitbox stuff
         if (this.game.debug) {
             ctx.strokeStyle = "blue";
