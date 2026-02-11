@@ -1,4 +1,15 @@
+/**
+ * Represents the keypad entity in the normal room view. 
+ * Handles proximty interaction with character 
+ * and opens the KeyPadZoomView when examined
+ */
 class KeyPad {
+
+    /**
+     * @param {GameEngine} game - The main game engine instance 
+     * @param {number} x - The x-coordinate of the bookshelf
+     * @param {number} y - The y-coordinate of the bookshelf
+     */
     constructor(game, x, y) {
         this.game = game;
         this.x = x;
@@ -20,13 +31,16 @@ class KeyPad {
         this.spriteGreen = ASSET_MANAGER.getAsset("./Sprites/Room1/KeypadGreen.png");
     }
     
+    /** 
+     * Updates the normal keypad view after user enters a code
+     */
     update() {
         // Handle red flash timer (wrong code)
         if (this.showingResult && this.isRed) {
             this.resultTimer += this.game.clockTick;
             
             // After 2 seconds, go back to white
-            if (this.resultTimer > 2) {
+            if (this.resultTimer > 1.5) {
                 this.showingResult = false;
                 this.isRed = false;
                 this.resultTimer = 0;
@@ -39,6 +53,11 @@ class KeyPad {
         }
     }
     
+    /**
+     * Checks if Lily is within interaction distance of the keypad
+     *
+     * @returns {boolean} True if Lily is close enough to interact
+     */
     isNearLily() {
         let lily = this.game.sceneManager.lily;
         if (!lily.BB) return false;
@@ -51,8 +70,11 @@ class KeyPad {
         return distance < 100;
     }
     
+    /**
+     * Opens the zoomed-in keypad view.
+     * Sets examining state to prevent other interactions.
+     */
     openZoomView() {
-        
         let zoomView = new KeypadZoomView(this.game, this);
         this.game.addEntity(zoomView);
         

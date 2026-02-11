@@ -6,7 +6,6 @@
 class Bookshelf {
     
     /**
-     * 
      * @param {GameEngine} game - The main game engine instance 
      * @param {number} x - The x-coordinate of the bookshelf
      * @param {number} y - The y-coordinate of the bookshelf
@@ -54,6 +53,9 @@ class Bookshelf {
         );
     }
 
+    /**
+     * getter for depth logic
+     */
     get depth() {
         return this.BB ? this.BB.bottom : this.y + this.height;
     }
@@ -75,18 +77,29 @@ class Bookshelf {
         return distance < 140; // Within 120 pixels
     }
     
+     /**
+     * Opens the zoomed-in bookshelf puzzle view.
+     * Sets examining state to prevent other interactions.
+     */
     openZoomView() {
         this.game.addEntity(new BookshelfZoomView(this.game, this));
         this.game.examining = true;
         this.game.E = false;
     }
     
-    // Called by BookshelfZoomView when book is opened
+    /**
+     * Sets the state of book to open in Bookshelf class and sceneManager 
+     */
     onBookOpened() {
         this.bookOpened = true;
         this.game.sceneManager.puzzleStates.room1.bookUnlocked = true;
     }
     
+     /**
+     * Draws the bookshelf and interaction prompt when user is next to bookshelf
+     *
+     * @param {CanvasRenderingContext2D} ctx - The canvas rendering context.
+     */
     draw(ctx) {
         // Use opened sprite if book was unlocked
         let sprite = this.bookOpened ? this.spriteOpened : this.sprite; 
