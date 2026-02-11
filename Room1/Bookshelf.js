@@ -3,8 +3,8 @@ class Bookshelf {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.width = 200;  // sizing 
-        this.height = 250; //sizing 
+        this.width = 200;  
+        this.height = 250;
         
         this.bookOpened = this.game.sceneManager.puzzleStates.room1.bookUnlocked;
         this.isSolid = true;

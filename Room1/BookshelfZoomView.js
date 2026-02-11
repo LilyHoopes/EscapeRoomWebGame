@@ -1,25 +1,39 @@
+/**
+ * Represents the zoomed-in view of the bookshelf puzzle.
+ * Handles rendering, interaction, and puzzle state logic
+ * for the locked diamond book, draggable key, and hidden paper.
+ */
 class BookshelfZoomView {
+    /**
+     * 
+     * @param {GameEngine} game - The main game engine instance 
+     * @param {Object} bookshelf - The bookshelf object entity that holds these states, methods, and sprites
+     */
     constructor(game, bookshelf) {
         this.game = game;
         this.bookshelf = bookshelf;
         this.isPopup = true;
         
-        // Zoom view dimensions, theres are what we change if neeeed
+        // Initialize zoom view dimensions and xy coordinates
         this.width = 700;
         this.height = 800;
         this.x = (1380 - this.width) / 2;
         this.y = (882 - this.height) / 2;
         
-        // Has player unlocked the book?
+        // Initialize book, paper, key, drag-and-drop, and zoom view states
         this.bookUnlocked = this.bookshelf.bookOpened;
-        
-        // Has player taken the paper?
         this.paperTaken = this.game.sceneManager.puzzleStates.room1.paperTaken; 
-        
-        // Check if player has the diamond key
         this.hasKey = this.game.sceneManager.hasItem("diamond_key");
+
+        this.draggingKey = false;
+        this.dragKeyX = this.keyX; 
+        this.dragKeyY = this.keyY;
+        this.dragOffsetX = 0;
+        this.dragOffsetY = 0;
         
-        // Load sprites
+        this.removeFromWorld = false;
+        
+        // Load in sprites
         this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");   
         this.openBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/OpenDiamondBook.png");        
         this.paperSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/Room1Note.png");               
@@ -37,28 +51,24 @@ class BookshelfZoomView {
         this.openBookWidth = 836;
         this.openBookHeight = 596;
         
-        // Paper position and size in the book 
+        // Blurred paper position and size
         this.paperX = this.openBookX + 400; 
         this.paperY = this.openBookY + 50; 
         this.paperWidth = 400;
         this.paperHeight = 400;
         
-        // Key position (if player has it, shown in "inventory" area) top left corner 
+        // Key position 
         this.keyX = this.x + 50;
         this.keyY = this.y + 50;
         this.keyWidth = 60;
         this.keyHeight = 120;
-
-        // Drag-and-drop state for key to book dragging 
-        this.draggingKey = false;
-        this.dragKeyX = this.keyX; // Current position while dragging
-        this.dragKeyY = this.keyY;
-        this.dragOffsetX = 0; // Offset from mouse to key corner
-        this.dragOffsetY = 0;
-        
-        this.removeFromWorld = false;
     }
     
+     /**
+     * Updates the zoom view state each frame.
+     * Handles closing logic, clicking interactions,
+     * and drag-and-drop behavior.
+     */
     update() {
         // press ESC to close out of window 
         if (this.game.keys["Escape"]) {
@@ -66,12 +76,12 @@ class BookshelfZoomView {
             return;
         }
         
-        // Click outside to close
+        // handles when a user clicks somewhere on BookshelfZoomView
         if (this.game.click) {
             let clickX = this.game.click.x;
             let clickY = this.game.click.y;
             
-            // Click outside the view
+            // If user clicks outside the view, close the view
             if (clickX < this.x || clickX > this.x + this.width ||
                 clickY < this.y || clickY > this.y + this.height) {
                 this.close();
@@ -79,7 +89,7 @@ class BookshelfZoomView {
                 return;
             }
             
-            // Click on paper to take it (if book is open and paper not taken)
+            // If user clicks on paper, take it 
             if (this.bookUnlocked && !this.paperTaken) {
                 if (clickX >= this.paperX && clickX <= this.paperX + this.paperWidth &&
                     clickY >= this.paperY && clickY <= this.paperY + this.paperHeight) {
@@ -90,12 +100,16 @@ class BookshelfZoomView {
             this.game.click = null;
         }
 
-        // DRAG-AND-DROP LOGIC
+        // handles if user clicks and holds key for drag and drop 
         if (this.hasKey && !this.bookUnlocked) {
             this.handleKeyDragAndDrop();
         }        
     }
 
+    /**
+     * Handles drag-and-drop logic for placing the key
+     * onto the locked book to unlock it.
+     */
     handleKeyDragAndDrop() {
         if (!this.game.mouse) {
             return;
@@ -145,8 +159,10 @@ class BookshelfZoomView {
         }
     }
     
+    /**
+     * Marks key as used and updates the state of the book and bookshelf
+     */
     unlockBook() {        
-        // key has been used, mark as used 
         this.game.sceneManager.markItemAsUsed("diamond_key");
          
         // Unlock the book
@@ -157,12 +173,18 @@ class BookshelfZoomView {
         this.bookshelf.onBookOpened();
     }
     
+     /**
+     * Adds the paper to inventory and sets state to paper taken 
+     */ 
     takePaper() {            
         this.game.sceneManager.addToInventory("Strange Note", "./Sprites/Room1/Room1Note.png");   
         this.game.sceneManager.puzzleStates.room1.paperTaken = true;
         this.paperTaken = true;
     }
     
+    /**
+     * Closes the BookshelfZoomView
+     */
     close() {
         this.removeFromWorld = true;
         this.game.examining = false;

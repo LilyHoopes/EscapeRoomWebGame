@@ -16,7 +16,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/Plant1.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/Plant2.png");
-    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");5
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster1.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster2.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
@@ -100,7 +100,6 @@ const ASSET_MANAGER = new AssetManager();
 // room 5
     ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalRoom.png");
 
-
 //title screens
     ASSET_MANAGER.queueDownload("./Sprites/Start/TitleScreen.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/LightningSheet.png");
@@ -111,7 +110,6 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Start/StartSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/ControlsSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/SelectorSign.png");
-
 
 ASSET_MANAGER.downloadAll(() => {
     const canvas = document.getElementById("gameWorld");
@@ -180,7 +178,6 @@ ASSET_MANAGER.downloadAll(() => {
     muteBtn.textContent = gameEngine.muted ? "Unmute" : "Mute";
 });
 
-
 volumeSlider.addEventListener("input", () => {
     gameEngine.volume = Number(volumeSlider.value);
 
@@ -192,8 +189,6 @@ volumeSlider.addEventListener("input", () => {
         gameEngine.sceneManager.roomBGM.volume = gameEngine.volume;
     }
 });
-
-
 
     gameEngine.addEntity(new StartSplashScreen(gameEngine));
     gameEngine.start();
