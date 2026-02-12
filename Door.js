@@ -1,21 +1,21 @@
 class Door {
-    constructor(game, x, y, width, height, destinationRoom, spawnX, spawnY, isLocked = true, opacity = 1.0, depthOverride = 50,) {
+    constructor(game, x, y, width, height, destinationRoom, spawnX, spawnY, lockedSpritePath, openSpritePath, isLocked = true, opacity = 1.0, depthOverride = 50,) {
         this.game = game;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.destinationRoom = destinationRoom; // "room2", "room3", etc.
-        this.spawnX = spawnX; // Where Lily appears in next room
+        this.destinationRoom = destinationRoom; 
+        this.spawnX = spawnX; 
         this.spawnY = spawnY;
         this.isLocked = isLocked;
         this.removeFromWorld = false;
         this.canTrigger = true;
-        this.depthOverride = depthOverride; //depth override (basically if ur stacking sprites on each other)
-        this.opacity = opacity; // for trasnparent doors, 1.0 is solid and 0.0 is totally invisible 
+        this.depthOverride = depthOverride; 
+        this.opacity = opacity; //NOTE: i made this when we were using the same door image so i have to find a way to make half of them clear, but now its a door per each room so maybe we dont need this in the final version 
 
-        this.lockedDORE = ASSET_MANAGER.getAsset("./Sprites/Room1/lockedDORE.png");
-        this.openDORE   = ASSET_MANAGER.getAsset("./Sprites/Room1/openDORE.png");
+        this.lockedDORE = ASSET_MANAGER.getAsset(lockedSpritePath);
+        this.openDORE   = ASSET_MANAGER.getAsset(openSpritePath);
     }
     
     update() {

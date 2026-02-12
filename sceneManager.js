@@ -12,7 +12,7 @@ class SceneManager {
         room1ToRoom2: true,   // Door from room 1 to room 2
         room2ToRoom3: true,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
-        room4ToRoom5: false   // Door from room 4 to room 5 
+        room4ToRoom5: true   // Door from room 4 to room 5 
     };
 
         // Puzzle progress tracking
@@ -114,7 +114,7 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
 
             // Door to room2
-            let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, true, 1.0)); // room1 -> room2
+            let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 1.0)); // room1 -> room2
             if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room1ToRoom2) {
                 room1To2Door.unlock();
             }
@@ -127,8 +127,8 @@ class SceneManager {
                 new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882)
             );
 
-            this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, false, 0.0)); // room2 -> room1
-            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, true, 1.0); // room2 -> room3
+            this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room2 -> room1
+            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 1.0); // room2 -> room3
             this.game.addEntity(room2To3Door);
 
             if (this.puzzleStates.room2.lockBroken || this.debugDoorUnlocks.room2ToRoom3) {
@@ -181,8 +181,8 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
             this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
 
-            this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, false, 0.0)); // room3 -> room2
-            let room3To4Door = (new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, true, 1.0)); // room3 -> room4
+            this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
+            let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", true, 1.0)); // room3 -> room4
          
             if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room3ToRoom4) {
                 room3To4Door.unlock();
@@ -210,8 +210,8 @@ class SceneManager {
         if (roomName === "room4") {
             this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
-            this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, false, 0.0)); // room4 -> room3
-            let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, false, 0.0)); // room4 -> room5
+            this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room3
+            let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room5
 
             this.game.addEntity(room4To5Door);
 

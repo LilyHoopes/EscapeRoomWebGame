@@ -105,6 +105,10 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/Alive_VictorSpriteSheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/Alive_JinSpriteSheet.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/BlankMedallionDoor.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/OpenMedallionDoor.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/CompletedMedallionDoor.png");
+
 
 // room 4
     ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");
