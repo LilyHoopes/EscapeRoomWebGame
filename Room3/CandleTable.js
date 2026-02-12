@@ -166,6 +166,6 @@ class CandleTable {
     }
     
     get depth() {
-        return this.y + this.height;
+        return this.y + this.height + 50;
     }
 }

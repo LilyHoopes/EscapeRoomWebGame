@@ -7,6 +7,14 @@ class SceneManager {
         this.health = 3;
         this.inventory = []; // Will store objects like {name, sprite, used}
 
+        // set true to unlock door for easier testing, false to lock it
+        this.debugDoorUnlocks = {
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
+        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room4ToRoom5: false   // Door from room 4 to room 5 
+    };
+
         // Puzzle progress tracking
         this.puzzleStates = {
             room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
@@ -107,7 +115,7 @@ class SceneManager {
 
             // Door to room2
             let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, true, 1.0)); // room1 -> room2
-            if (this.puzzleStates.room1.codeEntered) {
+            if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room1ToRoom2) {
                 room1To2Door.unlock();
             }
             this.game.addEntity(room1To2Door);
@@ -123,7 +131,7 @@ class SceneManager {
             let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, true, 1.0); // room2 -> room3
             this.game.addEntity(room2To3Door);
 
-            if (this.puzzleStates.room2.lockBroken) {
+            if (this.puzzleStates.room2.lockBroken || this.debugDoorUnlocks.room2ToRoom3) {
                 room2To3Door.unlock();
             }
 
@@ -174,8 +182,8 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
 
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, false, 0.0)); // room3 -> room2
-            let room3To4Door = (new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, false, 1.0)); // room3 -> room4
-            if (this.puzzleStates.room1.codeEntered) {
+            let room3To4Door = (new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, true, 1.0)); // room3 -> room4
+            if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room3ToRoom4) {
                 room3To4Door.unlock();
             }
             this.game.addEntity(room3To4Door);
@@ -186,7 +194,7 @@ class SceneManager {
 
             // interactable objects
             this.game.addEntity(new PigHead(this.game, 200, 150));
-            this.game.addEntity(new CandleTable(this.game, 982, 135));
+            this.game.addEntity(new CandleTable(this.game, 982, 145));
 
 
             // invisible wall
@@ -203,9 +211,7 @@ class SceneManager {
 
             this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, false, 0.0)); // room4 -> room3
             let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, false, 0.0)); // room4 -> room5
-            if (this.puzzleStates.room1.codeEntered) {
-                room4To5Door.unlock();
-            }
+
             this.game.addEntity(room4To5Door);
 
             // invisible wall
