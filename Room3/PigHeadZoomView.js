@@ -11,17 +11,17 @@ class PigHeadZoomView {
         this.y = 50
         
         // load zoomed in PigHead image
-        this.pigHeadImage = ASSET_MANAGER.getAsset("./Sprites/Room3/PigHead_Medallion.png"); 
+        this.pigHeadImage = ASSET_MANAGER.getAsset("./Sprites/Room3/PigHeadEmptyMouth.png"); 
         
         // Medallion will be layed on top of PigHead 
         // TODO: should be a bloody version of the snowflake key as its own sprite ?
         this.medallionSprite = ASSET_MANAGER.getAsset("./Sprites/Room3/SnowflakeMedallion.png"); 
         
         // Medallion position on PigHead 
-        this.medallionX = this.x + 300;
-        this.medallionY = this.y + 450; 
-        this.medallionWidth = 80;
-        this.medallionHeight = 80;
+        this.medallionX = this.x + 315;
+        this.medallionY = this.y + 500; 
+        this.medallionWidth = 175;
+        this.medallionHeight = 175;
         
         this.medallionTaken = this.PigHead.medallionTaken;
         this.removeFromWorld = false;

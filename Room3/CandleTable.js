@@ -3,8 +3,8 @@ class CandleTable {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.width = 150;
-        this.height = 100;
+        this.width = 150; // these are only used for if near lily maybe we fix or refactor this later
+        this.height = 100; // these are only used for if near lily maybe we fix or refactor this later
         
         // Check if puzzle is solved
         this.puzzleSolved = this.game.sceneManager.puzzleStates.room3.candlesArranged;
@@ -82,11 +82,11 @@ class CandleTable {
         let candleOrder = this.game.sceneManager.puzzleStates.room3.candleOrder;
     
         // Candle positions on table
-        let candleStartX = this.x + 40;
-        let candleY = this.y - 50;
-        let candleSpacing = 50;
+        let candleStartX = this.x + 30;
+        let candleY = this.y - 40;
+        let candleSpacing = 40;
         let candleWidth = 30;
-        let candleHeight = 70;
+        let candleHeight = 65;
         
         // Load candle sprites
         let candleSprites = {

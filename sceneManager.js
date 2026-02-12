@@ -176,13 +176,14 @@ class SceneManager {
             );
 
             // decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/Room3/TableWithBlood.png", 220, 135, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/Room3/TableWithBlood.png", 220, 135, true, { x: 0, y: 0, w: 0, h: 40 },));
             this.game.addEntity(new DecorativeSprite(this.game, 1275, 620, "./Sprites/FillerFurniture/SideToilet.png", 95, 110, true, { x: 20, y: 50, w: 60, h: 80 }, true));
             this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
             this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
 
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, false, 0.0)); // room3 -> room2
             let room3To4Door = (new Door(this.game, 610, 26, 155, 187, "room4", 250, 700, true, 1.0)); // room3 -> room4
+         
             if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room3ToRoom4) {
                 room3To4Door.unlock();
             }
@@ -193,8 +194,8 @@ class SceneManager {
             this.game.addEntity(new Jin(this.game, 300, 495, true));
 
             // interactable objects
-            this.game.addEntity(new PigHead(this.game, 200, 150));
-            this.game.addEntity(new CandleTable(this.game, 982, 145));
+            this.game.addEntity(new PigHead(this.game, 210, 110));
+            this.game.addEntity(new CandleTable(this.game, 982, 155));
 
 
             // invisible wall

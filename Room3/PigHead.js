@@ -3,9 +3,8 @@ class PigHead {
         this.game = game;
         this.x = x;        
         this.y = y;
-        this.width = 140;  
-        this.height = 107; 
-        //this.depth = 150;
+        this.width = 100;  
+        this.height = 80; 
         
         this.medallionTaken = this.game.sceneManager.puzzleStates.room3.snowflakeMedallion;
         this.isSolid = false; 
