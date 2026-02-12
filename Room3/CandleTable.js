@@ -3,8 +3,8 @@ class CandleTable {
         this.game = game;
         this.x = x;
         this.y = y;
-        this.width = 400;
-        this.height = 150;
+        this.width = 150;
+        this.height = 100;
         
         // Check if puzzle is solved
         this.puzzleSolved = this.game.sceneManager.puzzleStates.room3.candlesArranged;
@@ -78,6 +78,47 @@ class CandleTable {
     }
     
     draw(ctx) {
+
+        let candleOrder = this.game.sceneManager.puzzleStates.room3.candleOrder;
+    
+        // Candle positions on table
+        let candleStartX = this.x + 40;
+        let candleY = this.y - 50;
+        let candleSpacing = 50;
+        let candleWidth = 30;
+        let candleHeight = 70;
+        
+        // Load candle sprites
+        let candleSprites = {
+            pink: ASSET_MANAGER.getAsset("./Sprites/Room3/PinkCandle.png"),
+            purple: ASSET_MANAGER.getAsset("./Sprites/Room3/PurpleCandle.png"),
+            blue: ASSET_MANAGER.getAsset("./Sprites/Room3/BlueCandle.png"),
+            green: ASSET_MANAGER.getAsset("./Sprites/Room3/GreenCandle.png"),
+            yellow: ASSET_MANAGER.getAsset("./Sprites/Room3/YellowCandle.png")
+        };
+
+        // Draw each candle
+        for (let i = 0; i < candleOrder.length; i++) {
+            let candleX = candleStartX + i * candleSpacing;
+            let color = candleOrder[i];
+            let sprite = candleSprites[color];
+            
+            if (sprite && sprite.complete && sprite.naturalWidth > 0) {
+                ctx.drawImage(sprite, candleX, candleY, candleWidth, candleHeight);
+            } else {
+                // Placeholder
+                let colorMap = {
+                    pink: "#e330f3",
+                    purple: "#4c1f9e",
+                    blue: "#388edf",
+                    green: "#09ff00",
+                    yellow: "#ebee39"
+                };
+                
+                ctx.fillStyle = colorMap[color] || "#888";
+                ctx.fillRect(candleX, candleY, candleWidth, candleHeight);
+            }
+        }
  
         // Draw medallion if puzzle solved and not taken
         if (this.puzzleSolved && !this.medallionTaken) {

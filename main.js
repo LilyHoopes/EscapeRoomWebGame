@@ -84,6 +84,12 @@ const ASSET_MANAGER = new AssetManager();
 
 // room 3
 
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/PinkCandle.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/PurpleCandle.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/BlueCandle.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/GreenCandle.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/YellowCandle.png");
+
     ASSET_MANAGER.queueDownload("./Sprites/Room3/PigHead_Medallion.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/PigHeadEmptyMouth.png");
 
@@ -99,8 +105,6 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/Alive_VictorSpriteSheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/Alive_JinSpriteSheet.png");
-
-
 
 // room 4
     ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");

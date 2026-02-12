@@ -60,7 +60,7 @@ class PaintingZoomView {
     
     // if key is clicked on, add to inventory, update the painting, and change state 
     takeKey() {
-        this.game.sceneManager.addToInventory("Diamond Key", "./Sprites/Room1/DiamondKey.png");        
+        this.game.sceneManager.addToInventory("diamond_key", "./Sprites/Room1/DiamondKey.png");        
         this.painting.onKeyTaken();
         this.keyTaken = true;
     }

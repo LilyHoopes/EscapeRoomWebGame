@@ -24,14 +24,6 @@ class BookshelfZoomView {
         this.bookUnlocked = this.bookshelf.bookOpened;
         this.paperTaken = this.game.sceneManager.puzzleStates.room1.paperTaken; 
         this.hasKey = this.game.sceneManager.hasItem("diamond_key");
-
-        this.draggingKey = false;
-        this.dragKeyX = this.keyX; 
-        this.dragKeyY = this.keyY;
-        this.dragOffsetX = 0;
-        this.dragOffsetY = 0;
-        
-        this.removeFromWorld = false;
         
         // Load in sprites
         this.lockedBookSprite = ASSET_MANAGER.getAsset("./Sprites/Room1/LockedDiamondBook.png");   
@@ -62,6 +54,14 @@ class BookshelfZoomView {
         this.keyY = this.y + 50;
         this.keyWidth = 60;
         this.keyHeight = 120;
+
+        this.draggingKey = false; // NOTE: the drag and drop stuff must be at end of constructor or else key won't spawn in 
+        this.dragKeyX = this.keyX; 
+        this.dragKeyY = this.keyY;
+        this.dragOffsetX = 0;
+        this.dragOffsetY = 0;
+        
+        this.removeFromWorld = false;
     }
     
      /**

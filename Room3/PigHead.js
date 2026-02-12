@@ -5,9 +5,9 @@ class PigHead {
         this.y = y;
         this.width = 140;  
         this.height = 107; 
-        this.depth = 150;
+        //this.depth = 150;
         
-        this.medallionTaken = this.game.sceneManager.puzzleStates.room3.pigHeadMedallionTaken;
+        this.medallionTaken = this.game.sceneManager.puzzleStates.room3.snowflakeMedallion;
         this.isSolid = false; 
         
         // Load sprite
@@ -74,4 +74,9 @@ class PigHead {
             ctx.fillText(text, textX, textY);
         }
     }
+
+    get depth() {
+        return this.y + this.height;
+    }
+
 }
