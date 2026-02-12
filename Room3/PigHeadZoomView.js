@@ -13,15 +13,15 @@ class PigHeadZoomView {
         // load zoomed in PigHead image
         this.pigHeadImage = ASSET_MANAGER.getAsset("./Sprites/Room3/PigHead_Medallion.png"); 
         
-        // Diamond key sprite will be layed on top of PigHead 
-        // TODO: should be a bloody version of the snowflake key as its own sprite 
-        this.keySprite = ASSET_MANAGER.getAsset("./Sprites/Room1/BloodySnowflakeMedallion.png"); 
+        // Medallion will be layed on top of PigHead 
+        // TODO: should be a bloody version of the snowflake key as its own sprite ?
+        this.medallionSprite = ASSET_MANAGER.getAsset("./Sprites/Room3/SnowflakeMedallion.png"); 
         
         // Medallion position on PigHead 
-        this.snowX = this.x + 535; 
-        this.snowY = this.y + 474; 
-        this.snowWidth = 96;
-        this.snowHeight = 192;
+        this.medallionX = this.x + 300;
+        this.medallionY = this.y + 450; 
+        this.medallionWidth = 80;
+        this.medallionHeight = 80;
         
         this.medallionTaken = this.PigHead.medallionTaken;
         this.removeFromWorld = false;
@@ -47,11 +47,11 @@ class PigHeadZoomView {
                 return;
             }
             
-            // if key isnt taken and user clicks the key 
-            if (!this.keyTaken && 
-                clickX >= this.keyX && clickX <= this.keyX + this.keyWidth &&
-                clickY >= this.keyY && clickY <= this.keyY + this.keyHeight) {
-                this.takeKey();
+            // if medallions is not taken and user clicks it 
+            if (!this.medallionTaken && 
+                clickX >= this.medallionX && clickX <= this.medallionX + this.medallionWidth &&
+                clickY >= this.medallionY && clickY <= this.medallionY + this.medallionHeight) {
+                this.takeMedallion();
             }
             this.game.click = null;
         }
@@ -59,14 +59,8 @@ class PigHeadZoomView {
     
     // if medallion is clicked on, add to inventory, update pighead image, and change state 
     takeMedallion() {
-        
-        // Add to inventory
         this.game.sceneManager.addToInventory("Snowflake Medallion", "./Sprites/Room3/SnowflakeMedallion.png");        
-        
-        // Notify the pig head
-        this.painting.onMedallionTaken();
-        
-        // Mark as taken
+        this.PigHead.onMedallionTaken();
         this.medallionTaken = true;
     }
     
@@ -95,12 +89,12 @@ class PigHeadZoomView {
         
         // Draw the medallion on the pig head if not taken 
         if (!this.medallionTaken) {
-            if (this.medallionTaken) {
-                ctx.drawImage(this.keySprite, this.snowX, this.snowY, this.snowWidth, this.snowH);
+            if (this.medallionSprite) {
+                ctx.drawImage(this.medallionSprite, this.medallionX, this.medallionY, this.medallionWidth, this.medallionHeight);
             } else {
                 // Placeholder coin if bro fails 
                 ctx.fillStyle = "cyan";
-                ctx.fillRect(this.snowX, this.snowY, this.snowWidth, this.snowHeight);
+                ctx.fillRect(this.medallionX, this.medallionY, this.medallionWidth, this.medallionHeight);
             }
 
         // Hover effect when hovering over the medallion 
@@ -108,12 +102,12 @@ class PigHeadZoomView {
                 let mx = this.game.mouse.x;
                 let my = this.game.mouse.y;
                 
-                if (mx >= this.snowX && mx <= this.snowX + this.snowWidth &&
-                    my >= this.snowY && my <= this.snowY + this.snowHeight) {
+                if (mx >= this.medallionX && mx <= this.medallionX + this.medallionWidth &&
+                    my >= this.medallionY && my <= this.medallionY + this.medallionHeight) {
                     // Draw highlight border
                     ctx.strokeStyle = "yellow";
                     ctx.lineWidth = 3;
-                    ctx.strokeRect(this.snowX - 5, this.snowY - 5, this.snowWidth + 10, this.snowHeight + 10);
+                    ctx.strokeRect(this.medallionX - 5, this.medallionY - 5, this.medallionWidth + 10, this.medallionHeight + 10);
                 }
             }
         }

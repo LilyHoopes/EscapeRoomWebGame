@@ -37,7 +37,6 @@ class RosePainting {
 
     openZoomView() {    
         this.game.addEntity(new PaintingZoomView(this.game, this));
-        
         this.game.examining = true;
         this.game.E = false;
     }
@@ -47,8 +46,6 @@ class RosePainting {
         this.keyTaken = true;
         this.game.sceneManager.puzzleStates.room1.hasKey = true;
     }
-    
-
     
     draw(ctx) {
         // Use sprite without key if already taken

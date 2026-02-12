@@ -63,7 +63,6 @@ class InventoryUI {
     }
     
     onItemClick(item) {
-        console.log("Clicked on item:", item.name);
         
         // If it's the riddle paper, open the readable view
         if (item.name === "Strange Note") {
@@ -76,13 +75,11 @@ class InventoryUI {
                 
         // If it's a used item, show message
         if (item.used) {
-            console.log("This item has already been used.");
             // Could add a visual notification here
         }
     }
     
     close() {
-        console.log("Closing inventory");
         this.removeFromWorld = true;
         this.game.examining = false;
     }

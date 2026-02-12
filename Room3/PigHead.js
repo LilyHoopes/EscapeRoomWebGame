@@ -3,13 +3,12 @@ class PigHead {
         this.game = game;
         this.x = x;        
         this.y = y;
-        this.width = 125;  
-        this.height = 125; 
+        this.width = 140;  
+        this.height = 107; 
         this.depth = 150;
         
-        // TODO: set state of medallion array to nothing in the constructor 
-        this.medallionTaken = false;
-        this.isSolid = false; // Not a collision object
+        this.medallionTaken = this.game.sceneManager.puzzleStates.room3.pigHeadMedallionTaken;
+        this.isSolid = false; 
         
         // Load sprite
         this.pigHead = ASSET_MANAGER.getAsset("./Sprites/Room3/PigHead_Medallion.png"); 
@@ -45,13 +44,12 @@ class PigHead {
     // Called by PigHeadZoomView when key is taken
     onMedallionTaken() {
         this.medallionTaken = true;
-        this.game.sceneManager.puzzleStates.room3.hasMedallion = true; //TODO: not sure what this needs to be fhcanged to or fixed
-        // should it just be medallion or specifically pighead medallion ?
+        this.game.sceneManager.puzzleStates.room3.snowflakeMedallion = true;
     }
     
     draw(ctx) {
         // Use sprite without key if already taken
-        let sprite = this.medallionTaken ? this.pigHead : this.pigHeadNoMedallion;
+        let sprite = this.medallionTaken ? this.pigHeadNoMedallion : this.pigHead;
         
         if (sprite && sprite.complete && sprite.naturalWidth > 0) {
             ctx.drawImage(sprite, this.x, this.y, this.width, this.height);

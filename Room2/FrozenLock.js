@@ -37,7 +37,6 @@ class FrozenLock {
     }
     
     openZoomView() {
-        console.log("Opening frozen lock zoom view...");
         
         this.game.addEntity(new FrozenLockZoomView(this.game, this));
         
@@ -52,7 +51,6 @@ class FrozenLock {
         
         // Unlock the door to room 3
         this.unlockDoor();
-        console.log("Lock broken! Door to room 3 unlocked!");
     }
     
     unlockDoor() {

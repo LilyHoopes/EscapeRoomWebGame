@@ -96,7 +96,6 @@ class FrozenLockZoomView {
                 this.draggingPipe = true;
                 this.dragOffsetX = mx - this.dragPipeX;
                 this.dragOffsetY = my - this.dragPipeY;
-                console.log("Started dragging pipe");
             }
         }
         
@@ -108,7 +107,6 @@ class FrozenLockZoomView {
         
         // Release mouse - check if over lock
         if (this.draggingPipe && !this.game.mouseDown) {
-            console.log("Released pipe!");
             
             // Check if pipe was dropped on the lock
             let pipeCenterX = this.dragPipeX + this.pipeWidth / 2;
@@ -122,10 +120,8 @@ class FrozenLockZoomView {
             );
             
             if (pipeOverLock) {
-                console.log("Pipe dropped on lock - breaking it!");
                 this.breakLock();
             } else {
-                console.log("Pipe dropped elsewhere - snapping back");
                 // Snap pipe back to original position
                 this.dragPipeX = this.pipeInventoryX;
                 this.dragPipeY = this.pipeInventoryY;
@@ -137,7 +133,7 @@ class FrozenLockZoomView {
     
     breakLock() {
         // Mark pipe as used
-        this.game.sceneManager.markItemAsUsed("lead_pipe");
+        this.game.sceneManager.markItemAsUsed("Lead Pipe");
         this.hasPipe = false;
         
         // Break the lock
@@ -152,7 +148,6 @@ class FrozenLockZoomView {
     }
     
     close() {
-        console.log("Closing frozen lock zoom view");
         this.removeFromWorld = true;
         this.game.examining = false;
     }

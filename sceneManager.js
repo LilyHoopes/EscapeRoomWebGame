@@ -10,8 +10,15 @@ class SceneManager {
         // Puzzle progress tracking
         this.puzzleStates = {
             room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: { paintingsClicked: [], pipeObtained: false, lockBroken: false },
-            room3: { medallions: [], candlesArranged: false, medallionDoor: false }
+            room2: { pipeObtained: false, lockBroken: false },
+            room3: { 
+                snowflakeMedallion: false,      
+                candleMedallion: false,       
+                leafMedallion: false,       
+                candlesArranged: false,          
+                candleOrder: ["pink", "purple", "blue", "green", "yellow"], 
+                medallionDoor: false               
+            }
         };
 
         // NPC dialogue tracking
@@ -173,6 +180,7 @@ class SceneManager {
 
             // interactable objects
             this.game.addEntity(new PigHead(this.game, 200, 200));
+            this.game.addEntity(new CandleTable(this.game, 242, 122));
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 150, 135, "./Sprites/Room3/TableWithBlood.png", 220, 135, true));
