@@ -9,23 +9,23 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: true,   // Door from room 1 to room 2
-        room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
-        room4ToRoom5: true   // Door from room 4 to room 5 
-    };
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: false,  // Door from room 3 to room 4
+            room4ToRoom5: true    // Door from room 4 to room 5
+        };
 
         // Puzzle progress tracking
         this.puzzleStates = {
             room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
             room2: { pipeObtained: false, lockBroken: false },
-            room3: { 
-                snowflakeMedallion: false,      
-                candleMedallion: false,       
-                leafMedallion: false,       
-                candlesArranged: false,          
-                candleOrder: ["yellow", "blue", "green", "purple", "pink"], 
-                medallionDoor: false               
+            room3: {
+                snowflakeMedallion: false,
+                candleMedallion: false,
+                leafMedallion: false,
+                candlesArranged: false,
+                candleOrder: ["yellow", "blue", "green", "purple", "pink"],
+                medallionDoor: false
             }
         };
 
@@ -43,12 +43,16 @@ class SceneManager {
         this.roomBGMName = null;
 
         // ===== DIALOGUE UI =====
-        this.dialogueBox = new DialogueBox();
+        // Added: pass game so DialogueBox can use clockTick for typing effect
+        this.dialogueBox = new DialogueBox(this.game);
         this.dialogueBox.isPopup = true;
         this.wasEPressed = false;
 
         // Added: Shiannel "E to Talk" prompt handle
         this.shiannelPrompt = null;
+
+        // Added: single source of truth for Shiannel position in room2
+        this.shiannelPos = { x: 1210, y: 150 };
     }
 
     loadRoom(roomName, spawnX, spawnY) {
@@ -57,7 +61,8 @@ class SceneManager {
 
         // BGM applicator
         const bgmMap = {
-            room1: "./bgm/House of Souls Room1.mp3"
+            room1: "./bgm/House of Souls Room1.mp3",
+            room2: "./bgm/House of Souls Room2.mp3"
             // room2: "./bgm/room2.mp3",
             // room3: "./bgm/room3.mp3",
             // room4: "./bgm/room4.mp3",
@@ -119,7 +124,6 @@ class SceneManager {
                 room1To2Door.unlock();
             }
             this.game.addEntity(room1To2Door);
-
         }
 
         if (roomName === "room2") {
@@ -138,6 +142,8 @@ class SceneManager {
             // added shiannel
             this.game.addEntity(new Shiannel(this.game, 1210, 150, true));
 
+            // Added: keep shiannelPos synced with Shiannel spawn position
+            this.shiannelPos = { x: 1210, y: 150 };
 
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
@@ -154,20 +160,19 @@ class SceneManager {
             this.game.addEntity(new GenericFrame(this.game, 425, 390, "./Sprites/Room2/HouseFrame.png", 100, 100, 480));
             this.game.addEntity(new GenericFrame(this.game, 875, 390, "./Sprites/Room2/IslandFrame.png", 100, 100, 480));
             this.game.addEntity(new GenericFrame(this.game, 1000, 390, "./Sprites/Room2/PepeFrame.png", 100, 100, 480));
-            this.game.addEntity(new GenericFrame(this.game, 1250, 390, "./Sprites/Room2/SkeletonFrame.png", 100, 100, 480)); 
+            this.game.addEntity(new GenericFrame(this.game, 1250, 390, "./Sprites/Room2/SkeletonFrame.png", 100, 100, 480));
             this.game.addEntity(new MusicNoteFrame(this.game, 1125, 390, 100, 100));
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 160, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200));
-            
+
             // wall
             this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
             this.game.addEntity(new DecorativeSprite(this.game, 831, 330, "./Sprites/Room2/Room2InvisWall.png", 550, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
 
-            // lock on door 
+            // lock on door
             this.game.addEntity(new FrozenLock(this.game, 1090, 95));
-
         }
 
         if (roomName === "room3") {
@@ -183,7 +188,7 @@ class SceneManager {
 
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
             let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", true, 1.0)); // room3 -> room4
-         
+
             if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room3ToRoom4) {
                 room3To4Door.unlock();
             }
@@ -196,7 +201,6 @@ class SceneManager {
             // interactable objects
             this.game.addEntity(new PigHead(this.game, 210, 110));
             this.game.addEntity(new CandleTable(this.game, 982, 155));
-
 
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
@@ -273,10 +277,22 @@ class SceneManager {
         return this.inventory.find(i => i.name === itemName);
     }
 
+    // Added: map internal npc keys to display names
+    getNPCDisplayName(npcName) {
+        const map = {
+            shiannel: "Shiannel",
+            victor: "Victor",
+            jin: "Jin"
+        };
+        return map[npcName] || "";
+    }
+
     // NPC DIALOGUE
     handleNPCInteraction(npcName, dialogueLines) {
         const npc = this.npcStates[npcName];
         if (!npc || !Array.isArray(dialogueLines) || dialogueLines.length === 0) return;
+
+        const displayName = this.getNPCDisplayName(npcName);
 
         // If already open, advance
         if (this.dialogueBox.active) {
@@ -286,7 +302,8 @@ class SceneManager {
                 this.dialogueBox.close();
                 this.game.examining = false;
             } else {
-                this.dialogueBox.open(dialogueLines[npc.dialogueIndex]);
+                // Added: pass speaker name (portrait path stays optional)
+                this.dialogueBox.open(dialogueLines[npc.dialogueIndex], null, displayName);
             }
             return;
         }
@@ -294,13 +311,15 @@ class SceneManager {
         // Open fresh
         npc.met = true;
         npc.dialogueIndex = 0;
-        this.dialogueBox.open(dialogueLines[0]);
+
+        // Added: pass speaker name (portrait path stays optional)
+        this.dialogueBox.open(dialogueLines[0], null, displayName);
 
         // Optional: lock player interaction while dialogue is open
         this.game.examining = true;
     }
 
-    // Basic distance check 
+    // Basic distance check
     isNear(x, y, range = 90) {
         const dx = (this.lily.x - x);
         const dy = (this.lily.y - y);
@@ -323,8 +342,15 @@ class SceneManager {
         // E key NPC talk (GOTTA FIX THIS ONE)
         // We only trigger once per key press
         if (this.game.E && !this.wasEPressed) {
-            // If dialogue is open, E advances it no matter what room you are in
+            // If dialogue is open, handle typing skip first, otherwise advance dialogue
             if (this.dialogueBox.active) {
+
+                // Added: if text is still typing, E will instantly finish the line
+                if (this.dialogueBox.isTyping) {
+                    this.dialogueBox.skipTyping();
+                    this.wasEPressed = true;
+                    return;
+                }
 
                 if (this.currentRoom === "room2") {
                     this.handleNPCInteraction("shiannel", [
@@ -333,7 +359,7 @@ class SceneManager {
                         "testing 3"
                     ]);
                 } else if (this.currentRoom === "room3") {
-                    
+
                     this.handleNPCInteraction("victor", [
                         "Testing1",
                         "Testing2",
@@ -348,8 +374,8 @@ class SceneManager {
                 // Dialogue not open yet, decide who you are near
 
                 if (this.currentRoom === "room2") {
-                    // Shiannel spawn in your loadRoom: (1210, 480)
-                    if (this.isNear(1210, 480, 120)) {
+                    // Added: use Shiannel position source for proximity check
+                    if (this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120)) {
                         // Added: remove prompt when starting dialogue
                         if (this.shiannelPrompt) {
                             this.shiannelPrompt.removeFromWorld = true;
@@ -392,11 +418,17 @@ class SceneManager {
 
         // Keep prompt updated even when E is not pressed (room2 Shiannel only)
         if (!this.dialogueBox.active && this.currentRoom === "room2") {
-            const nearShiannel = this.isNear(1210, 480, 120);
+            // Added: use Shiannel position source for prompt placement
+            const nearShiannel = this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120);
 
             if (nearShiannel) {
                 if (!this.shiannelPrompt) {
-                    this.shiannelPrompt = new TalkPrompt(this.game, 1210, 480 - 80, "E to Talk");
+                    this.shiannelPrompt = new TalkPrompt(
+                        this.game,
+                        this.shiannelPos.x,
+                        this.shiannelPos.y - 80,
+                        "E to Talk"
+                    );
                     this.game.addEntity(this.shiannelPrompt);
                 }
             } else {
@@ -425,24 +457,110 @@ class SceneManager {
     }
 }
 
-// Dialogue UI class 
+// Dialogue UI class
 class DialogueBox {
-    constructor() {
+    constructor(game) {
+        // Added: store game reference for clockTick timing
+        this.game = game;
+
         this.active = false;
+
+        // Visible text that gets drawn
         this.text = "";
+
+        // Typing effect state
+        this.fullText = "";
+        this.displayText = "";
+        this.charIndex = 0;
+        this.typeTimer = 0;
+        this.typeSpeed = 45; // characters per second
+        this.isTyping = false;
+
+        // Portrait state
+        this.portraitImg = null;
+        this.portraitReady = false;
+
+        // Added: speaker name
+        this.speakerName = "";
+
         this.isPopup = true;
     }
 
-    update() {}
+    update() {
+        // Advance typing effect over time
+        if (!this.active || !this.isTyping) return;
 
-    open(text) {
+        const dt = (this.game && typeof this.game.clockTick === "number") ? this.game.clockTick : (1 / 60);
+        this.typeTimer += dt;
+
+        const charsToAdd = Math.floor(this.typeTimer * this.typeSpeed);
+        if (charsToAdd <= 0) return;
+
+        this.typeTimer -= charsToAdd / this.typeSpeed;
+        this.charIndex = Math.min(this.fullText.length, this.charIndex + charsToAdd);
+
+        this.displayText = this.fullText.slice(0, this.charIndex);
+        this.text = this.displayText;
+
+        if (this.charIndex >= this.fullText.length) {
+            this.isTyping = false;
+        }
+    }
+
+    // Added: supports optional portraitPath and speakerName
+    open(text, portraitPath = null, speakerName = "") {
         this.active = true;
-        this.text = String(text || "");
+
+        // Typing effect reset
+        this.fullText = String(text || "");
+        this.displayText = "";
+        this.text = "";
+        this.charIndex = 0;
+        this.typeTimer = 0;
+        this.isTyping = true;
+
+        // Speaker name
+        this.speakerName = speakerName || "";
+
+        // Portrait reset
+        this.portraitImg = null;
+        this.portraitReady = false;
+
+        if (portraitPath) {
+            const img = new Image();
+            img.onload = () => { this.portraitReady = true; };
+            img.src = portraitPath;
+            this.portraitImg = img;
+        }
+    }
+
+    // Instantly completes the current line
+    skipTyping() {
+        if (!this.active || !this.isTyping) return;
+
+        this.isTyping = false;
+        this.charIndex = this.fullText.length;
+        this.displayText = this.fullText;
+        this.text = this.fullText;
     }
 
     close() {
         this.active = false;
+
+        // Reset text and typing state
         this.text = "";
+        this.fullText = "";
+        this.displayText = "";
+        this.charIndex = 0;
+        this.typeTimer = 0;
+        this.isTyping = false;
+
+        // Reset portrait state
+        this.portraitImg = null;
+        this.portraitReady = false;
+
+        // Reset speaker name
+        this.speakerName = "";
     }
 
     draw(ctx) {
@@ -451,7 +569,21 @@ class DialogueBox {
         const boxX = 120;
         const boxY = 560;
         const boxW = 1140;
-        const boxH = 170;
+
+        // Added: increase height to prevent text overlap
+        const boxH = 200;
+
+        // Portrait layout
+        const portraitSize = 120;
+        const portraitPad = 20;
+        const portraitX = boxX + portraitPad;
+        const portraitY = boxY + Math.floor((boxH - portraitSize) / 2);
+
+        // Text layout
+        const textX = portraitX + portraitSize + 30;
+        const nameY = boxY + 42;     // Added: speaker name line
+        const textY = boxY + 72;     // Added: dialogue text starts lower to avoid overlap with name
+        const textMaxW = boxX + boxW - textX - 40;
 
         // Box
         ctx.fillStyle = "rgba(0, 0, 0, 0.80)";
@@ -461,14 +593,34 @@ class DialogueBox {
         ctx.lineWidth = 2;
         ctx.strokeRect(boxX, boxY, boxW, boxH);
 
-        // Main text
+        // Portrait frame
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(portraitX, portraitY, portraitSize, portraitSize);
+
+        // Portrait image (only if provided and ready)
+        if (this.portraitImg && this.portraitReady) {
+            ctx.drawImage(this.portraitImg, portraitX, portraitY, portraitSize, portraitSize);
+        }
+
+        // Added: speaker name
+        if (this.speakerName) {
+            ctx.fillStyle = "white";
+            ctx.font = "18px Arial";
+            ctx.fillText(this.speakerName, textX, nameY);
+        }
+
+        // Main dialogue text
         ctx.fillStyle = "white";
         ctx.font = "22px Arial";
-        wrapText(ctx, this.text, boxX + 200, boxY + 45, boxW - 80, 28);
+        wrapText(ctx, this.text, textX, textY, textMaxW, 28);
 
-        // Instruction
+        // Added: hint placed at bottom-right so it never overlaps dialogue
         ctx.font = "16px Arial";
-        ctx.fillText("Press E to continue", boxX + 80, boxY + boxH - 20);
+        const hint = this.isTyping ? "Press E to skip" : "Press E to continue";
+        ctx.textAlign = "right";
+        ctx.fillText(hint, boxX + boxW - 30, boxY + boxH - 15);
+        ctx.textAlign = "left";
     }
 }
 
@@ -521,4 +673,3 @@ function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
     }
     ctx.fillText(line, x, y);
 }
-
