@@ -4,8 +4,8 @@ class HealthUI {
         this.isPopup = true; // Always drawn on top
         this.removeFromWorld = false;
         
-        // Position (top-right corner)
-        this.x = 1180;
+        // Position (top-left corner)
+        this.x = 30;
         this.y = 20;
         this.heartSize = 50;
         this.heartSpacing = 60;
