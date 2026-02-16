@@ -35,9 +35,9 @@ const ASSET_MANAGER = new AssetManager();
             ASSET_MANAGER.queueDownload("./Sprites/Room1/067Codex.png");                   
             ASSET_MANAGER.queueDownload("./Sprites/Room1/Room1Note.png");
         // keypad
-            ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadWhite.png");
-            ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadRed.png");
-            ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadGreen.png");
+            ASSET_MANAGER.queueDownload("./Sprites/Room1/pixelPinpadWhite.png");
+            ASSET_MANAGER.queueDownload("./Sprites/Room1/pixelPinpadRed.png");
+            ASSET_MANAGER.queueDownload("./Sprites/Room1/pixelPinpadGreen.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/KeypadZoomBackground.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/DigitSpriteSheet.png");
             ASSET_MANAGER.queueDownload("./Sprites/Room1/Button0Normal.png");

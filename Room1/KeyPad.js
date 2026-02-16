@@ -26,9 +26,9 @@ class KeyPad {
         this.removeFromWorld = false;
         
         // Load keypad sprites
-        this.spriteWhite = ASSET_MANAGER.getAsset("./Sprites/Room1/KeypadWhite.png");
-        this.spriteRed = ASSET_MANAGER.getAsset("./Sprites/Room1/KeypadRed.png");
-        this.spriteGreen = ASSET_MANAGER.getAsset("./Sprites/Room1/KeypadGreen.png");
+        this.spriteWhite = ASSET_MANAGER.getAsset("./Sprites/Room1/pixelPinpadWhite.png");
+        this.spriteRed = ASSET_MANAGER.getAsset("./Sprites/Room1/pixelPinpadRed.png");
+        this.spriteGreen = ASSET_MANAGER.getAsset("./Sprites/Room1/pixelPinpadGreen.png");
     }
     
     /** 
