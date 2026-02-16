@@ -169,7 +169,9 @@ class KeypadZoomView {
             this.isCorrect = false;
             this.showingResult = true;
             this.keypad.onWrongCode();
-            
+
+            this.game.sceneManager.takeDamage();
+
             // Clear after showing red
             setTimeout(() => {
                 this.enteredCode = "";

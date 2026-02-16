@@ -42,6 +42,8 @@ class GenericFrame {
         
         // Mark as viewed (for tracking which paintings player has seen)
         this.hasBeenViewed = true;
+
+        this.game.sceneManager.takeDamage();
         
         // Create zoom view
         this.game.addEntity(new FrameZoomView(this.game, this));

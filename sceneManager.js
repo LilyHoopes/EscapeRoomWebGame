@@ -249,6 +249,8 @@ class SceneManager {
         this.game.addEntity(this.lily);
         this.game.addEntity(this.dialogueBox);
 
+        this.game.addEntity(new HealthUI(this.game));
+
         // Prevent instant retriggering of interaction key
         this.game.E = false;
         this.wasEPressed = false;
@@ -451,14 +453,63 @@ class SceneManager {
     }
 
     takeDamage() {
+        if (this.health <= 0) return; // Already dead
+        
         this.health--;
+        console.log(`Player took damage! Health: ${this.health}/3`);
+        
         if (this.health <= 0) {
-            // i am going to fix this later
+            // Player died womp womp
+            this.showDeathScreen();
         }
     }
 
+    showDeathScreen() {
+    // Stop all music
+    if (this.roomBGM) {
+        this.roomBGM.pause();
+        this.roomBGM.currentTime = 0;
+    }
+    
+    // Show death screen
+    this.game.addEntity(new DeathScreen(this.game));
+}
+
     clearEntities() {
         this.game.entities = [];
+    }
+
+    resetGame() {
+        // Reset health
+        this.health = 3;
+        
+        // Clear inventory
+        this.inventory = [];
+        
+        // Reset all puzzle states
+        this.puzzleStates = {
+            room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
+            room2: { pipeObtained: false, lockBroken: false },
+            room3: {
+                snowflakeMedallion: false,
+                candleMedallion: false,
+                leafMedallion: false,
+                candlesArranged: false,
+                candleOrder: ["yellow", "blue", "green", "purple", "pink"],
+                medallionDoor: false,
+                medallionSlots: [null, null, null]
+            }
+        };
+        
+        // Reset NPC dialogue
+        this.npcStates = {
+            shiannel: { met: false, dialogueIndex: 0 },
+            victor: { met: false, dialogueIndex: 0 },
+            jin: { met: false, dialogueIndex: 0 }
+        };
+        
+        // Load Room 1
+        this.loadRoom("room1", 210, 100);
     }
 }
 
