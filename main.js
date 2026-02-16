@@ -108,6 +108,9 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/BlankMedallionDoor.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/OpenMedallionDoor.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/CompletedMedallionDoor.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInCandleTable.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInMedallionDoor.png");
+
 
 
 // room 4

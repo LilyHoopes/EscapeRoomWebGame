@@ -4,20 +4,21 @@ class CandleTableZoomView {
         this.table = table;
         this.isPopup = true;
         
-        this.width = 1000;
-        this.height = 600;
+        this.width = 1021;
+        this.height = 772;
         this.x = (1380 - this.width) / 2;
         this.y = (882 - this.height) / 2;
         
         this.correctOrder = ["pink", "purple", "blue", "green", "yellow"];
         
-        this.candleOrder = this.game.sceneManager.puzzleStates.room3.candleOrder || 
-                          ["purple", "blue", "yellow", "pink", "green"];
+        this.candleOrder = this.game.sceneManager.puzzleStates.room3.candleOrder || ["purple", "blue", "yellow", "pink", "green"];
+
+        this.tableBackground = ASSET_MANAGER.getAsset("./Sprites/Room3/zoomedInCandleTable.png");
         
         // Candle positions (5 slots)
-        this.slotY = this.y + 250;
-        this.slotWidth = 120;
-        this.slotHeight = 200;
+        this.slotY = this.y + 300;
+        this.slotWidth = 140;
+        this.slotHeight = 250;
         this.slotSpacing = 160;
         this.slotStartX = this.x + 100;
         
@@ -132,51 +133,48 @@ class CandleTableZoomView {
     }
     
     draw(ctx) {
-        // Darken background
-        ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
-        ctx.fillRect(0, 0, 1380, 882);
-        
-        // Draw panel
-        ctx.fillStyle = "#2C1810";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
-        
-        // Title
-        ctx.fillStyle = "white";
-        ctx.font = "28px Arial";
-        ctx.fillText("Arrange the Candles", this.x + 350, this.y + 60);
-        
-        // Draw slots and candles
-        for (let i = 0; i < 5; i++) {
-            let slotX = this.slotStartX + i * this.slotSpacing;
+            // Darken background
+            ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
+            ctx.fillRect(0, 0, 1380, 882);
             
-            // Draw slot
-            ctx.fillStyle = "#555";
-            ctx.fillRect(slotX, this.slotY, this.slotWidth, this.slotHeight);
-            ctx.strokeStyle = "#888";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(slotX, this.slotY, this.slotWidth, this.slotHeight);
-            
-            // Draw candle (if not being dragged)
-            if (i !== this.draggingIndex) {
-                this.drawCandle(ctx, this.candleOrder[i], slotX, this.slotY);
+            if (this.tableBackground && this.tableBackground.complete && this.tableBackground.naturalWidth > 0) {
+                ctx.drawImage(this.tableBackground, this.x, this.y, this.width, this.height);
+            } else {
+                // Placeholder if sprite doesn't load
+                ctx.fillStyle = "#2C1810";
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+                
+                ctx.strokeStyle = "white";
+                ctx.lineWidth = 3;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
             }
+            
+            // Title
+            ctx.fillStyle = "white";
+            ctx.font = "28px Arial";
+            ctx.fillText("Arrange the Candles", this.x + 350, this.y + 60);
+            
+            // Draw candles
+            for (let i = 0; i < 5; i++) {
+                let slotX = this.slotStartX + i * this.slotSpacing;
+                
+                // Draw candle (if not being dragged)
+                if (i !== this.draggingIndex) {
+                    this.drawCandle(ctx, this.candleOrder[i], slotX, this.slotY);
+                }
+            }
+            
+            // Draw dragging candle on top
+            if (this.draggingIndex !== null) {
+                this.drawCandle(ctx, this.candleOrder[this.draggingIndex], this.dragX, this.dragY);
+            }
+            
+            // Instructions
+            ctx.fillStyle = "white";
+            ctx.font = "18px Arial";
+            ctx.fillText("Drag candles to rearrange them", this.x + 330, this.y + this.height - 40);
+            ctx.fillText("Press ESC to close", this.x + 420, this.y + this.height - 15);
         }
-        
-        // Draw dragging candle on top
-        if (this.draggingIndex !== null) {
-            this.drawCandle(ctx, this.candleOrder[this.draggingIndex], this.dragX, this.dragY);
-        }
-        
-        // Instructions
-        ctx.fillStyle = "white";
-        ctx.font = "18px Arial";
-        ctx.fillText("Drag candles to rearrange them", this.x + 330, this.y + this.height - 40);
-        ctx.fillText("Press ESC to close", this.x + 420, this.y + this.height - 15);
-    }
     
     drawCandle(ctx, color, x, y) {
         let sprite = this.candleSprites[color];

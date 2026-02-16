@@ -9,8 +9,8 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: false   // Door from room 4 to room 5 
         
@@ -26,7 +26,8 @@ class SceneManager {
                 leafMedallion: false,
                 candlesArranged: false,
                 candleOrder: ["yellow", "blue", "green", "purple", "pink"],
-                medallionDoor: false
+                medallionDoor: false,
+                medallionSlots: [null, null, null]
             }
         };
 
@@ -97,7 +98,7 @@ class SceneManager {
             );
 
             // Interactive objects
-            this.game.addEntity(new RosePainting(this.game, 375, 70)); // NOTE: why is rosepainting yellow and the others are blue?
+            this.game.addEntity(new RosePainting(this.game, 375, 70)); 
             this.game.addEntity(new Bookshelf(this.game, 805, 440));
             this.game.addEntity(new KeyPad(this.game, 1025, 150));
 
@@ -121,7 +122,7 @@ class SceneManager {
 
             // Door to room2
             let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 1.0)); // room1 -> room2
-            if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room1ToRoom2) {
+            if (this.puzzleStates.room3.medallionDoor || this.debugDoorUnlocks.room1ToRoom2) {
                 room1To2Door.unlock();
             }
             this.game.addEntity(room1To2Door);
@@ -187,10 +188,11 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 10, 672, "./Sprites/FillerFurniture/LilStool.png", 60, 60, true));
             this.game.addEntity(new DecorativeSprite(this.game, 982, 135, "./Sprites/FillerFurniture/SideTable.png", 242, 122, true));
 
+            // doors
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
             let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", true, 1.0)); // room3 -> room4
 
-            if (this.puzzleStates.room1.codeEntered || this.debugDoorUnlocks.room3ToRoom4) {
+            if (this.puzzleStates.room3.medallionDoor || this.debugDoorUnlocks.room3ToRoom4) {
                 room3To4Door.unlock();
             }
             this.game.addEntity(room3To4Door);
@@ -202,6 +204,7 @@ class SceneManager {
             // interactable objects
             this.game.addEntity(new PigHead(this.game, 210, 110));
             this.game.addEntity(new CandleTable(this.game, 982, 155));
+            this.game.addEntity(new MedallionDoor(this.game, 610, 30));
 
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top

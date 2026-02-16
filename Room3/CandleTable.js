@@ -74,7 +74,6 @@ class CandleTable {
         this.game.sceneManager.addToInventory("Candle Medallion", "./Sprites/Room3/CandleMedallion.png");
         this.medallionTaken = true;
         this.game.sceneManager.puzzleStates.room3.candleMedallion = true;
-        console.log("Candle Medallion taken!");
     }
     
     draw(ctx) {
