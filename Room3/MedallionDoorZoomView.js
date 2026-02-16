@@ -10,7 +10,7 @@ class MedallionDoorZoomView {
         this.y = (882 - this.height) / 2;
         
         // Correct order
-        this.correctOrder = ["snowflake", "candle", "leaf"];
+        this.correctOrder = ["leaf", "snowflake", "candle"];
         
         // Current slot contents (copy from puzzle state)
         this.slotContents = [...(this.game.sceneManager.puzzleStates.room3.medallionSlots || [null, null, null])];
@@ -213,7 +213,7 @@ class MedallionDoorZoomView {
             setTimeout(() => {
                 this.game.sceneManager.puzzleStates.room3.medallionDoor = true;
                 this.close();
-            }, 2000);
+            }, 1000);
         }
     }
     
@@ -250,12 +250,6 @@ class MedallionDoorZoomView {
         for (let i = 0; i < 3; i++) {
             let slotX = this.slotStartX + i * this.slotSpacing;
             
-            ctx.fillStyle = "rgba(85, 85, 85, 0.5)";
-            ctx.fillRect(slotX, this.slotY, this.slotWidth, this.slotHeight);
-            ctx.strokeStyle = "#888";
-            ctx.lineWidth = 2;
-            ctx.strokeRect(slotX, this.slotY, this.slotWidth, this.slotHeight);
-            
             // Draw medallion in slot
             if (this.slotContents[i] && (!this.draggingMedallion || this.draggingMedallion.fromSlot !== i)) {
                 this.drawMedallion(ctx, this.slotContents[i], slotX, this.slotY);
@@ -275,13 +269,6 @@ class MedallionDoorZoomView {
         // Draw dragging medallion
         if (this.draggingMedallion) {
             this.drawMedallion(ctx, this.draggingMedallion.type, this.dragX, this.dragY);
-        }
-        
-        // Success message
-        if (this.puzzleSolved) {
-            ctx.fillStyle = "lime";
-            ctx.font = "32px Arial";
-            ctx.fillText("Door Unlocking...", this.x + 350, this.y + 150);
         }
         
         // Instructions

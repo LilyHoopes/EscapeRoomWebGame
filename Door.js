@@ -22,6 +22,10 @@ class Door {
 
         if (!this.canTrigger) return;
 
+        if (this.isLocked && this.game.sceneManager.puzzleStates.room3.medallionDoor) {
+            this.unlock();
+        }
+
         // Check if Lily is touching the door
         if (this.isTouchingLily() && this.game.E) {
             if (this.isLocked) {

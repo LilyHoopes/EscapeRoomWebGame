@@ -53,9 +53,14 @@ class MedallionDoor {
         this.game.examining = true;
         this.game.E = false;
     }
-    
+
     draw(ctx) {
-        // ONLY draw medallions in slots (Door class handles the door sprite)
+
+        if (this.game.sceneManager.puzzleStates.room3.medallionDoor) {
+            return; // Door is unlocked, don't draw anything
+        }
+        
+        // ONLY draw medallions if door is still locked
         for (let i = 0; i < this.slotContents.length; i++) {
             let medallionType = this.slotContents[i];
             if (medallionType) {
@@ -74,7 +79,7 @@ class MedallionDoor {
             }
         }
         
-        // Interaction prompt
+        // Interaction prompt (also hide when unlocked)
         if (this.isNearLily() && !this.game.examining) {
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";

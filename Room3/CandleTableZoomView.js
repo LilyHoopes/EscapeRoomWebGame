@@ -30,6 +30,9 @@ class CandleTableZoomView {
         this.dragY = 0;
         
         this.removeFromWorld = false;
+
+        this.debugSlots = false; // Set to false to hide slot outlines
+
         
         // Load candle sprites
         this.candleSprites = {
@@ -153,10 +156,33 @@ class CandleTableZoomView {
             ctx.fillStyle = "white";
             ctx.font = "28px Arial";
             ctx.fillText("Arrange the Candles", this.x + 350, this.y + 60);
-            
+
             // Draw candles
             for (let i = 0; i < 5; i++) {
                 let slotX = this.slotStartX + i * this.slotSpacing;
+                
+                if (this.debugSlots) {
+                    // Draw slot boundary
+                    ctx.strokeStyle = "lime";
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(slotX, this.slotY, this.slotWidth, this.slotHeight);
+                    
+                    // Draw slot center point
+                    ctx.fillStyle = "red";
+                    ctx.beginPath();
+                    ctx.arc(slotX + this.slotWidth/2, this.slotY + this.slotHeight/2, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Draw slot number
+                    ctx.fillStyle = "yellow";
+                    ctx.font = "20px Arial";
+                    ctx.fillText(`Slot ${i}`, slotX + 10, this.slotY + 20);
+                    
+                    // Draw slot X position
+                    ctx.fillStyle = "white";
+                    ctx.font = "14px Arial";
+                    ctx.fillText(`X: ${slotX}`, slotX + 10, this.slotY + 40);
+                }
                 
                 // Draw candle (if not being dragged)
                 if (i !== this.draggingIndex) {
@@ -180,7 +206,7 @@ class CandleTableZoomView {
         let sprite = this.candleSprites[color];
         
         if (sprite && sprite.complete && sprite.naturalWidth > 0) {
-            ctx.drawImage(sprite, x + 10, y + 10, this.slotWidth - 20, this.slotHeight - 20);
+            ctx.drawImage(sprite, x, y, this.slotWidth, this.slotHeight);
         } else {
             // Placeholder with color
             let colorMap = {
