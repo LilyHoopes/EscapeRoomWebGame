@@ -75,7 +75,7 @@ class PigHead {
     }
 
     get depth() {
-        return this.y + this.height + 100;
+        return this.y + this.height + 50;
     }
 
 }
