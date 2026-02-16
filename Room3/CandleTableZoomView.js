@@ -38,6 +38,8 @@ class CandleTableZoomView {
             green: ASSET_MANAGER.getAsset("./Sprites/Room3/GreenCandle.png"),
             yellow: ASSET_MANAGER.getAsset("./Sprites/Room3/YellowCandle.png")
         };
+
+        //this.zoomedInTableSprite = ASSET_MANAGER.getAsset("./Sprites/Room3/zoomedInCandleTable.png")
     }
     
     update() {

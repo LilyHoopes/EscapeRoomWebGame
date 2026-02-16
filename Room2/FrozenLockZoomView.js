@@ -28,7 +28,7 @@ class FrozenLockZoomView {
         this.pipeInventoryX = this.x + 50;
         this.pipeInventoryY = this.y + 50;
         this.pipeWidth = 80;
-        this.pipeHeight = 40;
+        this.pipeHeight = 80;
         
         // Drag state
         this.draggingPipe = false;
@@ -174,11 +174,11 @@ class FrozenLockZoomView {
         // Draw inventory area if player has pipe
         if (this.hasPipe && !this.lockBroken) {
             ctx.fillStyle = "#333";
-            ctx.fillRect(this.x + 20, this.y + 20, 140, 100);
+            ctx.fillRect(this.x + 5, this.y + 30, 140, 120);
             
             ctx.fillStyle = "white";
             ctx.font = "14px Arial";
-            ctx.fillText("INVENTORY:", this.x + 40, this.y + 40);
+            ctx.fillText("INVENTORY:", this.x + 55, this.y + 40);
             
             // Draw pipe at dragged position
             if (this.pipeSprite && this.pipeSprite.complete && this.pipeSprite.naturalWidth > 0) {

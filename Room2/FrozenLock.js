@@ -13,8 +13,8 @@ class FrozenLock {
         this.removeFromWorld = false;
         
         // Load sprites
-        this.frozenSprite = ASSET_MANAGER.getAsset("./Sprites/Room2/FrozenLock.png");
-        this.brokenSprite = ASSET_MANAGER.getAsset("./Sprites/Room2/BrokenLock.png");
+        this.frozenSprite = ASSET_MANAGER.getAsset("./Sprites/Room2/pixelFrozenLock2.png");
+        this.brokenSprite = ASSET_MANAGER.getAsset("./Sprites/Room2/pixelBrokenFrozenLock.png");
     }
     
     update() {
