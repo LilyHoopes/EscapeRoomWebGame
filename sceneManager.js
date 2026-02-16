@@ -12,7 +12,8 @@ class SceneManager {
         room1ToRoom2: false,   // Door from room 1 to room 2
         room2ToRoom3: false,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
-        room4ToRoom5: true   // Door from room 4 to room 5 
+        room4ToRoom5: false   // Door from room 4 to room 5 
+        
     };
 
         // Puzzle progress tracking
@@ -215,7 +216,7 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
             this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room3
-            let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room5
+            let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 0.0)); // room4 -> room5
 
             this.game.addEntity(room4To5Door);
 
