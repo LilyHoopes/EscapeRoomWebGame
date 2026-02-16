@@ -216,7 +216,7 @@ class SceneManager {
             this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
 
             this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room3
-            let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 0.0)); // room4 -> room5
+            let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room5
 
             this.game.addEntity(room4To5Door);
 
@@ -235,7 +235,8 @@ class SceneManager {
                 new Background(this.game, "./Sprites/Room5/FinalRoom.png", 1380, 882)
             );
 
-            this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, false, 0.0)); // room5 -> room4
+            this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
+
         }
 
         // Position Lily at spawn point
