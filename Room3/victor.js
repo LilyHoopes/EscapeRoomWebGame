@@ -5,7 +5,7 @@ class Victor {
         this.animator = new Animator(
             ASSET_MANAGER.getAsset("./Sprites/Room3/Alive_VictorSpriteSheet.png"), 
             186, 134,      // xStart, yStart (bottom row)
-            388, 340,     // width, height of each frame
+            387, 340,     // width, height of each frame
             2, 0.6      // 2 frames, 0.6 seconds per frame
         );
         
