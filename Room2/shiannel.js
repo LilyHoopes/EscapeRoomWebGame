@@ -1,25 +1,39 @@
 class Shiannel {
-    constructor(game, x, y, isSolid) {
+    constructor(game, x, y, isSolid, pose = "idle") {
         this.game = game;
-        this.scale = 0.45;
-        this.animator = new Animator(
-            ASSET_MANAGER.getAsset("./Sprites/Room2/Shiannel_SpriteSheet.png"), 
-            63, 433,      // xStart, yStart (bottom row)
-            338, 319,     // width, height of each frame
-            2, 0.5      // 2 frames, 0.5 seconds per frame
-        );
-        
         this.x = x || 50;
         this.y = y || 400;
-        this.width = 338 * this.scale;
-        this.height = 319 * this.scale;
+        this.scale = 0.45;
+        this.isSolid = isSolid;
+        this.pose = pose;
+        this.removeFromWorld = false;
 
+        const sheet = ASSET_MANAGER.getAsset("./Sprites/Room2/Shiannel_SpriteSheet.png");
 
-        this.bbOffset = {//cocoshiannel bb offset
-            x: 30,       
-            y: 20,     
-            w: 40,       
-            h: 40     
+        // TOP ROW = IDLE
+        this.idleAnimator = new Animator(
+            sheet,
+            100, 46,          // start at top-left
+            342, 299,      // frame size
+            2, 0.5        
+        );
+
+        // BOTTOM ROW = CROUCH
+        this.crouchAnimator = new Animator(
+            sheet,
+            95, 438,        // bottom half
+            337, 269,
+            2, 0.5
+        );
+
+        this.width = 416 * this.scale;
+        this.height = 416 * this.scale;
+
+        this.bbOffset = {
+            x: 40,
+            y: 40,
+            w: 80,
+            h: 80
         };
 
         this.BB = new BoundingBox(
@@ -28,22 +42,23 @@ class Shiannel {
             this.width - this.bbOffset.w,
             this.height - this.bbOffset.h
         );
-
-        this.isSolid = isSolid;
-        this.removeFromWorld = false;
     }
 
     update() {
-        // Shiannel just stands in place breathing
         this.BB.x = this.x + this.bbOffset.x;
         this.BB.y = this.y + this.bbOffset.y;
     }
+
     get depth() {
         return this.BB.bottom;
     }
 
     draw(ctx) {
-        this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
+        let animator = (this.pose === "crouch")
+            ? this.crouchAnimator
+            : this.idleAnimator;
+
+        animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
 
         if (this.game.debug) {
             ctx.strokeStyle = "red";

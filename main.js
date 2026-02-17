@@ -126,6 +126,12 @@ const ASSET_MANAGER = new AssetManager();
 
 // room 5
     ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalRoom.png");
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png")
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png")
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideOfBookshelf.png")
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideOfBookshelf.png")
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
+
 
 //title screens
     ASSET_MANAGER.queueDownload("./Sprites/Start/TitleScreen.png");
