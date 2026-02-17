@@ -141,7 +141,7 @@ class SceneManager {
             }
 
             // added shiannel
-            this.game.addEntity(new Shiannel(this.game, 1210, 150, true));
+            this.game.addEntity(new Shiannel(this.game, 1210, 150, true, "crouch"));
 
             // Added: keep shiannelPos synced with Shiannel spawn position
             this.shiannelPos = { x: 1210, y: 150 };
@@ -236,6 +236,23 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
+
+            // Add NPCs: Shiannel, Victor and Jin
+            this.game.addEntity(new Shiannel(this.game, 500, 300, true, "idle"));
+            this.game.addEntity(new Victor(this.game, 1210, 250, true));
+            this.game.addEntity(new Jin(this.game, 1140, 450, true));
+
+            // interactable 
+            // thy booketh shelf
+
+            // decorative sprites
+            this.game.addEntity(new DecorativeSprite(this.game, 10, 350, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
+            this.game.addEntity(new DecorativeSprite(this.game, 10, 90, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
+            this.game.addEntity(new DecorativeSprite(this.game, 10, 220, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
+            this.game.addEntity(new DecorativeSprite(this.game, 95, 10, "./Sprites/FillerFurniture/Bookshelf.png", 210, 220, true, { x: 0, y: 0, w: 0, h: 40 },));
+            this.game.addEntity(new DecorativeSprite(this.game, 308, 10, "./Sprites/FillerFurniture/Bookshelf.png", 210, 220, true, { x: 0, y: 0, w: 0, h: 40 },));
+
+            this.game.addEntity(new DecorativeSprite(this.game, 150, 300, "./Sprites/FillerFurniture/BigRedRug.png", 330, 180, true, { x: 0, y: 0, w: 0, h: 40 },));
 
         }
 
