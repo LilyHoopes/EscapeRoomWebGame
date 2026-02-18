@@ -37,9 +37,8 @@ class FrozenLock {
     }
     
     openZoomView() {
-        
+
         this.game.addEntity(new FrozenLockZoomView(this.game, this));
-        
         this.game.examining = true;
         this.game.E = false;
     }
@@ -48,6 +47,8 @@ class FrozenLock {
     onLockBroken() {
         this.lockBroken = true;
         this.game.sceneManager.puzzleStates.room2.lockBroken = true;
+        this.x += 20;   // once lock is broken, move it to floor next to door
+        this.y += 75;
         
         // Unlock the door to room 3
         this.unlockDoor();
