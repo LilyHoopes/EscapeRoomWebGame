@@ -239,6 +239,7 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
+            this.game.addEntity(new Door(this.game, 1000, 100, 275, 187, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", false, 0.0)); // room5 -> ending screen
 
             // Add NPCs: Shiannel, Victor and Jin
             this.game.addEntity(new Shiannel(this.game, 500, 300, true, "idle"));
@@ -257,6 +258,11 @@ class SceneManager {
 
             this.game.addEntity(new DecorativeSprite(this.game, 150, 300, "./Sprites/FillerFurniture/BigRedRug.png", 330, 180, true, { x: 0, y: 0, w: 0, h: 40 },));
 
+        }
+
+        if (roomName === "ending") {
+            this.showEndingScreen();
+            return;
         }
 
         // Position Lily at spawn point
@@ -490,7 +496,20 @@ class SceneManager {
     
     // Show death screen
     this.game.addEntity(new DeathScreen(this.game));
-}
+    }
+
+    showEndingScreen() {
+        // Stop room BGM
+        if (this.roomBGM) {
+            this.roomBGM.pause();
+            this.roomBGM.currentTime = 0;
+            this.roomBGM = null;
+        }
+        
+        // Clear entities and show ending
+        this.clearEntities();
+        this.game.addEntity(new EndingScreen(this.game));
+    }
 
     clearEntities() {
         this.game.entities = [];
