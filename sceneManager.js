@@ -239,7 +239,7 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
-            this.game.addEntity(new Door(this.game, 1000, 100, 275, 187, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", false, 0.0)); // room5 -> ending screen
+            this.game.addEntity(new Door(this.game, 500, 500, 500, 500, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", false, 1.0)); // room5 -> ending screen
 
             // Add NPCs: Shiannel, Victor and Jin
             this.game.addEntity(new Shiannel(this.game, 500, 300, true, "idle"));
@@ -505,6 +505,7 @@ class SceneManager {
             this.roomBGM.currentTime = 0;
             this.roomBGM = null;
         }
+        console.log("in showEndingScreen method")
         
         // Clear entities and show ending
         this.clearEntities();
