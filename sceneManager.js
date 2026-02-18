@@ -11,7 +11,7 @@ class SceneManager {
         this.debugDoorUnlocks = {
         room1ToRoom2: true,   // Door from room 1 to room 2
         room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: false   // Door from room 4 to room 5 
         
     };
@@ -255,7 +255,7 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 95, 10, "./Sprites/FillerFurniture/Bookshelf.png", 210, 220, true, { x: 0, y: 0, w: 0, h: 40 },));
             this.game.addEntity(new DecorativeSprite(this.game, 308, 10, "./Sprites/FillerFurniture/Bookshelf.png", 210, 220, true, { x: 0, y: 0, w: 0, h: 40 },));
 
-            this.game.addEntity(new DecorativeSprite(this.game, 150, 300, "./Sprites/FillerFurniture/BigRedRug.png", 330, 180, true, { x: 0, y: 0, w: 0, h: 40 },));
+            this.game.addEntity(new DecorativeSprite(this.game, 150, 300, "./Sprites/FillerFurniture/BigRedRug.png", 330, 180, false, { x: 0, y: 0, w: 0, h: 40 }, false, 250));
 
         }
 
