@@ -123,6 +123,7 @@ const ASSET_MANAGER = new AssetManager();
 
 // room 4
     ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room4/TopHalfOfBookShelf.png");
 
 // room 5
     ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalRoom.png");
