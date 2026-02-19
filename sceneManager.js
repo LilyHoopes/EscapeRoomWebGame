@@ -9,9 +9,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: true,   // Door from room 1 to room 2
-        room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: true,  // Door from room 3 to room 4 
+        room1ToRoom2: false,   // Door from room 1 to room 2
+        room2ToRoom3: false,   // Door from room 2 to room 3
+        room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
@@ -261,8 +261,15 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, 10, 220, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
             this.game.addEntity(new DecorativeSprite(this.game, 95, 10, "./Sprites/FillerFurniture/Bookshelf.png", 210, 220, true, { x: 0, y: 0, w: 0, h: 70 },));
             this.game.addEntity(new DecorativeSprite(this.game, 308, 10, "./Sprites/FillerFurniture/Bookshelf.png", 210, 220, true, { x: 0, y: 0, w: 0, h: 70 },));
-
             this.game.addEntity(new DecorativeSprite(this.game, 150, 300, "./Sprites/FillerFurniture/BigRedRug.png", 330, 180, false, { x: 0, y: 0, w: 0, h: 40 }, false, 250));
+
+            // invisible walls
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
+            this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
+            this.game.addEntity(new InvisibleCollider(this.game, 385, 615, 1000, 250)); // bottom center
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 620, 115, 250)); // bottom left
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
 
         }
 
