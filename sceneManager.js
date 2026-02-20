@@ -17,9 +17,10 @@ class SceneManager {
 
         // Puzzle progress tracking
         this.puzzleStates = {
-            room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: { pipeObtained: false, lockBroken: false },
+            room1: {door1Open: false, hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
+            room2: {door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null},
             room3: {
+                door3Open: false,
                 snowflakeMedallion: false,
                 candleMedallion: false,
                 leafMedallion: false,
@@ -120,10 +121,13 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
 
             // Door to room2
-            let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 1.0)); // room1 -> room2
-            if (this.puzzleStates.room3.medallionDoor || this.debugDoorUnlocks.room1ToRoom2) {
-                room1To2Door.unlock();
+            let door1Open = this.puzzleStates.room1.door1Open;
+            let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door1Open, 1.0)); // room1 -> room2
+            
+            if (this.debugDoorUnlocks.room1ToRoom2) {
+                door1Open = true;
             }
+
             this.game.addEntity(room1To2Door);
         }
 
@@ -133,11 +137,12 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room2 -> room1
-            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", true, 1.0); // room2 -> room3
+            let door2Open = this.puzzleStates.room2.door2Open; 
+            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door2Open, 1.0); // room2 -> room3
             this.game.addEntity(room2To3Door);
 
             if (this.puzzleStates.room2.lockBroken || this.debugDoorUnlocks.room2ToRoom3) {
-                room2To3Door.unlock();
+                door2Open = true;
             }
 
             // added shiannel
@@ -189,10 +194,12 @@ class SceneManager {
 
             // doors
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
-            let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", true, 1.0)); // room3 -> room4
+
+            let door3Open = this.puzzleStates.room3.door3Open; 
+            let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", !door3Open, 1.0)); // room3 -> room4
 
             if (this.puzzleStates.room3.medallionDoor || this.debugDoorUnlocks.room3ToRoom4) {
-                room3To4Door.unlock();
+                door3Open = true;
             }
             this.game.addEntity(room3To4Door);
 
@@ -538,8 +545,8 @@ class SceneManager {
         
         // Reset all puzzle states
         this.puzzleStates = {
-            room1: { hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: { pipeObtained: false, lockBroken: false },
+            room1: {door1Open: false, hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
+            room2: {door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null}, 
             room3: {
                 snowflakeMedallion: false,
                 candleMedallion: false,
@@ -547,7 +554,8 @@ class SceneManager {
                 candlesArranged: false,
                 candleOrder: ["yellow", "blue", "green", "purple", "pink"],
                 medallionDoor: false,
-                medallionSlots: [null, null, null]
+                medallionSlots: [null, null, null],
+                door3Open: false
             }
         };
         

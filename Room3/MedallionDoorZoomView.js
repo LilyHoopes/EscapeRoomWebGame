@@ -212,6 +212,7 @@ class MedallionDoorZoomView {
             
             setTimeout(() => {
                 this.game.sceneManager.puzzleStates.room3.medallionDoor = true;
+                this.game.sceneManager.puzzleStates.room3.door3Open = true;
                 this.close();
             }, 1000);
         }
