@@ -107,6 +107,10 @@ class FrozenLock {
     }
     
     get depth() {
-        return this.y + this.height;
+
+        if (this.lockBroken) {
+            return this.y + this.height - 100; 
+        }
+        return this.y + this.height; 
     }
 }

@@ -30,6 +30,9 @@ class DeathScreen {
             width: this.buttonWidth,
             height: this.buttonHeight
         };
+
+        this.backgroundSprite = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/DeathScreen.png");
+
     }
     
     update() {

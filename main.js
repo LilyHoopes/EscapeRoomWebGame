@@ -147,6 +147,9 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Start/StartSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/ControlsSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/SelectorSign.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/DeathScreen.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/EscapedScreen.png");
+
 
 ASSET_MANAGER.downloadAll(() => {
     const canvas = document.getElementById("gameWorld");

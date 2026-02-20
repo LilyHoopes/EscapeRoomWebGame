@@ -499,7 +499,6 @@ class SceneManager {
         if (this.health <= 0) return; // Already dead
         
         this.health--;
-        console.log(`Player took damage! Health: ${this.health}/3`);
         
         if (this.health <= 0) {
             // Player died womp womp

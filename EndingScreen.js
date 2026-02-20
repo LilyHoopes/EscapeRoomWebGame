@@ -31,8 +31,7 @@ class EndingScreen {
             height: this.buttonHeight
         };
         
-        // Optional: Load ending background sprite
-        // this.backgroundSprite = ASSET_MANAGER.getAsset("./Sprites/UI/EndingBackground.png");
+        this.backgroundSprite = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/EscapedScreen.png");
     }
     
     update() {

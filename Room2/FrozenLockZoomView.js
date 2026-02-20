@@ -24,11 +24,11 @@ class FrozenLockZoomView {
         this.lockWidth = 300;
         this.lockHeight = 350;
         
-        // Pipe inventory position (top left corner)
+        // Pipe position and size
         this.pipeInventoryX = this.x + 50;
-        this.pipeInventoryY = this.y + 50;
+        this.pipeInventoryY = this.y + 55;
         this.pipeWidth = 80;
-        this.pipeHeight = 80;
+        this.pipeHeight = 90;
         
         // Drag state
         this.draggingPipe = false;
