@@ -33,7 +33,7 @@ class Victor {
 
         this.medallionTaken = this.game.sceneManager.puzzleStates.room3.leafMedallion;
         
-        this.medallionX = this.x + 120;
+        this.medallionX = this.x -120;
         this.medallionY = this.y + 120;
         this.medallionWidth = 60;
         this.medallionHeight = 60;

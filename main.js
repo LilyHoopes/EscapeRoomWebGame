@@ -85,6 +85,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Room2InvisWall.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room2/longredrug.png");
 
     // pipe
         ASSET_MANAGER.queueDownload("./Sprites/Room2/Pipe.png");
@@ -118,6 +119,8 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/CompletedMedallionDoor.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInCandleTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInMedallionDoor.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/BarLeft.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/BarRight.png");
 
 
 

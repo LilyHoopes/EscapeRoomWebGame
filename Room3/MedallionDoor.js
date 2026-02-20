@@ -96,6 +96,6 @@ class MedallionDoor {
     }
     
     get depth() {
-        return this.y + this.height + 10; // Draw on top of door
+        return this.y + this.height - 50; // Draw on top of door
     }
 }

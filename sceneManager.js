@@ -112,7 +112,7 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, -40, 450, "./Sprites/Room1/PlantCluster2.png", 500, 600, true, { x: 50, y: 70, w: 400, h: 200 }));
             this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, { x: 400, y: 120, w: 400, h: 50 }));
             this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250, true, { x: 0, y: 80, w: 0, h: 150 }, false));
-            this.game.addEntity(new DecorativeSprite(this.game, 1275, 300, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: -20, y: 0, w: 0, h: 0 }, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 1275, 300, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: 0, y: -25, w: 0, h: 10 }, true));
 
             // invisible walls
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 200)); // top
@@ -162,8 +162,9 @@ class SceneManager {
             this.game.addEntity(new MusicNoteFrame(this.game, 1125, 390, 100, 100));
 
             // decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 160, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200));
+            this.game.addEntity(new DecorativeSprite(this.game, -20, 455, "./Sprites/Room2/longredrug.png", 660, 500, false, {x:0,y:0,w:660,h:500}, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 820, 455, "./Sprites/Room2/longredrug.png", 640, 500, false, {x:0,y:0,w:640,h:500}, false, 250));
 
             // wall
             this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
@@ -201,9 +202,17 @@ class SceneManager {
             this.game.addEntity(new CandleTable(this.game, 982, 155));
             this.game.addEntity(new MedallionDoor(this.game, 610, 30));
 
+            //wall
+            // this.game.addEntity(new DecorativeSprite(this.game, 0, 450, "./Sprites/Room3/BarLeft.png", 200, 60, true));
+            // this.game.addEntity(new DecorativeSprite(this.game, 940, 450, "./Sprites/Room3/BarRight.png", 200, 60, true));
+
+
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
             this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 385, 435, 400)); // jailcell left
+            this.game.addEntity(new InvisibleCollider(this.game, 945, 385, 450, 400)); // jailcell right
+
             this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
             this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 550, 230)); // bottom left
             this.game.addEntity(new InvisibleCollider(this.game, 815, 680, 560, 230)); // bottom right
