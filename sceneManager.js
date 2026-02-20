@@ -3,6 +3,10 @@ class SceneManager {
         this.game = game;
         this.currentRoom = "room1";
 
+        this.roomIntroPlayed = {
+            room2: false
+        };
+
         // Player state
         this.health = 3;
         this.inventory = []; // Will store objects like {name, sprite, used}
@@ -53,13 +57,48 @@ class SceneManager {
         // Added: Shiannel "E to Talk" prompt handle
         this.shiannelPrompt = null;
 
+        // ===== ROOM 1 START DIALOGUE =====
+        this.room1IntroPlayed = false;
+        this.room1IntroActive = false;
+        this.room1IntroLines = [
+        "Where am I? The last thing I remember was walking to my car and... something hard hitting the back of my head-",
+        "*Scream goes off in the distance* (Scream sound needs to be added?)",
+        "Was I kidnapped? Oh no, I have to find a way out of here!"
+        ];
+        this.room1IntroIndex = 0;
+        
+        // ===== ROOM 2 START DIALOGUE =====
+        this.room2IntroPlayed = false;
+        this.room2IntroActive = false;
+        this.room2IntroLines = [
+            "Brr, it is freezing in here!",
+            "*See’s Shiannel huddled in the corner*",
+            "Oh gosh, shes not… dead is she?"
+        ];
+this.room2IntroIndex = 0;
+
         // Added: single source of truth for Shiannel position in room2
         this.shiannelPos = { x: 1210, y: 150 };
     }
+    
 
     loadRoom(roomName, spawnX, spawnY) {
         this.clearEntities();
         this.currentRoom = roomName;
+
+        // Room 1: play intro dialogue once when entering the room for the first time
+        if (roomName === "room1" && !this.room1IntroPlayed) {
+        this.room1IntroActive = true;
+        this.room1IntroIndex = 0;
+        this.game.examining = true; // lock movement during intro
+        }
+
+        // Room 2: play intro dialogue once when entering the room for the first time
+        if (roomName === "room2" && !this.room2IntroPlayed) {
+        this.room2IntroActive = true;
+        this.room2IntroIndex = 0;
+        this.game.examining = true; // lock movement during intro
+        }
 
         // BGM applicator
         const bgmMap = {
@@ -112,7 +151,7 @@ class SceneManager {
             this.game.addEntity(new DecorativeSprite(this.game, -40, 450, "./Sprites/Room1/PlantCluster2.png", 500, 600, true, { x: 50, y: 70, w: 400, h: 200 }));
             this.game.addEntity(new DecorativeSprite(this.game, 860, 425, "./Sprites/Room1/PlantCluster3.png", 500, 600, true, { x: 400, y: 120, w: 400, h: 50 }));
             this.game.addEntity(new DecorativeSprite(this.game, 1010, 440, "./Sprites/FillerFurniture/Bookshelf.png", 210, 250, true, { x: 0, y: 80, w: 0, h: 150 }, false));
-            this.game.addEntity(new DecorativeSprite(this.game, 1275, 300, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: 0, y: -25, w: 0, h: 10 }, true));
+            this.game.addEntity(new DecorativeSprite(this.game, 1275, 300, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200, true, { x: -20, y: 0, w: 0, h: 0 }, true));
 
             // invisible walls
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 200)); // top
@@ -121,8 +160,12 @@ class SceneManager {
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
 
             // Door to room2
-            let door1Open = this.puzzleStates.room1.door1Open || this.debugDoorUnlocks.room1ToRoom2;
+            let door1Open = this.puzzleStates.room1.door1Open;
             let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door1Open, 1.0)); // room1 -> room2
+            
+            if (this.debugDoorUnlocks.room1ToRoom2) {
+                door1Open = true;
+            }
 
             this.game.addEntity(room1To2Door);
         }
@@ -133,9 +176,13 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room2 -> room1
-            let door2Open = this.puzzleStates.room2.door2Open || this.debugDoorUnlocks.room2ToRoom3;
+            let door2Open = this.puzzleStates.room2.door2Open; 
             let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door2Open, 1.0); // room2 -> room3
             this.game.addEntity(room2To3Door);
+
+            if (this.puzzleStates.room2.lockBroken || this.debugDoorUnlocks.room2ToRoom3) {
+                door2Open = true;
+            }
 
             // added shiannel
             this.game.addEntity(new Shiannel(this.game, 1210, 150, true, "crouch"));
@@ -162,9 +209,8 @@ class SceneManager {
             this.game.addEntity(new MusicNoteFrame(this.game, 1125, 390, 100, 100));
 
             // decorative sprites
+            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 160, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200));
-            this.game.addEntity(new DecorativeSprite(this.game, -20, 455, "./Sprites/Room2/longredrug.png", 660, 500, false, {x:0,y:0,w:660,h:500}, false, 250));
-            this.game.addEntity(new DecorativeSprite(this.game, 820, 455, "./Sprites/Room2/longredrug.png", 640, 500, false, {x:0,y:0,w:640,h:500}, false, 250));
 
             // wall
             this.game.addEntity(new DecorativeSprite(this.game, 0, 330, "./Sprites/Room2/Room2InvisWall.png", 563, 150, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
@@ -188,9 +234,12 @@ class SceneManager {
             // doors
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
 
-            let door3Open = this.puzzleStates.room3.door3Open || this.debugDoorUnlocks.room3ToRoom4; 
+            let door3Open = this.puzzleStates.room3.door3Open; 
             let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", !door3Open, 1.0)); // room3 -> room4
 
+            if (this.puzzleStates.room3.medallionDoor || this.debugDoorUnlocks.room3ToRoom4) {
+                door3Open = true;
+            }
             this.game.addEntity(room3To4Door);
 
             // added victor and jin
@@ -202,17 +251,9 @@ class SceneManager {
             this.game.addEntity(new CandleTable(this.game, 982, 155));
             this.game.addEntity(new MedallionDoor(this.game, 610, 30));
 
-            //wall
-            // this.game.addEntity(new DecorativeSprite(this.game, 0, 450, "./Sprites/Room3/BarLeft.png", 200, 60, true));
-            // this.game.addEntity(new DecorativeSprite(this.game, 940, 450, "./Sprites/Room3/BarRight.png", 200, 60, true));
-
-
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
             this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
-            this.game.addEntity(new InvisibleCollider(this.game, 0, 385, 435, 400)); // jailcell left
-            this.game.addEntity(new InvisibleCollider(this.game, 945, 385, 450, 400)); // jailcell right
-
             this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
             this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 550, 230)); // bottom left
             this.game.addEntity(new InvisibleCollider(this.game, 815, 680, 560, 230)); // bottom right
@@ -337,36 +378,45 @@ class SceneManager {
 
     // NPC DIALOGUE
     handleNPCInteraction(npcName, dialogueLines) {
-        const npc = this.npcStates[npcName];
-        if (!npc || !Array.isArray(dialogueLines) || dialogueLines.length === 0) return;
+    const npc = this.npcStates[npcName];
+    if (!npc || !Array.isArray(dialogueLines) || dialogueLines.length === 0) return;
 
-        const displayName = this.getNPCDisplayName(npcName);
+    // Helper: choose the name shown on the dialogue box based on the line prefix
+    const getSpeakerFromLine = (line) => {
+        const s = String(line || "");
+        if (s.startsWith("Lily:")) return "Lily";
+        if (s.startsWith("Shiannel:")) return "Shiannel";
+        if (s.startsWith("Victor:")) return "Victor";
+        if (s.startsWith("Jin:")) return "Jin";
+        return ""; // narration or no speaker
+    };
 
-        // If already open, advance
-        if (this.dialogueBox.active) {
-            npc.dialogueIndex++;
-            if (npc.dialogueIndex >= dialogueLines.length) {
-                npc.dialogueIndex = 0;
-                this.dialogueBox.close();
-                this.game.examining = false;
-            } else {
-                // Added: pass speaker name (portrait path stays optional)
-                this.dialogueBox.open(dialogueLines[npc.dialogueIndex], null, displayName);
-            }
-            return;
+    // If already open, advance
+    if (this.dialogueBox.active) {
+        npc.dialogueIndex++;
+        if (npc.dialogueIndex >= dialogueLines.length) {
+            npc.dialogueIndex = 0;
+            this.dialogueBox.close();
+            this.game.examining = false;
+        } else {
+            const line = dialogueLines[npc.dialogueIndex];
+            const speakerName = getSpeakerFromLine(line);
+            this.dialogueBox.open(line, null, speakerName);
         }
-
-        // Open fresh
-        npc.met = true;
-        npc.dialogueIndex = 0;
-
-        // Added: pass speaker name (portrait path stays optional)
-        this.dialogueBox.open(dialogueLines[0], null, displayName);
-
-        // Optional: lock player interaction while dialogue is open
-        this.game.examining = true;
+        return;
     }
 
+    // Open fresh
+    npc.met = true;
+    npc.dialogueIndex = 0;
+
+    const firstLine = dialogueLines[0];
+    const firstSpeaker = getSpeakerFromLine(firstLine);
+    this.dialogueBox.open(firstLine, null, firstSpeaker);
+
+    // Lock player interaction while dialogue is open
+    this.game.examining = true;
+}
     // Basic distance check
     isNear(x, y, range = 90) {
         const dx = (this.lily.x - x);
@@ -375,6 +425,73 @@ class SceneManager {
     }
 
     update() {
+
+    // ===== ROOM 1 START DIALOGUE =====
+    if (this.room1IntroActive) {
+        if (!this.dialogueBox.active) {
+            const line = this.room1IntroLines[this.room1IntroIndex] || "";
+            this.dialogueBox.open(line, null, "Lily");
+        }
+
+        if (this.game.E && !this.wasEPressed) {
+            if (this.dialogueBox.isTyping) {
+                this.dialogueBox.skipTyping();
+            } else {
+                this.room1IntroIndex++;
+
+                if (this.room1IntroIndex < this.room1IntroLines.length) {
+                    this.dialogueBox.open(this.room1IntroLines[this.room1IntroIndex], null, "Lily");
+                } else {
+                    this.dialogueBox.close();
+                    this.room1IntroActive = false;
+                    this.room1IntroPlayed = true;
+                    this.game.examining = false;
+                }
+            }
+
+            this.wasEPressed = true;
+        } else if (!this.game.E) {
+            this.wasEPressed = false;
+        }
+
+        return;
+    }
+
+    // ===== ROOM 2 START DIALOGUE =====
+if (this.room2IntroActive) {
+    if (!this.dialogueBox.active) {
+        const line = this.room2IntroLines[this.room2IntroIndex] || "";
+        this.dialogueBox.open(line, null, "Lily");
+    }
+
+    if (this.game.E && !this.wasEPressed) {
+        if (this.dialogueBox.isTyping) {
+            this.dialogueBox.skipTyping();
+        } else {
+            this.room2IntroIndex++;
+
+            if (this.room2IntroIndex < this.room2IntroLines.length) {
+                this.dialogueBox.open(
+                    this.room2IntroLines[this.room2IntroIndex],
+                    null,
+                    this.room2IntroIndex === 1 ? "" : "Lily"
+                );
+            } else {
+                this.dialogueBox.close();
+                this.room2IntroActive = false;
+                this.room2IntroPlayed = true;
+                this.game.examining = false;
+            }
+        }
+
+        this.wasEPressed = true;
+    } else if (!this.game.E) {
+        this.wasEPressed = false;
+    }
+
+    return;
+}
+
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
 
         if (!inventoryOpen) {
@@ -400,13 +517,23 @@ class SceneManager {
                     return;
                 }
 
-                if (this.currentRoom === "room2") {
-                    this.handleNPCInteraction("shiannel", [
-                        "testing 1",
-                        "testing 2",
-                        "testing 3"
-                    ]);
-                } else if (this.currentRoom === "room3") {
+               if (this.currentRoom === "room2") {
+    this.handleNPCInteraction("shiannel", [
+        "Shiannel: . . .",
+        "Lily: Hello? Are you okay?",
+        "*Shiannel stands up*",
+        "Shiannel: Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!",
+        "Lily: It’s good im not alone!",
+        "Shiannel: Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!",
+        "Lily: I guess we need something harder to hit it with then",
+        "Shiannel: !!",
+        "Shiannel: The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!",
+        "Lily: You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time.",
+        "Shiannel: I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!",
+        "Lily: Hm…"
+    ]);
+}
+ else if (this.currentRoom === "room3") {
 
                     this.handleNPCInteraction("victor", [
                         "Testing1",
@@ -431,9 +558,18 @@ class SceneManager {
                         }
 
                         this.handleNPCInteraction("shiannel", [
-                            "You should not be here.",
-                            "The paintings watch more than you think.",
-                            "If you hear footsteps behind you, do not turn around."
+                            ". . .",
+                        "Hello? Are you okay?",
+                        "*Shiannel stands up*",
+                        "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!",
+                        "It’s good im not alone!",
+                        "Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!",
+                        "I guess we need something harder to hit it with then",
+    "!!",
+    "The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!",
+    "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time.",
+    "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!",
+    "Hm…"
                         ]);
                     }
                 }
