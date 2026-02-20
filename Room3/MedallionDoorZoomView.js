@@ -20,10 +20,10 @@ class MedallionDoorZoomView {
         
         // Slot positions (3 slots on zoomed door)
         this.slotY = this.y + 120;
-        this.slotWidth = 220;
+        this.slotWidth = 240;
         this.slotHeight = 220;
         this.slotSpacing = 260;
-        this.slotStartX = this.x + 210;
+        this.slotStartX = this.x + 200;
         
         // Inventory area
         this.inventoryY = this.y + 500;
@@ -283,7 +283,7 @@ class MedallionDoorZoomView {
         let sprite = this.medallionSprites[type];
         
         if (sprite && sprite.complete && sprite.naturalWidth > 0) {
-            ctx.drawImage(sprite, x + 10, y + 10, this.slotWidth - 20, this.slotHeight - 20);
+            ctx.drawImage(sprite, x + 5, y + 5, this.slotWidth - 20, this.slotHeight - 20);
         } else {
             ctx.fillStyle = "gold";
             ctx.beginPath();
