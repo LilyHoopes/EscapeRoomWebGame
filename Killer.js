@@ -30,7 +30,7 @@ class Killer {
 
         this.currentAnimation = this.animations.walkDown;
         this.facing = "down";
-        this.scale = 0.2; // adjust if too big
+        this.scale = 0.25; // adjust if too big
     }
 
     updateBB() {
@@ -101,7 +101,7 @@ class Killer {
         //check collision with lily
         if (this.BB.collide(this.target.BB) && this.damageCooldown <= 0) {
             this.game.sceneManager.takeDamage();
-            this.damageCooldown = 60; // 1 second cooldown
+            this.damageCooldown = 1; // 1 second cooldown
         }
     }
 
