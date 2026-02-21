@@ -11,11 +11,16 @@ class SceneManager {
         this.health = 3;
         this.inventory = []; // Will store objects like {name, sprite, used}
 
+        //killer stuff
+        this.room4KillerTimer = 0;
+        this.room4KillerDelay = 3; // seconds
+        this.room4KillerSpawned = false;
+
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
+        room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
@@ -209,7 +214,8 @@ this.room2IntroIndex = 0;
             this.game.addEntity(new MusicNoteFrame(this.game, 1125, 390, 100, 100));
 
             // decorative sprites
-            this.game.addEntity(new DecorativeSprite(this.game, 620, 330, "./Sprites/FillerFurniture/BigRedRug.png", 150, 250, false, { x: 0, y: 0, w: 150, h: 250 }, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, -20, 455, "./Sprites/Room2/longredrug.png", 660, 500, false, {x:0,y:0,w:660,h:500}, false, 250));
+            this.game.addEntity(new DecorativeSprite(this.game, 820, 455, "./Sprites/Room2/longredrug.png", 640, 500, false, {x:0,y:0,w:640,h:500}, false, 250));
             this.game.addEntity(new DecorativeSprite(this.game, 5, 160, "./Sprites/FillerFurniture/OldCouchSide.png", 100, 200));
 
             // wall
@@ -254,6 +260,8 @@ this.room2IntroIndex = 0;
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
             this.game.addEntity(new InvisibleCollider(this.game, 1380, 0, 1, 822)); // right
+            this.game.addEntity(new InvisibleCollider(this.game, 0, 385, 435, 400)); // jailcell left
+            this.game.addEntity(new InvisibleCollider(this.game, 945, 385, 450, 400)); // jailcell right
             this.game.addEntity(new InvisibleCollider(this.game, 0, 825, 1380, 2)); // bottom
             this.game.addEntity(new InvisibleCollider(this.game, 0, 680, 550, 230)); // bottom left
             this.game.addEntity(new InvisibleCollider(this.game, 815, 680, 560, 230)); // bottom right
@@ -262,7 +270,10 @@ this.room2IntroIndex = 0;
 
         if (roomName === "room4") {
             this.game.addEntity(new Background(this.game, "./Sprites/Room4/LibraryBackground.png", 1380, 882));
-
+            // Reset killer spawn state
+            this.room4KillerTimer = 0;
+            this.room4KillerSpawned = false;
+        
             this.game.addEntity(new Door(this.game, 232, 800, 228, 187, "room3", 600, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room3
             let room4To5Door = (new Door(this.game, 1072, 800, 228, 187, "room5", 150, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room4 -> room5
 
@@ -598,6 +609,20 @@ if (this.room2IntroActive) {
             this.wasEPressed = true;
         } else if (!this.game.E) {
             this.wasEPressed = false;
+        }
+        
+        //killer spawn delay room 4
+        if (this.currentRoom === "room4" && !this.room4KillerSpawned) {
+
+            this.room4KillerTimer += this.game.clockTick;
+
+            if (this.room4KillerTimer >= this.room4KillerDelay) {
+
+                const killer = new Killer(this.game, 50, 500, this.lily);
+                this.game.addEntity(killer);
+
+                this.room4KillerSpawned = true;
+            }
         }
 
         // Keep prompt updated even when E is not pressed (room2 Shiannel only)

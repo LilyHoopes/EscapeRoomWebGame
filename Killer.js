@@ -1,0 +1,175 @@
+class Killer {
+    constructor(game, x, y, target) {
+        this.game = game;
+        this.x = x;
+        this.y = y;
+        this.target = target;
+
+        this.speed = 350; //lily speed = 500
+        this.removeFromWorld = false;
+
+        //this.width = 20;
+        //this.height = 60;
+
+        this.damageCooldown = 0;
+
+        this.updateBB();
+        this.lastBB = this.BB;
+
+        this.spriteSheet = ASSET_MANAGER.getAsset("./Sprites/Room4/Killer_Spritesheet.png");
+
+        const frameWidth = this.spriteSheet.width / 4;
+        const frameHeight = this.spriteSheet.height / 4;
+
+        this.animations = {
+            walkDown: new Animator(this.spriteSheet, 0, 0, 750, 750, 4, 0.2),
+            walkRight: new Animator(this.spriteSheet, 0, 750, 760, 750, 4, 0.2), //very good
+            walkLeft: new Animator(this.spriteSheet, 0, 1500, 770, 750, 4, 0.2), 
+            walkUp: new Animator(this.spriteSheet, -30, 2300, 760, 750, 4, 0.2)   //bro is too much to the left
+        };
+
+        this.currentAnimation = this.animations.walkDown;
+        this.facing = "down";
+        this.scale = 0.2; // adjust if too big
+    }
+
+    updateBB() {
+        this.offsetX = 40; // shifts to right
+        this.offsetY = 80; // shifts down 
+
+        //killer prick
+        const bbWidth = 90; 
+        const bbHeight = 30; 
+        this.BB = new BoundingBox( this.x + this.offsetX, this.y + this.offsetY, bbWidth, bbHeight );
+    }
+
+    updateLastBB() {
+        this.lastBB = this.BB;
+    }
+
+    update() {
+        if (!this.target) return;
+
+        let dx = 0;
+        let dy = 0;
+
+        const diffX = this.target.x - this.x;
+        const diffY = this.target.y - this.y;
+
+        const distance = Math.sqrt(diffX * diffX + diffY * diffY);
+
+        if (distance > 0) {
+            dx = (diffX / distance) * this.speed * this.game.clockTick;
+            dy = (diffY / distance) * this.speed * this.game.clockTick;
+        }
+        // Determine facing direction
+        if (Math.abs(diffX) > Math.abs(diffY)) {
+            if (diffX > 0) {
+                this.currentAnimation = this.animations.walkRight;
+                this.facing = "right";
+            } else {
+                this.currentAnimation = this.animations.walkLeft;
+                this.facing = "left";
+            }
+        } else {
+            if (diffY > 0) {
+                this.currentAnimation = this.animations.walkDown;
+                this.facing = "down";
+            } else {
+                this.currentAnimation = this.animations.walkUp;
+                this.facing = "up";
+            }
+        }
+
+        //xmovement
+        this.x += dx;
+        this.updateLastBB();
+        this.updateBB();
+        this.handleHorizontalCollisions();
+
+        //y movement
+        this.y += dy;
+        this.updateLastBB();
+        this.updateBB();
+        this.handleVerticalCollisions();
+
+        //damage coooldown
+        if (this.damageCooldown > 0) {
+            this.damageCooldown -= this.game.clockTick;
+        }
+
+        //check collision with lily
+        if (this.BB.collide(this.target.BB) && this.damageCooldown <= 0) {
+            this.game.sceneManager.takeDamage();
+            this.damageCooldown = 60; // 1 second cooldown
+        }
+    }
+
+    handleHorizontalCollisions() {
+        for (let entity of this.game.entities) {
+            if (entity !== this && entity.isSolid && entity.BB) {
+                if (this.BB.collide(entity.BB)) {
+
+                    if (this.lastBB.right <= entity.BB.left) {
+                        this.x = entity.BB.left - this.BB.width - this.offsetX;
+                    }
+                    else if (this.lastBB.left >= entity.BB.right) {
+                        this.x = entity.BB.right - this.offsetX;
+                    }
+
+                    this.updateBB();
+                }
+            }
+        }
+    }
+
+    handleVerticalCollisions() {
+        for (let entity of this.game.entities) {
+            if (entity !== this && entity.isSolid && entity.BB) {
+                if (this.BB.collide(entity.BB)) {
+
+                    if (this.lastBB.bottom <= entity.BB.top) {
+                        this.y = entity.BB.top - this.BB.height - this.offsetY;
+                    }
+                    else if (this.lastBB.top >= entity.BB.bottom) {
+                        this.y = entity.BB.bottom - this.offsetY;
+                    }
+
+                    this.updateBB();
+                }
+            }
+        }
+    }
+
+    get depth() {
+        return this.BB.bottom;
+    }
+
+    draw(ctx) {
+        this.currentAnimation.drawFrame(
+            this.game.clockTick,
+            ctx,
+            this.x,
+            this.y,
+            this.scale
+        );
+
+        if (this.game.debug) {
+            ctx.strokeStyle = "yellow";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
+    }
+
+    //red circle killer lol
+    // draw(ctx) {
+    //     ctx.fillStyle = "darkred";
+    //     ctx.beginPath();
+    //     ctx.arc(this.x + 40, this.y + 40, 30, 0, Math.PI * 2);
+    //     ctx.fill();
+
+    //     if (this.game.debug) {
+    //         ctx.strokeStyle = "yellow";
+    //         ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+    //     }
+    // }
+}
