@@ -124,8 +124,8 @@ class Lily {
         this.handleVerticalCollisions();
 
         //to keep lily detained in room
-        this.x = Math.max(-50, Math.min(this.x, 1350 - this.width));
-        this.y = Math.max(100, Math.min(this.y, 850 - this.height));
+        //this.x = Math.max(-50, Math.min(this.x, 1350 - this.width));
+        //this.y = Math.max(100, Math.min(this.y, 850 - this.height));
     }
 
    handleHorizontalCollisions() { 

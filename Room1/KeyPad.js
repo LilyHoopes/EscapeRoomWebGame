@@ -96,11 +96,8 @@ class KeyPad {
         this.game.sceneManager.puzzleStates.room1.codeEntered = true;
         
         // Unlock the door to Room 2
-        this.unlockDoor();
-    }
-    
-    unlockDoor() {
-        // Find the door in the entities and unlock it
+        this.game.sceneManager.puzzleStates.room1.door1Open = true;
+
         this.game.entities.forEach(entity => {
             if (entity instanceof Door && entity.destinationRoom === "room2") {
                 entity.unlock();

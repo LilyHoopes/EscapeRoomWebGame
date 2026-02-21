@@ -14,6 +14,7 @@ class Door {
         this.depthOverride = depthOverride; 
         this.opacity = opacity; //NOTE: i made this when we were using the same door image so i have to find a way to make half of them clear, but now its a door per each room so maybe we dont need this in the final version 
 
+
         this.lockedDORE = ASSET_MANAGER.getAsset(lockedSpritePath);
         this.openDORE   = ASSET_MANAGER.getAsset(openSpritePath);
     }
@@ -21,11 +22,23 @@ class Door {
     update() {
 
         if (!this.canTrigger) return;
-
-        if (this.isLocked && this.game.sceneManager.puzzleStates.room3.medallionDoor) {
-            this.unlock();
-        }
-
+    
+        if (this.isLocked) {
+            // Check Room 1 -> Room 2 door
+            if (this.destinationRoom === "room2" && this.game.sceneManager.puzzleStates.room1.door1Open) {
+                this.unlock();
+            }
+            
+            // Check Room 2 -> Room 3 door
+            if (this.destinationRoom === "room3" && this.game.sceneManager.puzzleStates.room2.door2Open) {
+                this.unlock();
+            }
+            
+            // Check Room 3 -> Room 4 door (medallion door)
+            if (this.destinationRoom === "room4" && this.game.sceneManager.puzzleStates.room3.door3Open) {
+                this.unlock();
+            }
+    }
         // Check if Lily is touching the door
         if (this.isTouchingLily() && this.game.E) {
             if (this.isLocked) {

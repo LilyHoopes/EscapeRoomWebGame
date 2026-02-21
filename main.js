@@ -85,6 +85,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Room2InvisWall.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room2/longredrug.png");
 
     // pipe
         ASSET_MANAGER.queueDownload("./Sprites/Room2/Pipe.png");
@@ -118,11 +119,15 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/CompletedMedallionDoor.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInCandleTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInMedallionDoor.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/BarLeft.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/BarRight.png");
 
 
 
 // room 4
+    ASSET_MANAGER.queueDownload("./Sprites/Room4/Killer_Spritesheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room4/TopHalfOfBookShelf.png");
 
 // room 5
     ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalRoom.png");
@@ -131,6 +136,9 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideOfBookshelf.png")
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideOfBookshelf.png")
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
+
+    ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalDoorLocked.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalDoorOpen.png");
 
 
 //title screens
@@ -143,6 +151,9 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Start/StartSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/ControlsSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/Start/SelectorSign.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/DeathScreen.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/EscapedScreen.png");
+
 
 ASSET_MANAGER.downloadAll(() => {
     const canvas = document.getElementById("gameWorld");

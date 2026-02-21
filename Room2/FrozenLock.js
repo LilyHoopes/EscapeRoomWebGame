@@ -8,6 +8,16 @@ class FrozenLock {
         
         // Check saved state
         this.lockBroken = this.game.sceneManager.puzzleStates.room2.lockBroken;
+
+        if (this.lockBroken && this.game.sceneManager.puzzleStates.room2.lockPosition) {
+            // Use saved broken position
+            this.x = this.game.sceneManager.puzzleStates.room2.lockPosition.x;
+            this.y = this.game.sceneManager.puzzleStates.room2.lockPosition.y;
+        } else {
+            // Use initial position
+            this.x = x;
+            this.y = y;
+        }
         
         this.isSolid = false;
         this.removeFromWorld = false;
@@ -37,9 +47,8 @@ class FrozenLock {
     }
     
     openZoomView() {
-        
+
         this.game.addEntity(new FrozenLockZoomView(this.game, this));
-        
         this.game.examining = true;
         this.game.E = false;
     }
@@ -48,13 +57,17 @@ class FrozenLock {
     onLockBroken() {
         this.lockBroken = true;
         this.game.sceneManager.puzzleStates.room2.lockBroken = true;
+        this.x += 20;   // once lock is broken, move it to floor next to door
+        this.y += 75;
+
+        this.game.sceneManager.puzzleStates.room2.lockPosition = {
+            x: this.x,
+            y: this.y
+        };
         
         // Unlock the door to room 3
-        this.unlockDoor();
-    }
-    
-    unlockDoor() {
-        // Find the door to room 3 and unlock it
+        this.game.sceneManager.puzzleStates.room2.door2Open = true;
+
         this.game.entities.forEach(entity => {
             if (entity instanceof Door && entity.destinationRoom === "room3") {
                 entity.unlock();
@@ -94,6 +107,10 @@ class FrozenLock {
     }
     
     get depth() {
-        return this.y + this.height;
+
+        if (this.lockBroken) {
+            return this.y + this.height - 100; 
+        }
+        return this.y + this.height; 
     }
 }
