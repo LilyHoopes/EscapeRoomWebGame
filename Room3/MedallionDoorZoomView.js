@@ -7,7 +7,7 @@ class MedallionDoorZoomView {
         this.width = 1160;
         this.height = 515;
         this.x = (1380 - this.width) / 2;
-        this.y = (882 - this.height) / 2;
+        this.y = (882 - this.height) / 4;
         
         // Correct order
         this.correctOrder = ["leaf", "snowflake", "candle"];
@@ -27,7 +27,7 @@ class MedallionDoorZoomView {
         
         // Inventory area
         this.inventoryY = this.y + 500;
-        this.inventoryX = this.x + 100;
+        this.inventoryX = this.x + 200;
         
         // Drag state
         this.draggingMedallion = null;
@@ -256,11 +256,6 @@ class MedallionDoorZoomView {
                 this.drawMedallion(ctx, this.slotContents[i], slotX, this.slotY);
             }
         }
-        
-        // Inventory area
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText("Available Medallions:", this.inventoryX, this.inventoryY - 20);
         
         for (let i = 0; i < this.availableMedallions.length; i++) {
             let invX = this.inventoryX + i * 150;
