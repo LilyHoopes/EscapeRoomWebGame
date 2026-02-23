@@ -301,7 +301,7 @@ this.room2IntroIndex = 0;
 
             // interactable 
             // thy booketh shelf
-            this.game.addEntity(new DecorativeSprite(this.game, 386, 420, "./Sprites/FillerFurniture/BackOfBookShelf.png", 220, 240, true, { x: 0, y: 0, w: 0, h: 40 },));  
+            this.game.addEntity(new DecorativeSprite(this.game, 386, 420, "./Sprites/FillerFurniture/BackOfBookshelf.png", 220, 240, true, { x: 0, y: 0, w: 0, h: 40 },));  
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 10, 350, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
