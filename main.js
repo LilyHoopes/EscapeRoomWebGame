@@ -122,6 +122,10 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/BarLeft.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/BarRight.png");
 
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
 
 
 // room 4
