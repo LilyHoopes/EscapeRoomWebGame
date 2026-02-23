@@ -13,8 +13,8 @@ class Shiannel {
         // TOP ROW = IDLE
         this.idleAnimator = new Animator(
             sheet,
-            100, 46,          // start at top-left
-            342, 299,      // frame size
+            100, 39,          // start at top-left
+            350, 320,      // frame size
             2, 0.5        
         );
 

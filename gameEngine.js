@@ -60,8 +60,8 @@ class GameEngine {
         const that = this;
 
         const getXandY = e => ({
-            x: e.clientX - this.ctx.canvas.getBoundingClientRect().left,
-            y: e.clientY - this.ctx.canvas.getBoundingClientRect().top
+            x: (e.clientX - this.ctx.canvas.getBoundingClientRect().left) * (1380 / this.ctx.canvas.getBoundingClientRect().width),
+            y: (e.clientY - this.ctx.canvas.getBoundingClientRect().top) * (882 / this.ctx.canvas.getBoundingClientRect().height)
         });
 
         // Make canvas focusable so it can receive keyboard events reliably

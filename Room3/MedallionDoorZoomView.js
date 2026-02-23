@@ -7,7 +7,7 @@ class MedallionDoorZoomView {
         this.width = 1160;
         this.height = 515;
         this.x = (1380 - this.width) / 2;
-        this.y = (882 - this.height) / 2;
+        this.y = (882 - this.height) / 4;
         
         // Correct order
         this.correctOrder = ["leaf", "snowflake", "candle"];
@@ -26,8 +26,8 @@ class MedallionDoorZoomView {
         this.slotStartX = this.x + 200;
         
         // Inventory area
-        this.inventoryY = this.y + 500;
-        this.inventoryX = this.x + 100;
+        this.inventoryX = this.x + 250;
+        this.inventoryY = this.y + 550;
         
         // Drag state
         this.draggingMedallion = null;
@@ -113,7 +113,7 @@ class MedallionDoorZoomView {
             // Check inventory
             if (!this.draggingMedallion) {
                 for (let i = 0; i < this.availableMedallions.length; i++) {
-                    let invX = this.inventoryX + i * 150;
+                    let invX = this.inventoryX + i * 250;
                     
                     if (mx >= invX && mx <= invX + this.slotWidth &&
                         my >= this.inventoryY && my <= this.inventoryY + this.slotHeight) {
@@ -153,7 +153,7 @@ class MedallionDoorZoomView {
                     Math.pow(my - slotCenterY, 2)
                 );
                 
-                if (dist < this.slotWidth) {
+                if (dist < this.slotWidth / 2) {
                     // Swap if occupied
                     if (this.slotContents[i]) {
                         this.availableMedallions.push(this.slotContents[i]);
@@ -227,6 +227,7 @@ class MedallionDoorZoomView {
     }
     
     draw(ctx) {
+
         // Darken background
         ctx.fillStyle = "rgba(0, 0, 0, 0.8)";
         ctx.fillRect(0, 0, 1380, 882);
@@ -257,13 +258,8 @@ class MedallionDoorZoomView {
             }
         }
         
-        // Inventory area
-        ctx.fillStyle = "white";
-        ctx.font = "20px Arial";
-        ctx.fillText("Available Medallions:", this.inventoryX, this.inventoryY - 20);
-        
         for (let i = 0; i < this.availableMedallions.length; i++) {
-            let invX = this.inventoryX + i * 150;
+            let invX = this.inventoryX + i * 250;
             this.drawMedallion(ctx, this.availableMedallions[i], invX, this.inventoryY);
         }
         
