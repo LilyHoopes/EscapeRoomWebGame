@@ -18,9 +18,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
+        room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
@@ -165,13 +165,9 @@ this.room2IntroIndex = 0;
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1, 822)); // left
 
             // Door to room2
-            let door1Open = this.puzzleStates.room1.door1Open;
-            let room1To2Door = (new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door1Open, 1.0)); // room1 -> room2
-            
-            if (this.debugDoorUnlocks.room1ToRoom2) {
-                door1Open = true;
-            }
-
+            let door1Open = this.puzzleStates.room1.door1Open || this.debugDoorUnlocks.room1ToRoom2;
+            let room1To2Door = new Door(this.game, 1105, 65, 157, 187, "room2", 600, 650,
+                "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door1Open, 1.0);
             this.game.addEntity(room1To2Door);
         }
 
@@ -181,13 +177,11 @@ this.room2IntroIndex = 0;
             );
 
             this.game.addEntity(new Door(this.game, 558, 800, 270, 175, "room1", 1100, 150, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room2 -> room1
-            let door2Open = this.puzzleStates.room2.door2Open; 
-            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door2Open, 1.0); // room2 -> room3
-            this.game.addEntity(room2To3Door);
 
-            if (this.puzzleStates.room2.lockBroken || this.debugDoorUnlocks.room2ToRoom3) {
-                door2Open = true;
-            }
+            let door2Open = this.puzzleStates.room2.door2Open || this.debugDoorUnlocks.room2ToRoom3;
+            let room2To3Door = new Door(this.game, 975, 18, 155, 187, "room3", 600, 700,
+                "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", !door2Open, 1.0);
+            this.game.addEntity(room2To3Door);
 
             // added shiannel
             this.game.addEntity(new Shiannel(this.game, 1210, 150, true, "crouch"));
@@ -240,12 +234,9 @@ this.room2IntroIndex = 0;
             // doors
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
 
-            let door3Open = this.puzzleStates.room3.door3Open; 
-            let room3To4Door = (new Door(this.game, 610, 30, 155, 187, "room4", 250, 700, "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", !door3Open, 1.0)); // room3 -> room4
-
-            if (this.puzzleStates.room3.medallionDoor || this.debugDoorUnlocks.room3ToRoom4) {
-                door3Open = true;
-            }
+            let door3Open = this.puzzleStates.room3.door3Open || this.debugDoorUnlocks.room3ToRoom4;
+            let room3To4Door = new Door(this.game, 610, 30, 155, 187, "room4", 250, 700,
+                "./Sprites/Room3/BlankMedallionDoor.png", "./Sprites/Room3/OpenMedallionDoor.png", !door3Open, 1.0);
             this.game.addEntity(room3To4Door);
 
             // added victor and jin
