@@ -280,8 +280,7 @@ this.room2IntroIndex = 0;
             this.game.addEntity(room4To5Door);
 
             //wall
-            this.game.addEntity(new DecorativeSprite(this.game, 640, 310, "./Sprites/Room4/TopHalfOfBookShelf.png", 420, 120, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
-
+            this.game.addEntity(new DecorativeSprite(this.game, 640, 300, "./Sprites/Room4/TopHalfOfBookShelf.png", 420, 115, true, { x: 0, y: 40, w: 0, h: 10 }, true, 400));
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 440, 450)); // top left
@@ -305,12 +304,13 @@ this.room2IntroIndex = 0;
             this.game.addEntity(new Door(this.game, 700, 18, 450, 180, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", true, 1.0)); // room5 -> ending screen
 
             // Add NPCs: Shiannel, Victor and Jin
-            this.game.addEntity(new Shiannel(this.game, 500, 300, true, "idle"));
+            this.game.addEntity(new Shiannel(this.game, 570, 100, true, "idle"));
             this.game.addEntity(new Victor(this.game, 1210, 250, true));
             this.game.addEntity(new Jin(this.game, 1140, 450, true));
 
             // interactable 
             // thy booketh shelf
+            this.game.addEntity(new DecorativeSprite(this.game, 386, 420, "./Sprites/FillerFurniture/BackOfBookShelf.png", 220, 240, true, { x: 0, y: 0, w: 0, h: 40 },));  
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 10, 350, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
