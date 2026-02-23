@@ -31,7 +31,7 @@ class CandleTableZoomView {
         
         this.removeFromWorld = false;
 
-        this.debugSlots = false; // Set to false to hide slot outlines
+        this.debugSlots = true; // Set to false to hide slot outlines
 
         
         // Load candle sprites
@@ -97,7 +97,7 @@ class CandleTableZoomView {
                 let slotX = this.slotStartX + i * this.slotSpacing;
                 let slotCenterX = slotX + this.slotWidth / 2;
                 
-                if (Math.abs(mx - slotCenterX) < this.slotWidth) {
+                if (Math.abs(mx - slotCenterX) < this.slotWidth / 2) {
                     droppedSlot = i;
                     break;
                 }
