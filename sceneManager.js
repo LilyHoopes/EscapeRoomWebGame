@@ -20,7 +20,7 @@ class SceneManager {
         this.debugDoorUnlocks = {
         room1ToRoom2: true,   // Door from room 1 to room 2
         room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: true,  // Door from room 3 to room 4 
+        room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
