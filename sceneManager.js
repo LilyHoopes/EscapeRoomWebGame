@@ -18,9 +18,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: true,   // Door from room 1 to room 2
-        room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: true,  // Door from room 3 to room 4 
+        room1ToRoom2: false,   // Door from room 1 to room 2
+        room2ToRoom3: false,   // Door from room 2 to room 3
+        room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
@@ -233,9 +233,7 @@ this.room2IntroIndex = 0;
             this.game.addEntity(new DecorativeSprite(this.game, 25, 150, "./Sprites/Room3/ClusterCandles.png", 100, 100, true, { x: 0, y: 0, w: 0, h: 40 },)); 
             this.game.addEntity(new DecorativeSprite(this.game, 1255, 150, "./Sprites/Room3/ClusterCandles.png", 100, 100, true, { x: 0, y: 0, w: 0, h: 40 },));    
             this.game.addEntity(new DecorativeSprite(this.game, 2, 482, "./Sprites/Room3/ClusterCandles.png", 100, 100, true, { x: 0, y: 0, w: 0, h: 40 },));    
-            this.game.addEntity(new DecorativeSprite(this.game, 1280, 482, "./Sprites/Room3/ClusterCandles.png", 100, 100, true, { x: 0, y: 0, w: 0, h: 40 },));    
-            //this.game.addEntity(new DecorativeSprite(this.game, 350, 400, "./Sprites/Room3/ClusterCandles.png", 150, 200, true, { x: 0, y: 0, w: 0, h: 40 },));    
-   
+            this.game.addEntity(new DecorativeSprite(this.game, 1280, 482, "./Sprites/Room3/ClusterCandles.png", 100, 100, true, { x: 0, y: 0, w: 0, h: 40 },));      
 
             // doors
             this.game.addEntity(new Door(this.game, 550, 815, 265, 150, "room2", 950, 100, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room3 -> room2
