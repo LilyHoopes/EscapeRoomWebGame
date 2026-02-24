@@ -16,10 +16,65 @@ class MusicNoteFrame {
     }
     
     update() {
-        if (this.isNearLily() && this.game.E && !this.game.examining) {
-            this.openZoomView();
+
+    if (
+        this.isNearLily() &&
+        this.game.E &&
+        !this.game.examining &&
+        !this.game.sceneManager.dialogueBox.active
+    ) {
+
+        this.game.E = false;
+
+        // If pipe already taken, show different dialogue
+        if (this.pipeTaken) {
+
+            this.game.examining = true;
+
+            this.game.sceneManager.dialogueBox.openLine(
+                "The painting is completely ruined now...",
+                null,
+                "Lily",
+                () => {
+                    this.game.examining = false;
+                }
+            );
+
+            return;
         }
+
+        // Normal interaction flow before pipe is taken
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "This painting looks expensive...",
+            null,
+            "Lily",
+            () => {
+
+                this.game.sceneManager.dialogueBox.openChoice(
+                    "Interact with it?",
+                    [
+                        {
+                            label: "Yes",
+                            onSelect: () => {
+                                this.openZoomView();
+                            }
+                        },
+                        {
+                            label: "No",
+                            onSelect: () => {
+                                this.game.examining = false;
+                            }
+                        }
+                    ],
+                    "Prompt"
+                );
+
+            }
+        );
     }
+}
     
     isNearLily() {
         let lily = this.game.sceneManager.lily;

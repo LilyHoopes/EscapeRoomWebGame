@@ -59,11 +59,29 @@ class PaintingZoomView {
     }
     
     // if key is clicked on, add to inventory, update the painting, and change state 
-    takeKey() {
-        this.game.sceneManager.addToInventory("diamond_key", "./Sprites/Room1/DiamondKey.png");        
-        this.painting.onKeyTaken();
-        this.keyTaken = true;
-    }
+    // if key is clicked on, add to inventory, update the painting, and change state 
+takeKey() {
+    this.game.sceneManager.addToInventory("diamond_key", "./Sprites/Room1/DiamondKey.png");
+    this.painting.onKeyTaken();
+    this.keyTaken = true;
+
+    // Close zoom first
+    this.close();
+
+    // Small delay so zoom fully disappears
+    setTimeout(() => {
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "It’s a diamond key!",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+    }, 0);
+}
     
     close() {
         this.removeFromWorld = true; // remove zoomed painting from world 

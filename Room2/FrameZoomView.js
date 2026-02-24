@@ -11,6 +11,9 @@ class FrameZoomView {
         
         this.sprite = this.frame.sprite;
         this.removeFromWorld = false;
+        this.removeFromWorld = false;
+
+
     }
     
     update() {
@@ -39,9 +42,20 @@ class FrameZoomView {
     }
     
     close() {
-        this.removeFromWorld = true;
-        this.game.examining = false;
-    }
+
+    this.removeFromWorld = true;
+    this.game.examining = false;
+
+    // Reset interaction key to prevent immediate re-trigger
+    this.game.E = false;
+
+    // Show dialogue after closing
+    this.game.sceneManager.dialogueBox.openLine(
+        "Hm, not this one.",
+        null,
+        "Lily"
+    );
+}
     
     draw(ctx) {
         // Darken background

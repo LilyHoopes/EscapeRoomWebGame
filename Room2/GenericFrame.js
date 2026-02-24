@@ -20,11 +20,16 @@ class GenericFrame {
     }
     
     update() {
-        // Only allow interaction if near Lily and not examining
-        if (this.isNearLily() && this.game.E && !this.game.examining) {
-            this.openZoomView();
-        }
+
+    if (
+        this.isNearLily() &&
+        this.game.E &&
+        !this.game.examining &&
+        !this.game.sceneManager.dialogueBox.active // prevent retrigger during dialogue
+    ) {
+        this.openZoomView();
     }
+}
     
     isNearLily() {
         let lily = this.game.sceneManager.lily;
@@ -39,18 +44,47 @@ class GenericFrame {
     }
     
     openZoomView() {
-        
-        // Mark as viewed (for tracking which paintings player has seen)
-        this.hasBeenViewed = true;
 
+    this.hasBeenViewed = true;
+
+    this.game.examining = true;
+    this.game.E = false;
+
+    // First description dialogue
+    this.game.sceneManager.dialogueBox.openLine(
+        "It looks like an expensive painting...",
+        null,
+        "Lily",
+        () => {
+
+            // After first dialogue closes, show interaction choice
+            this.game.sceneManager.dialogueBox.openChoice(
+                "Interact with it?",
+                [
+                    {
+    label: "Yes",
+    onSelect: () => {
+
+        // Reduce HP
         this.game.sceneManager.takeDamage();
-        
-        // Create zoom view
+
         this.game.addEntity(new FrameZoomView(this.game, this));
-        
         this.game.examining = true;
-        this.game.E = false;
     }
+},
+                    {
+                        label: "No",
+                        onSelect: () => {
+                            this.game.examining = false;
+                        }
+                    }
+                ],
+                "Prompt"
+            );
+
+        }
+    );
+}
     
     draw(ctx) {
         // Draw the frame sprite

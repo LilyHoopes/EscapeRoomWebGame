@@ -160,11 +160,30 @@ class KeypadZoomView {
     checkCode() {
         
         if (this.enteredCode === this.correctCode) {
-            // CORRECT!
-            this.isCorrect = true;
-            this.showingResult = true;
-            this.keypad.onCorrectCode();
-        } else {
+    // CORRECT!
+    this.isCorrect = true;
+    this.showingResult = true;
+    this.keypad.onCorrectCode();
+
+    // ✅ Close zoom first so dialogue is visible
+    this.close();
+
+    // ✅ Next frame: show dialogue
+    setTimeout(() => {
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "I did it! But where does this lead to?",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+    }, 0);
+
+} 
+    else {
             // WRONG!
             this.isCorrect = false;
             this.showingResult = true;

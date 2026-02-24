@@ -132,20 +132,34 @@ class FrozenLockZoomView {
     }
     
     breakLock() {
-        // Mark pipe as used
-        this.game.sceneManager.markItemAsUsed("Lead Pipe");
-        this.hasPipe = false;
-        
-        // Break the lock
-        this.lockBroken = true;
-        
-        // Show success message
-        this.showSuccessMessage = true;
-        this.successTimer = 0;
-        
-        // Notify the lock in the world
-        this.lock.onLockBroken();
-    }
+
+    this.game.sceneManager.markItemAsUsed("Lead Pipe");
+    this.hasPipe = false;
+
+    this.lockBroken = true;
+
+    // Notify the lock in the world
+    this.lock.onLockBroken();
+
+    // Close zoom first
+    this.close();
+
+    // Show success dialogue after zoom disappears
+    setTimeout(() => {
+
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "We did it! We are out!",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+
+    }, 0);
+}
     
     close() {
         this.removeFromWorld = true;

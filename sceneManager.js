@@ -42,45 +42,29 @@ class SceneManager {
 
         // NPC dialogue tracking
         this.npcStates = {
-            shiannel: { met: false, dialogueIndex: 0 },
-            victor: { met: false, dialogueIndex: 0 },
-            jin: { met: false, dialogueIndex: 0 }
+            shiannel: { met: false, dialogueIndex: 0, stage: 0 },
+            victor: { met: false, dialogueIndex: 0, stage: 0 },
+            jin: { met: false, dialogueIndex: 0, stage: 0 }
         };
 
         this.lily = new Lily(this.game, 1000, 50);
 
-        // ===== BGM STATE =====
+       // ===== BGM STATE =====
         this.roomBGM = null;
         this.roomBGMName = null;
 
         // ===== DIALOGUE UI =====
-        // Added: pass game so DialogueBox can use clockTick for typing effect
+        // DialogueBox is defined in DialogueBox.js
         this.dialogueBox = new DialogueBox(this.game);
         this.dialogueBox.isPopup = true;
+        // Used only to prevent repeat-triggering on hold
         this.wasEPressed = false;
+        
+        // Track dialogue open/close state to prevent E carryover into doors
+        this.wasDialogueActive = false;
 
         // Added: Shiannel "E to Talk" prompt handle
         this.shiannelPrompt = null;
-
-        // ===== ROOM 1 START DIALOGUE =====
-        this.room1IntroPlayed = false;
-        this.room1IntroActive = false;
-        this.room1IntroLines = [
-        "Where am I? The last thing I remember was walking to my car and... something hard hitting the back of my head-",
-        "*Scream goes off in the distance* (Scream sound needs to be added?)",
-        "Was I kidnapped? Oh no, I have to find a way out of here!"
-        ];
-        this.room1IntroIndex = 0;
-        
-        // ===== ROOM 2 START DIALOGUE =====
-        this.room2IntroPlayed = false;
-        this.room2IntroActive = false;
-        this.room2IntroLines = [
-            "Brr, it is freezing in here!",
-            "*See’s Shiannel huddled in the corner*",
-            "Oh gosh, shes not… dead is she?"
-        ];
-this.room2IntroIndex = 0;
 
         // Added: single source of truth for Shiannel position in room2
         this.shiannelPos = { x: 1210, y: 150 };
@@ -90,20 +74,6 @@ this.room2IntroIndex = 0;
     loadRoom(roomName, spawnX, spawnY) {
         this.clearEntities();
         this.currentRoom = roomName;
-
-        // Room 1: play intro dialogue once when entering the room for the first time
-        if (roomName === "room1" && !this.room1IntroPlayed) {
-        this.room1IntroActive = true;
-        this.room1IntroIndex = 0;
-        this.game.examining = true; // lock movement during intro
-        }
-
-        // Room 2: play intro dialogue once when entering the room for the first time
-        if (roomName === "room2" && !this.room2IntroPlayed) {
-        this.room2IntroActive = true;
-        this.room2IntroIndex = 0;
-        this.game.examining = true; // lock movement during intro
-        }
 
         // BGM applicator
         const bgmMap = {
@@ -351,6 +321,49 @@ this.room2IntroIndex = 0;
             this.shiannelPrompt.removeFromWorld = true;
             this.shiannelPrompt = null;
         }
+
+        // Room 1 intro dialogue (play once per full game run)
+        if (roomName === "room1" && !this.puzzleStates.room1.introPlayed) {
+            this.puzzleStates.room1.introPlayed = true;
+
+            // Lock movement/interaction while the intro is playing
+            this.game.examining = true;
+
+            this.dialogueBox.startSequence(
+                [
+                    "Where am I? The last thing I remember was walking to my car, and then something hard hit the back of my head.",
+                    "[A scream echoes in the distance]",
+                    "Was I kidnapped? Oh no, I have to find a way out of here!"
+                ],
+                null,
+                "Lily",
+                () => {
+                    this.game.examining = false;
+                }
+                );
+                     }
+            
+        // Room 2 intro dialogue (play once per full game run)
+        if (roomName === "room2" && !this.puzzleStates.room2.introPlayed) {
+
+            this.puzzleStates.room2.introPlayed = true;
+
+         // Lock movement during intro
+            this.game.examining = true;
+
+            this.dialogueBox.startSequence(
+             [
+                 "Brr, it is freezing in here!",
+                 "*Sees Shiannel huddled in the corner*",
+                    "Oh gosh, shes not… dead is she?"
+            ],
+        null,
+        "Lily",
+        () => {
+            this.game.examining = false;
+             }
+            );
+        }
     }
 
     // Inventory helpers
@@ -382,47 +395,21 @@ this.room2IntroIndex = 0;
         return map[npcName] || "";
     }
 
-    // NPC DIALOGUE
-    handleNPCInteraction(npcName, dialogueLines) {
-    const npc = this.npcStates[npcName];
-    if (!npc || !Array.isArray(dialogueLines) || dialogueLines.length === 0) return;
+    // NPC DIALOGUE (start-only)
+    // DialogueBox handles advancing lines via E while active.
+    startNPCDialogue(npcName, dialogueLines) {
+        if (!Array.isArray(dialogueLines) || dialogueLines.length === 0) return;
+        const displayName = this.getNPCDisplayName(npcName);
 
-    // Helper: choose the name shown on the dialogue box based on the line prefix
-    const getSpeakerFromLine = (line) => {
-        const s = String(line || "");
-        if (s.startsWith("Lily:")) return "Lily";
-        if (s.startsWith("Shiannel:")) return "Shiannel";
-        if (s.startsWith("Victor:")) return "Victor";
-        if (s.startsWith("Jin:")) return "Jin";
-        return ""; // narration or no speaker
-    };
+        // Mark met (optional)
+        const npc = this.npcStates[npcName];
+        if (npc) npc.met = true;
 
-    // If already open, advance
-    if (this.dialogueBox.active) {
-        npc.dialogueIndex++;
-        if (npc.dialogueIndex >= dialogueLines.length) {
-            npc.dialogueIndex = 0;
-            this.dialogueBox.close();
+        this.game.examining = true;
+        this.dialogueBox.startSequence(dialogueLines, null, displayName, () => {
             this.game.examining = false;
-        } else {
-            const line = dialogueLines[npc.dialogueIndex];
-            const speakerName = getSpeakerFromLine(line);
-            this.dialogueBox.open(line, null, speakerName);
-        }
-        return;
+        });
     }
-
-    // Open fresh
-    npc.met = true;
-    npc.dialogueIndex = 0;
-
-    const firstLine = dialogueLines[0];
-    const firstSpeaker = getSpeakerFromLine(firstLine);
-    this.dialogueBox.open(firstLine, null, firstSpeaker);
-
-    // Lock player interaction while dialogue is open
-    this.game.examining = true;
-}
     // Basic distance check
     isNear(x, y, range = 90) {
         const dx = (this.lily.x - x);
@@ -431,73 +418,6 @@ this.room2IntroIndex = 0;
     }
 
     update() {
-
-    // ===== ROOM 1 START DIALOGUE =====
-    if (this.room1IntroActive) {
-        if (!this.dialogueBox.active) {
-            const line = this.room1IntroLines[this.room1IntroIndex] || "";
-            this.dialogueBox.open(line, null, "Lily");
-        }
-
-        if (this.game.E && !this.wasEPressed) {
-            if (this.dialogueBox.isTyping) {
-                this.dialogueBox.skipTyping();
-            } else {
-                this.room1IntroIndex++;
-
-                if (this.room1IntroIndex < this.room1IntroLines.length) {
-                    this.dialogueBox.open(this.room1IntroLines[this.room1IntroIndex], null, "Lily");
-                } else {
-                    this.dialogueBox.close();
-                    this.room1IntroActive = false;
-                    this.room1IntroPlayed = true;
-                    this.game.examining = false;
-                }
-            }
-
-            this.wasEPressed = true;
-        } else if (!this.game.E) {
-            this.wasEPressed = false;
-        }
-
-        return;
-    }
-
-    // ===== ROOM 2 START DIALOGUE =====
-if (this.room2IntroActive) {
-    if (!this.dialogueBox.active) {
-        const line = this.room2IntroLines[this.room2IntroIndex] || "";
-        this.dialogueBox.open(line, null, "Lily");
-    }
-
-    if (this.game.E && !this.wasEPressed) {
-        if (this.dialogueBox.isTyping) {
-            this.dialogueBox.skipTyping();
-        } else {
-            this.room2IntroIndex++;
-
-            if (this.room2IntroIndex < this.room2IntroLines.length) {
-                this.dialogueBox.open(
-                    this.room2IntroLines[this.room2IntroIndex],
-                    null,
-                    this.room2IntroIndex === 1 ? "" : "Lily"
-                );
-            } else {
-                this.dialogueBox.close();
-                this.room2IntroActive = false;
-                this.room2IntroPlayed = true;
-                this.game.examining = false;
-            }
-        }
-
-        this.wasEPressed = true;
-    } else if (!this.game.E) {
-        this.wasEPressed = false;
-    }
-
-    return;
-}
-
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
 
         if (!inventoryOpen) {
@@ -510,114 +430,103 @@ if (this.room2IntroActive) {
             }
         }
 
-        // E key NPC talk (GOTTA FIX THIS ONE)
-        // We only trigger once per key press
-        if (this.game.E && !this.wasEPressed) {
-            // If dialogue is open, handle typing skip first, otherwise advance dialogue
-            if (this.dialogueBox.active) {
-
-                // Added: if text is still typing, E will instantly finish the line
-                if (this.dialogueBox.isTyping) {
-                    this.dialogueBox.skipTyping();
-                    this.wasEPressed = true;
-                    return;
-                }
-
-               if (this.currentRoom === "room2") {
-    this.handleNPCInteraction("shiannel", [
-        "Shiannel: . . .",
-        "Lily: Hello? Are you okay?",
-        "*Shiannel stands up*",
-        "Shiannel: Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!",
-        "Lily: It’s good im not alone!",
-        "Shiannel: Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!",
-        "Lily: I guess we need something harder to hit it with then",
-        "Shiannel: !!",
-        "Shiannel: The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!",
-        "Lily: You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time.",
-        "Shiannel: I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!",
-        "Lily: Hm…"
-    ]);
+        // If a dialogue is open, DialogueBox handles E to skip/advance.
+        // SceneManager should not also consume E while a dialogue is active.
+        if (this.dialogueBox.active) {
+            this.wasEPressed = !!this.game.E;
+        } 
+        // If dialogue just closed, clear E to prevent carryover
+if (!this.dialogueBox.active && this.wasDialogueActive) {
+    this.game.E = false;
 }
- else if (this.currentRoom === "room3") {
+        else {
+            // NPC talk trigger (start-only). Trigger once per key press.
+if (this.game.E && !this.wasEPressed && !this.game.examining) {
 
-                    this.handleNPCInteraction("victor", [
-                        "Testing1",
-                        "Testing2",
-                        "Testing3"
-                    ]);
-                } else {
-                    // Default: close if open and not matched
-                    this.dialogueBox.close();
-                    this.game.examining = false;
-                }
-            } else {
-                // Dialogue not open yet, decide who you are near
+    let triggeredNPC = false;
 
-                if (this.currentRoom === "room2") {
-                    // Added: use Shiannel position source for proximity check
-                    if (this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120)) {
-                        // Added: remove prompt when starting dialogue
-                        if (this.shiannelPrompt) {
-                            this.shiannelPrompt.removeFromWorld = true;
-                            this.shiannelPrompt = null;
-                        }
+    if (this.currentRoom === "room2") {
+    if (this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120)) {
 
-                        this.handleNPCInteraction("shiannel", [
-                            ". . .",
-                        "Hello? Are you okay?",
-                        "*Shiannel stands up*",
-                        "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!",
-                        "It’s good im not alone!",
-                        "Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!",
-                        "I guess we need something harder to hit it with then",
-    "!!",
-    "The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!",
-    "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time.",
-    "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!",
-    "Hm…"
-                        ]);
-                    }
-                }
-
-                if (this.currentRoom === "room3") {
-                    // Victor spawn: (955, 510)
-                    if (this.isNear(955, 510, 120)) {
-                        this.handleNPCInteraction("victor", [
-                            "The door never opened for me.",
-                            "Do not repeat my mistake.",
-                            "If you find a symbol, remember its order."
-                        ]);
-                    }
-
-                    // Jin spawn: (300, 495)
-                    if (this.isNear(300, 495, 120)) {
-                        this.handleNPCInteraction("jin", [
-                            "You made it this far.",
-                            "Stay calm, the room is designed to confuse you.",
-                            "Look for patterns, not objects."
-                        ]);
-                    }
-                }
-            }
-
-            this.wasEPressed = true;
-        } else if (!this.game.E) {
-            this.wasEPressed = false;
+        if (this.shiannelPrompt) {
+            this.shiannelPrompt.removeFromWorld = true;
+            this.shiannelPrompt = null;
         }
-        
-        //killer spawn delay room 4
-        if (this.currentRoom === "room4" && !this.room4KillerSpawned) {
 
-            this.room4KillerTimer += this.game.clockTick;
+        const shi = this.npcStates.shiannel;
 
-            if (this.room4KillerTimer >= this.room4KillerDelay) {
+        if (this.puzzleStates.room2.lockBroken) {
+            shi.stage = 2;
+        }
 
-                const killer = new Killer(this.game, 50, 500, this.lily);
-                this.game.addEntity(killer);
+        // Consume E immediately so it does not retrigger
+        this.game.E = false;
 
-                this.room4KillerSpawned = true;
+        try {
+            // Make sure the function exists before calling
+            if (typeof Shiannel === "undefined" || typeof Shiannel.getDialogue !== "function") {
+                this.game.examining = true;
+                this.dialogueBox.startSequence(
+                    ["..."],
+                    null,
+                    "Shiannel",
+                    () => {
+                        this.game.examining = false;
+                    }
+                );
+            } else {
+                this.game.examining = true;
+
+                this.dialogueBox.startSequence(
+                    Shiannel.getDialogue(shi.stage),
+                    null,
+                    null,
+                    () => {
+                        if (shi.stage === 0) {
+                            shi.stage = 1;
+                        }
+                        shi.met = true;
+                        this.game.examining = false;
+                    }
+                );
             }
+
+            triggeredNPC = true;
+
+        } catch (err) {
+            console.error("Shiannel dialogue error:", err);
+
+            // Prevent freeze
+            this.game.examining = false;
+            this.dialogueBox.close();
+        }
+    }
+}
+
+    if (this.currentRoom === "room3") {
+        if (this.isNear(955, 510, 120)) {
+            this.startNPCDialogue("victor", [
+                "The door never opened for me.",
+                "Do not repeat my mistake.",
+                "If you find a symbol, remember its order."
+            ]);
+            triggeredNPC = true;
+
+        } else if (this.isNear(300, 495, 120)) {
+            this.startNPCDialogue("jin", [
+                "You made it this far.",
+                "Stay calm, the room is designed to confuse you.",
+                "Look for patterns, not objects."
+            ]);
+            triggeredNPC = true;
+        }
+    }
+
+
+    if (triggeredNPC) this.game.E = false;
+}
+
+            this.wasEPressed = !!this.game.E;
         }
 
         // Keep prompt updated even when E is not pressed (room2 Shiannel only)
@@ -714,229 +623,12 @@ if (this.room2IntroActive) {
         
         // Reset NPC dialogue
         this.npcStates = {
-            shiannel: { met: false, dialogueIndex: 0 },
-            victor: { met: false, dialogueIndex: 0 },
-            jin: { met: false, dialogueIndex: 0 }
+            shiannel: { met: false, dialogueIndex: 0, stage: 0 },
+            victor: { met: false, dialogueIndex: 0, stage: 0 },
+            jin: { met: false, dialogueIndex: 0, stage: 0 }
         };
         
         // Load Room 1
         this.loadRoom("room1", 210, 100);
     }
-}
-
-// Dialogue UI class
-class DialogueBox {
-    constructor(game) {
-        // Added: store game reference for clockTick timing
-        this.game = game;
-
-        this.active = false;
-
-        // Visible text that gets drawn
-        this.text = "";
-
-        // Typing effect state
-        this.fullText = "";
-        this.displayText = "";
-        this.charIndex = 0;
-        this.typeTimer = 0;
-        this.typeSpeed = 45; // characters per second
-        this.isTyping = false;
-
-        // Portrait state
-        this.portraitImg = null;
-        this.portraitReady = false;
-
-        // Added: speaker name
-        this.speakerName = "";
-
-        this.isPopup = true;
-    }
-
-    update() {
-        // Advance typing effect over time
-        if (!this.active || !this.isTyping) return;
-
-        const dt = (this.game && typeof this.game.clockTick === "number") ? this.game.clockTick : (1 / 60);
-        this.typeTimer += dt;
-
-        const charsToAdd = Math.floor(this.typeTimer * this.typeSpeed);
-        if (charsToAdd <= 0) return;
-
-        this.typeTimer -= charsToAdd / this.typeSpeed;
-        this.charIndex = Math.min(this.fullText.length, this.charIndex + charsToAdd);
-
-        this.displayText = this.fullText.slice(0, this.charIndex);
-        this.text = this.displayText;
-
-        if (this.charIndex >= this.fullText.length) {
-            this.isTyping = false;
-        }
-    }
-
-    // Added: supports optional portraitPath and speakerName
-    open(text, portraitPath = null, speakerName = "") {
-        this.active = true;
-
-        // Typing effect reset
-        this.fullText = String(text || "");
-        this.displayText = "";
-        this.text = "";
-        this.charIndex = 0;
-        this.typeTimer = 0;
-        this.isTyping = true;
-
-        // Speaker name
-        this.speakerName = speakerName || "";
-
-        // Portrait reset
-        this.portraitImg = null;
-        this.portraitReady = false;
-
-        if (portraitPath) {
-            const img = new Image();
-            img.onload = () => { this.portraitReady = true; };
-            img.src = portraitPath;
-            this.portraitImg = img;
-        }
-    }
-
-    // Instantly completes the current line
-    skipTyping() {
-        if (!this.active || !this.isTyping) return;
-
-        this.isTyping = false;
-        this.charIndex = this.fullText.length;
-        this.displayText = this.fullText;
-        this.text = this.fullText;
-    }
-
-    close() {
-        this.active = false;
-
-        // Reset text and typing state
-        this.text = "";
-        this.fullText = "";
-        this.displayText = "";
-        this.charIndex = 0;
-        this.typeTimer = 0;
-        this.isTyping = false;
-
-        // Reset portrait state
-        this.portraitImg = null;
-        this.portraitReady = false;
-
-        // Reset speaker name
-        this.speakerName = "";
-    }
-
-    draw(ctx) {
-        if (!this.active) return;
-
-        const boxX = 120;
-        const boxY = 560;
-        const boxW = 1140;
-
-        // Added: increase height to prevent text overlap
-        const boxH = 200;
-
-        // Portrait layout
-        const portraitSize = 120;
-        const portraitPad = 20;
-        const portraitX = boxX + portraitPad;
-        const portraitY = boxY + Math.floor((boxH - portraitSize) / 2);
-
-        // Text layout
-        const textX = portraitX + portraitSize + 30;
-        const nameY = boxY + 42;     // Added: speaker name line
-        const textY = boxY + 72;     // Added: dialogue text starts lower to avoid overlap with name
-        const textMaxW = boxX + boxW - textX - 40;
-
-        // Box
-        ctx.fillStyle = "rgba(0, 0, 0, 0.80)";
-        ctx.fillRect(boxX, boxY, boxW, boxH);
-
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(boxX, boxY, boxW, boxH);
-
-        // Portrait frame
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 2;
-        ctx.strokeRect(portraitX, portraitY, portraitSize, portraitSize);
-
-        // Portrait image (only if provided and ready)
-        if (this.portraitImg && this.portraitReady) {
-            ctx.drawImage(this.portraitImg, portraitX, portraitY, portraitSize, portraitSize);
-        }
-
-        // Added: speaker name
-        if (this.speakerName) {
-            ctx.fillStyle = "white";
-            ctx.font = "18px Arial";
-            ctx.fillText(this.speakerName, textX, nameY);
-        }
-
-        // Main dialogue text
-        ctx.fillStyle = "white";
-        ctx.font = "22px Arial";
-        wrapText(ctx, this.text, textX, textY, textMaxW, 28);
-
-        // Added: hint placed at bottom-right so it never overlaps dialogue
-        ctx.font = "16px Arial";
-        const hint = this.isTyping ? "Press E to skip" : "Press E to continue";
-        ctx.textAlign = "right";
-        ctx.fillText(hint, boxX + boxW - 30, boxY + boxH - 15);
-        ctx.textAlign = "left";
-    }
-}
-
-// Added: "E to Talk" prompt entity
-class TalkPrompt {
-    constructor(game, x, y, text) {
-        this.game = game;
-        this.x = x;
-        this.y = y;
-        this.text = text || "E to Talk";
-        this.removeFromWorld = false;
-
-        // Added: draw above everything in GameEngine (popup layer)
-        this.isPopup = true;
-    }
-
-    update() {}
-
-    draw(ctx) {
-        ctx.save();
-        ctx.font = "18px Arial";
-        ctx.textAlign = "center";
-        ctx.textBaseline = "middle";
-        ctx.lineWidth = 4;
-        ctx.strokeStyle = "black";
-        ctx.fillStyle = "white";
-        ctx.strokeText(this.text, this.x, this.y);
-        ctx.fillText(this.text, this.x, this.y);
-        ctx.restore();
-    }
-}
-
-// Simple text wrapping helper for canvas
-function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
-    const words = String(text || "").split(" ");
-    let line = "";
-
-    for (let n = 0; n < words.length; n++) {
-        const testLine = line + words[n] + " ";
-        const metrics = ctx.measureText(testLine);
-        const testWidth = metrics.width;
-
-        if (testWidth > maxWidth && n > 0) {
-            ctx.fillText(line, x, y);
-            line = words[n] + " ";
-            y += lineHeight;
-        } else {
-            line = testLine;
-        }
-    }
-    ctx.fillText(line, x, y);
 }

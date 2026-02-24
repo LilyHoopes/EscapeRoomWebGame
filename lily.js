@@ -52,7 +52,7 @@ class Lily {
         this.updateBB();
         this.lastBB = this.BB;
     }
-
+    
     updateBB() {
         this.offsetX = 55; // shifts to right
         this.offsetY = 80; // shifts down 
@@ -69,6 +69,14 @@ class Lily {
     }
 
     update() {
+
+         // Stop movement when dialogue or zoom is active
+        const sm = this.game.sceneManager;
+        if (this.game.examining || (sm && sm.dialogueBox && sm.dialogueBox.active)) {
+        this.currentAnimation = this.animations.idle;
+        return;
+    }
+
         let dx = 0;
         let dy = 0;
         //console.log("Keys:", this.game.left, this.game.right, this.game.up, this.game.down);

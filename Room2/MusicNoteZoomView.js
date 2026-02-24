@@ -63,10 +63,30 @@ class MusicNoteZoomView {
     }
     
     takePipe() {
-        this.game.sceneManager.addToInventory("Lead Pipe", "./Sprites/Room2/Pipe.png");
-        this.pipeTaken = true;
-        this.frame.onPipeTaken();
-    }
+
+    this.game.sceneManager.addToInventory("Lead Pipe", "./Sprites/Room2/Pipe.png");
+    this.pipeTaken = true;
+    this.frame.onPipeTaken();
+
+    // Close zoom first
+    this.close();
+
+    // Small delay so zoom fully disappears before dialogue
+    setTimeout(() => {
+
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "I found it!",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+
+    }, 0);
+}
     
     close() {
         this.removeFromWorld = true;

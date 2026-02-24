@@ -28,11 +28,36 @@ class FrozenLock {
     }
     
     update() {
-        // Only allow interaction if lock not broken and not examining
-        if (!this.lockBroken && this.isNearLily() && this.game.E && !this.game.examining) {
-            this.openZoomView();
+
+    if (!this.lockBroken &&
+        this.isNearLily() &&
+        this.game.E &&
+        !this.game.examining &&
+        !this.game.sceneManager.dialogueBox.active) {
+
+        this.game.E = false;
+
+        // If player does NOT have pipe, show dialogue instead of opening zoom
+        if (!this.game.sceneManager.hasItem("Lead Pipe")) {
+
+            this.game.examining = true;
+
+            this.game.sceneManager.dialogueBox.openLine(
+                "I need something to break this lock...",
+                null,
+                "Lily",
+                () => {
+                    this.game.examining = false;
+                }
+            );
+
+            return;
         }
+
+        // If player has pipe, open zoom
+        this.openZoomView();
     }
+}
     
     isNearLily() {
         let lily = this.game.sceneManager.lily;
