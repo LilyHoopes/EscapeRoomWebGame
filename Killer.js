@@ -5,13 +5,18 @@ class Killer {
         this.y = y;
         this.target = target;
 
-        this.speed = 350; //lily speed = 500
+        this.speed = 400; //lily speed = 500
         this.removeFromWorld = false;
 
         //this.width = 20;
         //this.height = 60;
 
         this.damageCooldown = 0;
+
+        this.giveUpTimer = 0;
+        this.giveUpDelay = 4.0;
+        this.givingUp = false;
+        this.isRoom5Killer = false;
 
         this.updateBB();
         this.lastBB = this.BB;
@@ -48,6 +53,35 @@ class Killer {
     }
 
     update() {
+
+        // Room 5 give-up logic
+        if (this.isRoom5Killer) {
+            const dist = Math.sqrt(
+                Math.pow(this.target.x - this.x, 2) +
+                Math.pow(this.target.y - this.y, 2)
+            );
+
+            if (dist > 300) {
+                this.giveUpTimer += this.game.clockTick;
+            } else {
+                this.giveUpTimer = 0;
+            }
+
+            if (this.giveUpTimer >= this.giveUpDelay) {
+                this.givingUp = true;
+            }
+        }
+
+        if (this.givingUp) {
+            this.y += 200 * this.game.clockTick;
+            this.currentAnimation = this.animations.walkDown;
+            this.updateBB();
+            if (this.y > 1200) {
+                this.removeFromWorld = true;
+            }
+            return;a
+        }
+
         if (!this.target) return;
 
         let dx = 0;

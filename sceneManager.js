@@ -13,14 +13,14 @@ class SceneManager {
 
         //killer stuff
         this.room4KillerTimer = 0;
-        this.room4KillerDelay = 3; // seconds
+        this.room4KillerDelay = 1; // seconds
         this.room4KillerSpawned = false;
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
+        room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
@@ -304,8 +304,9 @@ this.room2IntroIndex = 0;
             this.game.addEntity(new Jin(this.game, 1140, 450, true));
 
             // interactable 
-            // thy booketh shelf
-            this.game.addEntity(new DecorativeSprite(this.game, 386, 420, "./Sprites/FillerFurniture/BackOfBookshelf.png", 220, 240, true, { x: 0, y: 0, w: 0, h: 40 },));  
+            // old thy booketh shelf
+            //this.game.addEntity(new DecorativeSprite(this.game, 386, 420, "./Sprites/FillerFurniture/BackOfBookshelf.png", 220, 240, true, { x: 0, y: 0, w: 0, h: 40 },));  
+            this.game.addEntity(new PushableBookshelf(this.game, 386, 430));
 
             // decorative sprites
             this.game.addEntity(new DecorativeSprite(this.game, 10, 350, "./Sprites/FillerFurniture/SideOfBookshelf.png", 82, 300, true, { x: 0, y: 0, w: 0, h: 40 },));
