@@ -472,13 +472,13 @@ class SceneManager {
         }
     }
 
-    // Dialogue carryover 방지
+    // Dialogue carryover block
     if (!this.dialogueBox.active && this.wasDialogueActive) {
         this.game.E = false;
     }
     this.wasDialogueActive = this.dialogueBox.active;
 
-    // Dialogue 열려있으면 아래 로직 전부 스킵
+    // Dialogue is open, skips all
     if (this.dialogueBox.active) {
         this.wasEPressed = !!this.game.E;
         return;
@@ -672,7 +672,7 @@ class SceneManager {
                     this.game,
                     this.jinPos.x + 75,
                     this.jinPos.y - 40,
-                    "E to Talk"
+                    "F to Talk"
                 );
                 this.game.addEntity(this.jinPrompt);
             }
@@ -695,13 +695,11 @@ class SceneManager {
         }
     }
 
-    // ===== Room 4 Killer Spawn Logic =====
+    // Room 4 Killer Spawn Logic
     if (this.currentRoom === "room4" && !this.room4KillerSpawned) {
         this.room4KillerTimer += this.game.clockTick;
 
-        // 디버그 필요하면 아래 한 줄 잠깐 켜도 됨
-        // console.log("room4 tick", this.room4KillerTimer);
-
+        
         if (this.room4KillerTimer >= this.room4KillerDelay) {
             const killer = new Killer(this.game, 50, 500, this.lily);
             this.game.addEntity(killer);
