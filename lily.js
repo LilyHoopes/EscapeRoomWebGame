@@ -9,43 +9,21 @@ class Lily {
         this.speed = 500;
         //this.velocity = { x: 0, y: 0 };
         
-        // DO NOT CHANGE THESE NUMBERS
-        // make an animator for each direction
+        const sheet = ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet2_0.png");
+
         this.animations = {
-            idle: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 60,      // x, y position in spritesheet
-                803, 928,  // frame width, height
-                4, 0.6     // frame count, duration
-            ),
-            walkDown: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 928,    
-                803, 830, 
-                4, 0.15    
-            ),
-            walkLeft: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"),  
-                0, 1760,   
-                830, 744, 
-                4, 0.15
-            ),
-            walkRight: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 2525,    
-                830, 744, 
-                4, 0.15
-            ),
-            walkUp: new Animator(
-                ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet.png"), 
-                0, 3270,    
-                803, 744, 
-                4, 0.15
-            )
+            idleDown:  new Animator(sheet, 0, 60,   803, 928, 2, 0.6),  // row 1: idle down
+            walkDown:  new Animator(sheet, 0, 928,  803, 800, 4, 0.15), // row 2: walk down
+            walkLeft:  new Animator(sheet, 0, 1760, 830, 744, 4, 0.15), // row 3: walk left
+            walkRight: new Animator(sheet, 0, 2525, 830, 744, 4, 0.15), // row 4: walk right
+            walkUp:    new Animator(sheet, 0, 3270, 830, 800, 4, 0.15), // row 5: walk up
+            idleUp:    new Animator(sheet, 0, 4200, 830, 744, 2, 0.6),  // row 6: idle up
+            idleLeft:  new Animator(sheet, 0, 5080, 830, 744, 2, 0.6),  // row 7: idle left
+            idleRight: new Animator(sheet, 0, 5910, 830, 744, 2, 0.6),  // row 8: idle right
         };
         
         // Track current state
-        this.currentAnimation = this.animations.idle;
+        this.currentAnimation = this.animations.idleDown;
         this.facing = "down"; // Track which way Lily is facing
 
         //initial bounding box
@@ -116,7 +94,12 @@ class Lily {
         
         // If not moving, use idle animation
         if (!moving) {
-            this.currentAnimation = this.animations.idle;
+            switch (this.facing) {
+                case "up":    this.currentAnimation = this.animations.idleUp;    break;
+                case "left":  this.currentAnimation = this.animations.idleLeft;  break;
+                case "right": this.currentAnimation = this.animations.idleRight; break;
+                default:      this.currentAnimation = this.animations.idleDown;      break; 
+            }
         }
 
         // X movement 

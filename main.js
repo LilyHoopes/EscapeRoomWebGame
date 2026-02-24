@@ -16,7 +16,7 @@ const ASSET_MANAGER = new AssetManager();
 
 // room 1
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
-    ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet.png");
+    ASSET_MANAGER.queueDownload("./Sprites/LilySpriteSheet2_0.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantRoomBackground.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/Bed.png");
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
