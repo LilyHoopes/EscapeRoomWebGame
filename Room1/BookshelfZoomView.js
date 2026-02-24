@@ -176,11 +176,31 @@ class BookshelfZoomView {
      /**
      * Adds the paper to inventory and sets state to paper taken 
      */ 
-    takePaper() {            
-        this.game.sceneManager.addToInventory("Strange Note", "./Sprites/Room1/Room1Note.png");   
-        this.game.sceneManager.puzzleStates.room1.paperTaken = true;
-        this.paperTaken = true;
-    }
+    takePaper() {
+    if (this.paperTaken) return;
+
+    // 1) Take paper immediately
+    this.game.sceneManager.addToInventory("Strange Note", "./Sprites/Room1/Room1Note.png");
+    this.game.sceneManager.puzzleStates.room1.paperTaken = true;
+    this.paperTaken = true;
+
+    // 2) Close zoom view first so dialogue is visible
+    this.close();
+
+    // 3) Next frame: show dialogue on top
+    setTimeout(() => {
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "A note! It gives me a 3 digit number. I wonder what this is for",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+    }, 0);
+}
     
     /**
      * Closes the BookshelfZoomView

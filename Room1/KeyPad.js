@@ -35,23 +35,54 @@ class KeyPad {
      * Updates the normal keypad view after user enters a code
      */
     update() {
-        // Handle red flash timer (wrong code)
-        if (this.showingResult && this.isRed) {
-            this.resultTimer += this.game.clockTick;
-            
-            // After 2 seconds, go back to white
-            if (this.resultTimer > 1.5) {
-                this.showingResult = false;
-                this.isRed = false;
-                this.resultTimer = 0;
-            }
-        }
-        
-        // Only allow interaction if not already examining and code not entered
-        if (!this.codeEntered && this.isNearLily() && this.game.E && !this.game.examining) {
-            this.openZoomView();
+
+    // Handle red flash timer (wrong code)
+    if (this.showingResult && this.isRed) {
+        this.resultTimer += this.game.clockTick;
+
+        if (this.resultTimer > 1.5) {
+            this.showingResult = false;
+            this.isRed = false;
+            this.resultTimer = 0;
         }
     }
+
+    // Only allow interaction if not solved
+    if (!this.codeEntered && this.isNearLily() && this.game.E && !this.game.examining) {
+
+        this.game.examining = true;
+        this.game.E = false;
+
+        // First description line
+        this.game.sceneManager.dialogueBox.openLine(
+            "Looks like a keypad. It requires a 3 digit code.",
+            null,
+            "Lily",
+            () => {
+
+                // Yes / No choice
+                this.game.sceneManager.dialogueBox.openChoice(
+                    "Interact with it?",
+                    [
+                        {
+                            label: "Yes",
+                           onSelect: () => {
+                           this.openZoomView();
+                            }
+                        },
+                        {
+                            label: "No",
+                            onSelect: () => {
+                                this.game.examining = false;
+                            }
+                        }
+                    ],
+                    "Prompt"
+                );
+            }
+        );
+    }
+}
     
     /**
      * Checks if Lily is within interaction distance of the keypad
@@ -91,19 +122,20 @@ class KeyPad {
     
     // Called by KeypadZoomView when correct code entered
     onCorrectCode() {
-        this.codeEntered = true;
-        this.showingResult = true;
-        this.game.sceneManager.puzzleStates.room1.codeEntered = true;
-        
-        // Unlock the door to Room 2
-        this.game.sceneManager.puzzleStates.room1.door1Open = true;
 
-        this.game.entities.forEach(entity => {
-            if (entity instanceof Door && entity.destinationRoom === "room2") {
-                entity.unlock();
-            }
-        });
-    }
+    this.codeEntered = true;
+    this.showingResult = true;
+    this.game.sceneManager.puzzleStates.room1.codeEntered = true;
+
+    // Unlock the door to Room 2
+    this.game.sceneManager.puzzleStates.room1.door1Open = true;
+
+    this.game.entities.forEach(entity => {
+        if (entity instanceof Door && entity.destinationRoom === "room2") {
+            entity.unlock();
+        }
+    });
+}
     
     draw(ctx) {
         // Choose sprite based on state
@@ -129,7 +161,7 @@ class KeyPad {
         }
         
         // Show interaction prompt (only if not solved)
-        if (!this.codeEntered && this.isNearLily() && !this.game.examining) {
+        if (!this.codeEntered && !this.hasOpenedOnce && this.isNearLily() && !this.game.examining) {
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3;
