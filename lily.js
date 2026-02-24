@@ -51,7 +51,7 @@ class Lily {
          // Stop movement when dialogue or zoom is active
         const sm = this.game.sceneManager;
         if (this.game.examining || (sm && sm.dialogueBox && sm.dialogueBox.active)) {
-        this.currentAnimation = this.animations.idle;
+        this.currentAnimation = this.animations.idleDown;
         return;
     }
 
