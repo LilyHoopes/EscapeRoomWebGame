@@ -4,6 +4,34 @@
     <meta charset="utf-8">
     <title>House of Souls</title>
 
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+        #gameWrapper {
+            position: relative;
+        }
+        #gameWorld {
+            display: block;
+            border: 1px solid black;
+            background-color: rgb(37, 31, 26);
+        }
+        #controlPanel {
+            width: 100%;
+            padding: 10px;
+            background: #222;
+            color: white;
+            font-family: sans-serif;
+        }
+    </style>
+
     <!-- Entity Classes -->
     <script type="text/javascript" src="./assetManager.js"></script>
     <script type="text/javascript" src="./timer.js"></script>
@@ -57,11 +85,14 @@
     <script type="text/javascript" src="./Room3/MedallionDoor.js"></script>     
     <script type="text/javascript" src="./Room3/MedallionDoorZoomView.js"></script>
     <script type="text/javascript" src="./Room3/CodexZoomView.js"></script>
-    <script type="text/javascript" src="./EndingScreen.js"></script>
+    
 
     <!-- Room 4 stuff -->
     <script type="text/javascript" src="./Killer.js"></script>
+    <script type="text/javascript" src="./PushableBookshelf.js"></script>
 
+
+    
     <script type="text/javascript" src="./EndingScreen.js"></script>
 
     <!-- Dialogue UI (kept separate so sceneManager stays clean) -->
@@ -73,30 +104,52 @@
     <script type="text/javascript" src="./main.js"></script>
 </head>
 <body>
-    <canvas id="gameWorld"
-        width="1380"
-        height="882"
-        style="border: 1px solid black; background-color: rgb(37, 31, 26);"
-        tabindex="0"
-        autofocus></canvas>
+    <div id="gameWrapper">
+        <canvas id="gameWorld"
+            width="1380"
+            height="882"
+            style="border: 1px solid black; background-color: rgb(37, 31, 26);"
+            tabindex="0"
+            autofocus></canvas>
 
-    <div id="controlPanel" style="
-        width: 1380px;
-        padding: 10px;
-        background: #222;
-        color: white;
-        font-family: sans-serif;">
-        <label>
-            <input type="checkbox" id="debugToggle">
-            Debug Mode
-        </label>
+        <div id="controlPanel">
+            <label>
+                <input type="checkbox" id="debugToggle">
+                Debug Mode
+            </label>
 
-        <button id="muteBtn">Mute</button>
+            <button id="muteBtn">Mute</button>
 
-        <label style="margin-left: 20px;">
-            Volume
-            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
-        </label>
-    </div>    
+            <label style="margin-left: 20px;">
+                Volume
+                <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5">
+            </label>
+        </div>
+    </div>
+
+    <script>
+        function resizeGame() {
+            const canvas = document.getElementById("gameWorld");
+            const wrapper = document.getElementById("gameWrapper");
+
+            const gameW = 1380;
+            const gameH = 882;
+
+            // Account for the control panel height
+            const controlPanel = document.getElementById("controlPanel");
+            const panelHeight = controlPanel ? controlPanel.offsetHeight : 40;
+
+            const scaleX = window.innerWidth / gameW;
+            const scaleY = (window.innerHeight - panelHeight) / gameH;
+            const scale = Math.min(scaleX, scaleY);
+
+            canvas.style.width = gameW * scale + "px";
+            canvas.style.height = gameH * scale + "px";
+            wrapper.style.width = gameW * scale + "px";
+        }
+
+        window.addEventListener("resize", resizeGame);
+        window.addEventListener("load", resizeGame);
+    </script>
 </body>
 </html>
