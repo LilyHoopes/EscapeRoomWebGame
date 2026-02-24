@@ -22,7 +22,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/Plant1.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/Plant2.png");
-    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");5
+    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster1.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster2.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room1/PlantCluster3.png");
@@ -85,7 +85,6 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/OldCouchSide.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Shiannel_SpriteSheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room2/Room2InvisWall.png");
-    ASSET_MANAGER.queueDownload("./Sprites/Room2/longredrug.png");
 
     // pipe
         ASSET_MANAGER.queueDownload("./Sprites/Room2/Pipe.png");
@@ -119,17 +118,10 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/CompletedMedallionDoor.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInCandleTable.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/zoomedInMedallionDoor.png");
-    ASSET_MANAGER.queueDownload("./Sprites/Room3/BarLeft.png");
-    ASSET_MANAGER.queueDownload("./Sprites/Room3/BarRight.png");
 
-    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
-    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
-    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
-    ASSET_MANAGER.queueDownload("./Sprites/Room3/ClusterCandles.png");
 
 
 // room 4
-    ASSET_MANAGER.queueDownload("./Sprites/Room4/Killer_Spritesheet.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room4/LibraryBackground.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room4/TopHalfOfBookShelf.png");
 
@@ -140,7 +132,6 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideOfBookshelf.png")
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/SideOfBookshelf.png")
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BigRedRug.png");
-    ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/BackOfBookshelf.png");
 
     ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalDoorLocked.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room5/FinalDoorOpen.png");
