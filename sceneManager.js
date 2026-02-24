@@ -459,247 +459,257 @@ class SceneManager {
     }
 
     update() {
-        const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
+    const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
 
-        if (!inventoryOpen) {
-            if (this.game.I && !this.wasIPressed && !this.game.examining) {
-                this.game.addEntity(new InventoryUI(this.game));
-                this.game.examining = true;
-                this.wasIPressed = true;
-            } else if (!this.game.I) {
-                this.wasIPressed = false;
+    // Inventory toggle
+    if (!inventoryOpen) {
+        if (this.game.I && !this.wasIPressed && !this.game.examining) {
+            this.game.addEntity(new InventoryUI(this.game));
+            this.game.examining = true;
+            this.wasIPressed = true;
+        } else if (!this.game.I) {
+            this.wasIPressed = false;
+        }
+    }
+
+    // Dialogue carryover 방지
+    if (!this.dialogueBox.active && this.wasDialogueActive) {
+        this.game.E = false;
+    }
+    this.wasDialogueActive = this.dialogueBox.active;
+
+    // Dialogue 열려있으면 아래 로직 전부 스킵
+    if (this.dialogueBox.active) {
+        this.wasEPressed = !!this.game.E;
+        return;
+    }
+
+    // ===== NPC talk trigger (start-only). Trigger once per key press. =====
+    if (this.game.E && !this.wasEPressed && !this.dialogueBox.active) {
+        let triggeredNPC = false;
+
+        // ROOM 2: Shiannel
+        if (this.currentRoom === "room2") {
+            if (this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120)) {
+
+                if (this.shiannelPrompt) {
+                    this.shiannelPrompt.removeFromWorld = true;
+                    this.shiannelPrompt = null;
+                }
+
+                const shi = this.npcStates.shiannel;
+
+                // stage control
+                if (this.puzzleStates.room2.lockBroken) {
+                    shi.stage = 2;
+                }
+
+                // Consume E immediately so it does not retrigger
+                this.game.E = false;
+
+                try {
+                    this.game.examining = true;
+
+                    this.dialogueBox.startSequence(
+                        Shiannel.getDialogue(shi.stage),
+                        null,
+                        null,
+                        () => {
+                            if (shi.stage === 0) shi.stage = 1;
+                            shi.met = true;
+                            this.game.examining = false;
+                        }
+                    );
+
+                    triggeredNPC = true;
+
+                } catch (err) {
+                    console.error("Shiannel dialogue error:", err);
+                    this.game.examining = false;
+                    this.dialogueBox.close();
+                }
             }
         }
 
-        // If a dialogue is open, DialogueBox handles E to skip/advance.
-        // SceneManager should not also consume E while a dialogue is active.
-        if (this.dialogueBox.active) {
-            this.wasEPressed = !!this.game.E;
-        } 
-        // If dialogue just closed, clear E to prevent carryover
-if (!this.dialogueBox.active && this.wasDialogueActive) {
-    this.game.E = false;
-}
-        else {
-        
-            // NPC talk trigger (start-only). Trigger once per key press.
-if (this.game.E && !this.wasEPressed && !this.dialogueBox.active) {
+        // ROOM 3: Victor / Jin
+        if (this.currentRoom === "room3") {
+            const victorState = this.npcStates.victor;
+            const jinState = this.npcStates.jin;
+            const r3 = this.puzzleStates.room3;
 
-    let triggeredNPC = false;
+            // Victor
+            if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220)) {
 
-    // ROOM 2: Shiannel 
-    if (this.currentRoom === "room2") {
-        if (this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120)) {
+                if (this.victorPrompt) {
+                    this.victorPrompt.removeFromWorld = true;
+                    this.victorPrompt = null;
+                }
 
-            if (this.shiannelPrompt) {
-                this.shiannelPrompt.removeFromWorld = true;
-                this.shiannelPrompt = null;
-            }
-
-            const shi = this.npcStates.shiannel;
-
-            // stage control
-            if (this.puzzleStates.room2.lockBroken) {
-                shi.stage = 2;
-            }
-
-            // Consume E immediately so it does not retrigger
-            this.game.E = false;
-
-            try {
+                this.game.E = false;
                 this.game.examining = true;
 
+                // Stage logic based on candle interaction and codex status
+                if (r3.talkedAboutCandles && !r3.hasCandleCodex && victorState.stage === 0) {
+                    victorState.stage = 1;
+                }
+
+                if (r3.hasCandleCodex && victorState.stage < 2) {
+                    victorState.stage = 2;
+                }
+
                 this.dialogueBox.startSequence(
-                    Shiannel.getDialogue(shi.stage),
+                    Victor.getDialogue(victorState.stage),
                     null,
-                    null,
+                    "Victor",
                     () => {
-                        if (shi.stage === 0) shi.stage = 1;
-                        shi.met = true;
+                        victorState.met = true;
                         this.game.examining = false;
                     }
                 );
 
                 triggeredNPC = true;
-
-            } catch (err) {
-                console.error("Shiannel dialogue error:", err);
-                this.game.examining = false;
-                this.dialogueBox.close();
             }
-        }
-    }
 
-    // ROOM 3: Victor / Jin 
-// ROOM 3: Victor / Jin 
-if (this.currentRoom === "room3") {
+            // Jin
+            else if (this.isNear(this.jinPos.x, this.jinPos.y, 120)) {
 
-    const victorState = this.npcStates.victor;
-    const jinState = this.npcStates.jin;
-    const r3 = this.puzzleStates.room3;
-
-    // Victor
-    if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220)) {
-
-        if (this.victorPrompt) {
-            this.victorPrompt.removeFromWorld = true;
-            this.victorPrompt = null;
-        }
-
-        this.game.E = false;
-        this.game.examining = true;
-
-        // Stage logic based on candle interaction and codex status
-        if (r3.talkedAboutCandles && !r3.hasCandleCodex && victorState.stage === 0) {
-            victorState.stage = 1;
-        }
-
-        if (r3.hasCandleCodex && victorState.stage < 2) {
-            victorState.stage = 2;
-        }
-
-        this.dialogueBox.startSequence(
-            Victor.getDialogue(victorState.stage),
-            null,
-            "Victor",
-            () => {
-                victorState.met = true;
-                this.game.examining = false;
-            }
-        );
-
-        triggeredNPC = true;
-    }
-
-    // Jin
-    else if (this.isNear(this.jinPos.x, this.jinPos.y, 120)) {
-
-        if (this.jinPrompt) {
-            this.jinPrompt.removeFromWorld = true;
-            this.jinPrompt = null;
-        }
-
-        this.game.E = false;
-        this.game.examining = true;
-
-        // If Lily interacted with the candle table and Jin hasn't given the codex yet,
-        // switch Jin to the codex dialogue (stage 1)
-        if (r3.talkedAboutCandles && !r3.hasCandleCodex && jinState.stage === 0) {
-            jinState.stage = 1;
-        }
-
-        this.dialogueBox.startSequence(
-            Jin.getDialogue(jinState.stage),
-            null,
-            "Jin",
-            () => {
-
-                // Give codex once after stage 1 dialogue, then lock to stage 2
-                if (jinState.stage === 1 && !r3.hasCandleCodex) {
-                    r3.hasCandleCodex = true;
-                    this.addToInventory("Candle Codex", "./Sprites/Room3/Codex.png");
-                    jinState.stage = 2;
+                if (this.jinPrompt) {
+                    this.jinPrompt.removeFromWorld = true;
+                    this.jinPrompt = null;
                 }
 
-                jinState.met = true;
-                this.game.examining = false;
+                this.game.E = false;
+                this.game.examining = true;
+
+                // switch Jin to codex dialogue (stage 1)
+                if (r3.talkedAboutCandles && !r3.hasCandleCodex && jinState.stage === 0) {
+                    jinState.stage = 1;
+                }
+
+                this.dialogueBox.startSequence(
+                    Jin.getDialogue(jinState.stage),
+                    null,
+                    "Jin",
+                    () => {
+                        // Give codex once after stage 1 dialogue
+                        if (jinState.stage === 1 && !r3.hasCandleCodex) {
+                            r3.hasCandleCodex = true;
+                            this.addToInventory("Candle Codex", "./Sprites/Room3/Codex.png");
+                            jinState.stage = 2;
+                        }
+
+                        jinState.met = true;
+                        this.game.examining = false;
+                    }
+                );
+
+                triggeredNPC = true;
             }
-        );
-
-        triggeredNPC = true;
-    }
-}
-
-    if (triggeredNPC) this.game.E = false;
-}
-
-            this.wasEPressed = !!this.game.E;
         }
 
-        // Keep prompt updated even when E is not pressed (room2 Shiannel only)
-        if (!this.dialogueBox.active && this.currentRoom === "room2") {
-            // Added: use Shiannel position source for prompt placement
-            const nearShiannel = this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120);
+        if (triggeredNPC) this.game.E = false;
+    }
 
-            if (nearShiannel) {
-                if (!this.shiannelPrompt) {
-                    this.shiannelPrompt = new TalkPrompt(
-                        this.game,
-                        this.shiannelPos.x,
-                        this.shiannelPos.y - 80,
-                        "E to Talk"
-                    );
-                    this.game.addEntity(this.shiannelPrompt);
-                }
-            } else {
-                if (this.shiannelPrompt) {
-                    this.shiannelPrompt.removeFromWorld = true;
-                    this.shiannelPrompt = null;
-                }
+    this.wasEPressed = !!this.game.E;
+
+    // ===== Prompt updates =====
+
+    // Room2 Shiannel prompt
+    if (!this.dialogueBox.active && this.currentRoom === "room2") {
+        const nearShiannel = this.isNear(this.shiannelPos.x, this.shiannelPos.y, 120);
+
+        if (nearShiannel) {
+            if (!this.shiannelPrompt) {
+                this.shiannelPrompt = new TalkPrompt(
+                    this.game,
+                    this.shiannelPos.x,
+                    this.shiannelPos.y - 80,
+                    "E to Talk"
+                );
+                this.game.addEntity(this.shiannelPrompt);
             }
-        } 
-        
-        else {
+        } else {
             if (this.shiannelPrompt) {
                 this.shiannelPrompt.removeFromWorld = true;
                 this.shiannelPrompt = null;
             }
         }
-
-        // Keep prompts updated (room3 Victor/Jin)
-if (!this.dialogueBox.active && this.currentRoom === "room3") {
-
-    const nearVictor = this.isNear(this.victorPos.x, this.victorPos.y, 220);
-    const nearJin    = this.isNear(this.jinPos.x, this.jinPos.y, 120);
-
-    // Victor prompt
-    if (nearVictor) {
-        if (!this.victorPrompt) {
-            this.victorPrompt = new TalkPrompt(
-                this.game,
-                this.victorPos.x + 75,
-                this.victorPos.y - 40,
-                "E to Talk"
-            );
-            this.game.addEntity(this.victorPrompt);
-        }
     } else {
+        if (this.shiannelPrompt) {
+            this.shiannelPrompt.removeFromWorld = true;
+            this.shiannelPrompt = null;
+        }
+    }
+
+    // Room3 Victor/Jin prompts
+    if (!this.dialogueBox.active && this.currentRoom === "room3") {
+
+        const nearVictor = this.isNear(this.victorPos.x, this.victorPos.y, 220);
+        const nearJin    = this.isNear(this.jinPos.x, this.jinPos.y, 120);
+
+        // Victor prompt
+        if (nearVictor) {
+            if (!this.victorPrompt) {
+                this.victorPrompt = new TalkPrompt(
+                    this.game,
+                    this.victorPos.x + 75,
+                    this.victorPos.y - 40,
+                    "E to Talk"
+                );
+                this.game.addEntity(this.victorPrompt);
+            }
+        } else {
+            if (this.victorPrompt) {
+                this.victorPrompt.removeFromWorld = true;
+                this.victorPrompt = null;
+            }
+        }
+
+        // Jin prompt
+        if (nearJin) {
+            if (!this.jinPrompt) {
+                this.jinPrompt = new TalkPrompt(
+                    this.game,
+                    this.jinPos.x + 75,
+                    this.jinPos.y - 40,
+                    "E to Talk"
+                );
+                this.game.addEntity(this.jinPrompt);
+            }
+        } else {
+            if (this.jinPrompt) {
+                this.jinPrompt.removeFromWorld = true;
+                this.jinPrompt = null;
+            }
+        }
+
+    } else {
+        // Not in room3, remove both prompts
         if (this.victorPrompt) {
             this.victorPrompt.removeFromWorld = true;
             this.victorPrompt = null;
         }
-    }
-
-    // Jin prompt
-    if (nearJin) {
-        if (!this.jinPrompt) {
-            this.jinPrompt = new TalkPrompt(
-                this.game,
-                this.jinPos.x + 75,
-                this.jinPos.y - 40,
-                "E to Talk"
-            );
-            this.game.addEntity(this.jinPrompt);
-        }
-    } else {
         if (this.jinPrompt) {
             this.jinPrompt.removeFromWorld = true;
             this.jinPrompt = null;
         }
     }
 
-} else {
-    // Not in room3 or dialogue active, remove both prompts
-    if (this.victorPrompt) {
-        this.victorPrompt.removeFromWorld = true;
-        this.victorPrompt = null;
-    }
-    if (this.jinPrompt) {
-        this.jinPrompt.removeFromWorld = true;
-        this.jinPrompt = null;
+    // ===== Room 4 Killer Spawn Logic =====
+    if (this.currentRoom === "room4" && !this.room4KillerSpawned) {
+        this.room4KillerTimer += this.game.clockTick;
+
+        // 디버그 필요하면 아래 한 줄 잠깐 켜도 됨
+        // console.log("room4 tick", this.room4KillerTimer);
+
+        if (this.room4KillerTimer >= this.room4KillerDelay) {
+            const killer = new Killer(this.game, 50, 500, this.lily);
+            this.game.addEntity(killer);
+            this.room4KillerSpawned = true;
+        }
     }
 }
-    }
+    
 
     takeDamage() {
         if (this.health <= 0) return; // Already dead
