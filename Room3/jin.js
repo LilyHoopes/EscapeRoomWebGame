@@ -52,4 +52,23 @@ class Jin {
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
     }
+    static getDialogue(stage) {
+    if (stage === 0) {
+        return [
+            "Hello, it is good to see another survivor.",
+            "Stay calm, the room is designed to confuse you.",
+            "Look for patterns, not objects."
+        ];
+    }
+
+    if (stage === 1) {
+        return [
+            "Don’t waste time. Check the table, the pig head, and the candles."
+        ];
+    }
+
+    return [
+        "You’re doing great. Don’t stop now."
+    ];
+}
 }
