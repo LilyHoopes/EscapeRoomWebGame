@@ -20,28 +20,30 @@ class InventoryUI {
         
         this.removeFromWorld = false;
         this.isPopup = true;
+        this.wasMouseDown = false; // Track mouse press to detect a fresh click
     }
     
     update() {
-        // Press I to close (but wait for key to be released first)
-        if (this.game.I && !this.wasIPressed) {
-            this.close();
-            return;
-        }
-        this.wasIPressed = this.game.I;
-        
-        // ESC to close
-        if (this.game.keys["Escape"]) {
-            this.close();
-            return;
-        }
-        
-        // Handle clicks on items
-        if (this.game.click) {
-            this.handleClick(this.game.click.x, this.game.click.y);
-            this.game.click = null;
-        }
+    // Press I to close (but wait for key to be released first)
+    if (this.game.I && !this.wasIPressed) {
+        this.close();
+        return;
     }
+    this.wasIPressed = this.game.I;
+
+    // ESC to close
+    if (this.game.keys["Escape"]) {
+        this.close();
+        return;
+    }
+
+    // Handle mouse click (mouseDown is more reliable than game.click)
+if (this.game.mouseDown && !this.wasMouseDown && this.game.mouse) {
+    console.log("Inventory click coords:", this.game.mouse); // <-- ADD THIS LINE
+    this.handleClick(this.game.mouse.x, this.game.mouse.y);
+}
+this.wasMouseDown = this.game.mouseDown;
+}
     
     handleClick(clickX, clickY) {
         let inventory = this.game.sceneManager.inventory;
@@ -63,16 +65,24 @@ class InventoryUI {
     }
     
     onItemClick(item) {
+
+        console.log("Clicked item name:", item.name);
         
-        // If it's the riddle paper, open the readable view
-        if (item.name === "Strange Note") {
-            // Close inventory
-            this.close();
-            
-            // Open paper view
-            this.game.addEntity(new PaperView(this.game));
-        }
-                
+        // If it's the candle codex, open the codex view
+if (item.name === "Candle Codex") {
+
+    // Consume I so the next popup does not instantly close
+    this.game.I = false;
+
+    // Close inventory
+    this.close();
+
+    // Open codex view
+    this.game.examining = true;
+    this.game.addEntity(new CodexZoomView(this.game));
+    return;
+}
+               
         // If it's a used item, show message
         if (item.used) {
             // Could add a visual notification here

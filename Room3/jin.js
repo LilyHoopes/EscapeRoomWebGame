@@ -53,6 +53,7 @@ class Jin {
         }
     }
     static getDialogue(stage) {
+
     if (stage === 0) {
         return [
             "Hello, it is good to see another survivor.",
@@ -63,7 +64,18 @@ class Jin {
 
     if (stage === 1) {
         return [
-            "Don’t waste time. Check the table, the pig head, and the candles."
+            "!!!",
+            "Yes, we do! Here, I found a codex with the same colors as the candles.",
+            "There’s a riddle on it, but we weren’t quick enough to solve it before the killer came.",
+            "Hurry, take it!",
+            "*Lily obtained a codex for the colored candles*",
+            "Hm, let me see if I can solve it…"
+        ];
+    }
+
+    if (stage === 2) {
+        return [
+            "I gotta get out of here soon."
         ];
     }
 

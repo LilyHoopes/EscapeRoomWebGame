@@ -16,11 +16,51 @@ class PigHead {
     }
     
     update() {
-        // Only allows interaction if not already examining
-        if (this.isNearLily() && this.game.E && !this.game.examining) {
-            this.openZoomView();
-        }
+    // Only allows interaction if not already examining
+    if (this.isNearLily() && this.game.E && !this.game.examining) {
+
+        this.game.examining = true;
+        this.game.E = false;
+
+        // Line 1
+        this.game.sceneManager.dialogueBox.openLine(
+            "Eugh… it stinks…",
+            null,
+            "Lily",
+            () => {
+
+                // Line 2 (after Line 1 closes)
+                this.game.sceneManager.dialogueBox.openLine(
+                    "Wait! Something is shining inside its mouth…",
+                    null,
+                    "Lily",
+                    () => {
+
+                        // After Line 2 closes -> show choice
+                        this.game.sceneManager.dialogueBox.openChoice(
+                            "Inspect it?",
+                            [
+                                {
+                                    label: "Yes",
+                                    onSelect: () => {
+                                        this.openZoomView();
+                                    }
+                                },
+                                {
+                                    label: "No",
+                                    onSelect: () => {
+                                        this.game.examining = false;
+                                    }
+                                }
+                            ],
+                            "Prompt"
+                        );
+                    }
+                );
+            }
+        );
     }
+}
 
     isNearLily() {
         let lily = this.game.sceneManager.lily;

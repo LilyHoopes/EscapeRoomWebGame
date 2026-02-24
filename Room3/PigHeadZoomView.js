@@ -59,10 +59,27 @@ class PigHeadZoomView {
     
     // if medallion is clicked on, add to inventory, update pighead image, and change state 
     takeMedallion() {
-        this.game.sceneManager.addToInventory("Snowflake Medallion", "./Sprites/Room3/SnowflakeMedallion.png");        
-        this.PigHead.onMedallionTaken();
-        this.medallionTaken = true;
-    }
+    this.game.sceneManager.addToInventory("Snowflake Medallion", "./Sprites/Room3/SnowflakeMedallion.png");        
+    this.PigHead.onMedallionTaken();
+    this.medallionTaken = true;
+
+    // Close zoom first
+    this.close();
+
+    // Small delay so zoom fully disappears before dialogue
+    setTimeout(() => {
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.openLine(
+            "It’s a medallion! It has a snowflake on it…",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+    }, 0);
+}
     
     close() {
         this.removeFromWorld = true; // remove zoomed PigHead from world 

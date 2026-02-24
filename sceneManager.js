@@ -21,7 +21,7 @@ class SceneManager {
         this.debugDoorUnlocks = {
         room1ToRoom2: true,   // Door from room 1 to room 2
         room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
     };
 
@@ -34,6 +34,8 @@ class SceneManager {
                 snowflakeMedallion: false,
                 candleMedallion: false,
                 leafMedallion: false,
+                hasCandleCodex: false,
+                talkedAboutCandles: false,
                 candlesArranged: false,
                 candleOrder: ["yellow", "blue", "green", "purple", "pink"],
                 medallionDoor: false,
@@ -529,13 +531,15 @@ if (this.game.E && !this.wasEPressed && !this.dialogueBox.active) {
     }
 
     // ROOM 3: Victor / Jin 
+// ROOM 3: Victor / Jin 
 if (this.currentRoom === "room3") {
 
-    const vic = this.npcStates.victor;
-    const jin = this.npcStates.jin;
+    const victorState = this.npcStates.victor;
+    const jinState = this.npcStates.jin;
+    const r3 = this.puzzleStates.room3;
 
     // Victor
-    if (this.isNear(this.victorPos.x, this.victorPos.y, 220)) {
+    if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220)) {
 
         if (this.victorPrompt) {
             this.victorPrompt.removeFromWorld = true;
@@ -545,13 +549,21 @@ if (this.currentRoom === "room3") {
         this.game.E = false;
         this.game.examining = true;
 
+        // Stage logic based on candle interaction and codex status
+        if (r3.talkedAboutCandles && !r3.hasCandleCodex && victorState.stage === 0) {
+            victorState.stage = 1;
+        }
+
+        if (r3.hasCandleCodex && victorState.stage < 2) {
+            victorState.stage = 2;
+        }
+
         this.dialogueBox.startSequence(
-            Victor.getDialogue(vic.stage),
+            Victor.getDialogue(victorState.stage),
             null,
             "Victor",
             () => {
-                if (vic.stage === 0) vic.stage = 1;
-                vic.met = true;
+                victorState.met = true;
                 this.game.examining = false;
             }
         );
@@ -570,13 +582,26 @@ if (this.currentRoom === "room3") {
         this.game.E = false;
         this.game.examining = true;
 
+        // If Lily interacted with the candle table and Jin hasn't given the codex yet,
+        // switch Jin to the codex dialogue (stage 1)
+        if (r3.talkedAboutCandles && !r3.hasCandleCodex && jinState.stage === 0) {
+            jinState.stage = 1;
+        }
+
         this.dialogueBox.startSequence(
-            Jin.getDialogue(jin.stage),
+            Jin.getDialogue(jinState.stage),
             null,
             "Jin",
             () => {
-                if (jin.stage === 0) jin.stage = 1;
-                jin.met = true;
+
+                // Give codex once after stage 1 dialogue, then lock to stage 2
+                if (jinState.stage === 1 && !r3.hasCandleCodex) {
+                    r3.hasCandleCodex = true;
+                    this.addToInventory("Candle Codex", "./Sprites/Room3/Codex.png");
+                    jinState.stage = 2;
+                }
+
+                jinState.met = true;
                 this.game.examining = false;
             }
         );
@@ -731,6 +756,8 @@ if (!this.dialogueBox.active && this.currentRoom === "room3") {
                 snowflakeMedallion: false,
                 candleMedallion: false,
                 leafMedallion: false,
+                hasCandleCodex: false,
+                talkedAboutCandles: false,
                 candlesArranged: false,
                 candleOrder: ["yellow", "blue", "green", "purple", "pink"],
                 medallionDoor: false,

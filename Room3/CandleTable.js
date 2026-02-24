@@ -11,7 +11,7 @@ class CandleTable {
         this.medallionTaken = this.game.sceneManager.puzzleStates.room3.candleMedallion;
         
         // Medallion spawn position (appears when puzzle solved)
-        this.medallionX = this.x + 50;
+        this.medallionX = this.x + 10;
         this.medallionY = this.y + 180;
         this.medallionWidth = 60;
         this.medallionHeight = 60;
@@ -24,10 +24,81 @@ class CandleTable {
     }
     
     update() {
-        // Interaction with table
-        if (this.isNearLily() && this.game.E && !this.game.examining) {
+        // Interaction with table (dialogue + choice before puzzle)
+    if (this.isNearLily() && this.game.E && !this.game.examining) {
+
+        // Consume E to prevent retrigger
+        this.game.E = false;
+        this.game.examining = true;
+
+        this.game.sceneManager.dialogueBox.startSequence(
+            [
+                { speaker: "", text: "*Lily sees a table with different colored candles on them*" }
+            ],
+            null,
+            null,
+            () => {
+
+                this.game.sceneManager.dialogueBox.openChoice(
+                    "Interact?",
+                    [
+                        {
+                            label: "Yes",
+                            onSelect: () => {
+    // Mark that Lily interacted with the candle table at least once
+    this.game.sceneManager.puzzleStates.room3.talkedAboutCandles = true;
+
+    // Check if the player already obtained the candle codex
+    const hasCodexFlag = !!this.game.sceneManager.puzzleStates.room3.hasCandleCodex;
+    const hasCodexItem = (typeof this.game.sceneManager.hasItem === "function")
+        ? this.game.sceneManager.hasItem("Candle Codex")
+        : false;
+
+    if (!hasCodexFlag && !hasCodexItem) {
+
+        // Player does not have the codex yet, guide them to talk to Victor/Jin
+        this.game.sceneManager.dialogueBox.openLine(
+            "I should ask Victor and Jin first, maybe they know something that can help me.",
+            null,
+            "Lily",
+            () => {
+                this.game.examining = false;
+            }
+        );
+
+        return;
+    }
+
+    // Player has the codex, allow the puzzle
+    this.game.sceneManager.dialogueBox.openLine(
+        "Hm, I can move them around… There must be a specific order that it needs to go in.",
+        null,
+        "Lily",
+        () => {
             this.openZoomView();
         }
+    );
+}
+                        },
+                        {
+                            label: "No",
+                            onSelect: () => {
+                                this.game.sceneManager.dialogueBox.openLine(
+                                    "Let me look somewhere else first…",
+                                    null,
+                                    "Lily",
+                                    () => {
+                                        this.game.examining = false;
+                                    }
+                                );
+                            }
+                        }
+                    ],
+                    "Prompt"
+                );
+            }
+        );
+    }
         
         // Pick up medallion if puzzle solved
         if (this.puzzleSolved && !this.medallionTaken && this.isNearMedallion() && this.game.E) {

@@ -113,22 +113,29 @@ class Victor {
 
     // Dialogue data lives with the NPC, SceneManager decides when to play it.
 static getDialogue(stage) {
+
     if (stage === 0) {
         return [
-            "Hello, it is good to see another survivor.",
-            "Stay calm, the room is designed to confuse you.",
-            "Look for patterns, not objects."
+            "Lily... you're here.",
+            "Be careful. That table feels wrong."
         ];
     }
 
     if (stage === 1) {
         return [
-            "Don’t waste time. Check the table, the pig head, and the candles."
+            "Those candles... the colors matter.",
+            "If you can find something that explains the order, it might unlock something."
+        ];
+    }
+
+    if (stage === 2) {
+        return [
+            "We don't have much time. Keep going."
         ];
     }
 
     return [
-        "You’re doing great. Don’t stop now."
+        "Keep moving."
     ];
 }
 }
