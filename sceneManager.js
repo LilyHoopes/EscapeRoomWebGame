@@ -21,7 +21,7 @@ class SceneManager {
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
         room1ToRoom2: true,   // Door from room 1 to room 2
-        room2ToRoom3: true,   // Door from room 2 to room 3
+        room2ToRoom3: false,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
         };
@@ -29,7 +29,7 @@ class SceneManager {
         // Puzzle progress tracking
         this.puzzleStates = {
             room1: {door1Open: false, hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: {door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null},
+            room2: {door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null, introPlayed: false},
             room3: {
                 door3Open: false,
                 snowflakeMedallion: false,
@@ -631,8 +631,12 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
         if (triggeredNPC) this.game.E = false;
     }
 
-    this.wasEPressed = !!this.game.E;
-
+    if (this.game.E) {
+        this.wasEPressed = true; // mark E as handled this press
+    } else {
+        this.wasEPressed = false; // E was released, reset
+    }
+    
     // ===== Prompt updates =====
 
     // Room2 Shiannel prompt
@@ -780,7 +784,7 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
         // Reset all puzzle states
         this.puzzleStates = {
             room1: {door1Open: false, hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: {door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null}, 
+            room2: {door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null, introPlayed: false}, 
             room3: {
                 snowflakeMedallion: false,
                 candleMedallion: false,

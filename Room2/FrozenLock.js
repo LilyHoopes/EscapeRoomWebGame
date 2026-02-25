@@ -28,6 +28,19 @@ class FrozenLock {
     }
     
     update() {
+        
+    let lily = this.game.sceneManager.lily;
+    let dist = Math.sqrt(
+        Math.pow((this.x + this.width/2) - (lily.BB.x + lily.BB.width/2), 2) + 
+        Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
+    );
+    console.log(
+        "near:", this.isNearLily(),
+        "dist:", Math.round(dist),
+        "E:", this.game.E,
+        "examining:", this.game.examining,
+        "dialogue:", this.game.sceneManager.dialogueBox.active
+    );  
 
     if (!this.lockBroken &&
         this.isNearLily() &&
@@ -68,7 +81,7 @@ class FrozenLock {
             Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
         );
         
-        return distance < 100;
+        return distance < 200;
     }
     
     openZoomView() {
