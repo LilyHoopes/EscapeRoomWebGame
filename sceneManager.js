@@ -784,5 +784,8 @@ class SceneManager {
         
         // Load Room 1
         this.loadRoom("room1", 210, 100);
+        
+        // resets dialogue
+        this.roomIntroPlayed = { room2: false, room3: false };
     }
 }

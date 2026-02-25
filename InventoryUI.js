@@ -67,6 +67,16 @@ this.wasMouseDown = this.game.mouseDown;
     onItemClick(item) {
 
         console.log("Clicked item name:", item.name);
+    
+if (item.name === "Strange Note") {
+  this.game.I = false;
+  this.game.mouseDown = false;
+  this.close();
+
+  this.game.examining = true;
+  this.game.addEntity(new NoteZoomView(this.game, "./Sprites/Room1/067Codex.png"));
+  return;
+}
         
         // If it's the candle codex, open the codex view
 if (item.name === "Candle Codex") {
