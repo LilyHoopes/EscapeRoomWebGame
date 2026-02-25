@@ -107,7 +107,7 @@ class GenericFrame {
             ctx.font = "16px Arial";
             
             let text = "Press E to Examine";
-            let textX = this.x + this.width/2 - ctx.measureText(text).width/2 + 80;
+            let textX = this.x + this.width/2 - ctx.measureText(text).width/2 + 0;
             let textY = this.y - 20;
             
             ctx.strokeText(text, textX, textY);

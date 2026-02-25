@@ -23,9 +23,9 @@ class SceneManager {
         this.debugDoorUnlocks = {
         room1ToRoom2: true,   // Door from room 1 to room 2
         room2ToRoom3: true,   // Door from room 2 to room 3
-        room3ToRoom4: true,  // Door from room 3 to room 4 
+        room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
-    };
+        };
 
         // Puzzle progress tracking
         this.puzzleStates = {
@@ -52,7 +52,7 @@ class SceneManager {
             jin: { met: false, dialogueIndex: 0, stage: 0 }
         };
 
-        this.lily = new Lily(this.game, 1000, 50);
+        this.lily = new Lily(this.game, 2000, 500);
 
        // ===== BGM STATE =====
         this.roomBGM = null;
@@ -709,8 +709,8 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
             if (!this.shiannelPrompt) {
                 this.shiannelPrompt = new TalkPrompt(
                     this.game,
-                    this.shiannelPos.x,
-                    this.shiannelPos.y - 80,
+                    this.shiannelPos.x + 63,
+                    this.shiannelPos.y - 40,
                     "E to Talk"
                 );
                 this.game.addEntity(this.shiannelPrompt);
@@ -739,8 +739,8 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
             if (!this.victorPrompt) {
                 this.victorPrompt = new TalkPrompt(
                     this.game,
-                    this.victorPos.x + 75,
-                    this.victorPos.y - 40,
+                    this.victorPos.x + 55,
+                    this.victorPos.y - 20,
                     "E to Talk"
                 );
                 this.game.addEntity(this.victorPrompt);
@@ -757,9 +757,9 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
             if (!this.jinPrompt) {
                 this.jinPrompt = new TalkPrompt(
                     this.game,
-                    this.jinPos.x + 75,
-                    this.jinPos.y - 40,
-                    "F to Talk"
+                    this.jinPos.x + 55,
+                    this.jinPos.y - 20,
+                    "E to Talk"
                 );
                 this.game.addEntity(this.jinPrompt);
             }
@@ -874,6 +874,7 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
         this.roomIntroPlayed = { room2: false, room3: false, room4: false, room5: false };
         
         // Load Room 1
-        this.loadRoom("room1", 210, 100);
+        this.loadRoom("room1", 100, 250); // this is lilys initial spawn point in room 1
+
     }
 }
