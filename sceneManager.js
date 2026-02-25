@@ -6,7 +6,8 @@ class SceneManager {
         this.roomIntroPlayed = {
         room2: false,
         room3: false,
-        room4: false
+        room4: false,
+        room5: false
         };
 
         // Player state
@@ -90,12 +91,11 @@ class SceneManager {
 
         // BGM applicator
         const bgmMap = {
-            room1: "./bgm/House of Souls Room1.mp3",
-            room2: "./bgm/House of Souls Room2.mp3"
-            // room2: "./bgm/room2.mp3",
-            // room3: "./bgm/room3.mp3",
-            // room4: "./bgm/room4.mp3",
-            // room5: "./bgm/room5.mp3"
+         room1: "./bgm/House of Souls Room1.mp3",
+         room2: "./bgm/House of Souls Room2.mp3",
+         room3: "./bgm/House of Souls Room3.mp3",
+         room4: "./bgm/House of Souls Room4.mp3",
+         // room5: "./bgm/House of Souls Room5.mp3",
         };
 
         const nextBGM = bgmMap[roomName] || null;
@@ -425,6 +425,72 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
             this.game.examining = false;
         }
     );
+}
+
+if (roomName === "room5" && !this.roomIntroPlayed.room5) {
+
+  this.roomIntroPlayed.room5 = true;
+  this.game.examining = true;
+
+  //  when there's room 5 bgm and cuts off for part, delete commented out below
+  // if (this.roomBGM) { this.roomBGM.pause(); this.roomBGM.currentTime = 0; }
+
+  const part1 = [
+    { speaker: "", text: "*Lily walks into the room, heavy breathing*" },
+    { speaker: "Lily", text: "Oh my gosh, I escaped him… He was so close." },
+    { speaker: "", text: "*Shiannel, Victor and Jin stood next to each other in the room, next to the big and final exit door*" },
+    { speaker: "Lily", text: "!!!" },
+    { speaker: "Lily", text: "Guys! Oh, thank goodness, you were all able to make it out!" },
+    { speaker: "Shiannel", text: "You did it, Lily! We’re so happy you made it out!" },
+    { speaker: "Victor", text: "The killer was ruthless, Thank god you were able to outrun him." },
+    { speaker: "Jin", text: "And you solved the puzzles like a pro! You solved them much quicker than us!" },
+    { speaker: "Lily", text: "Thanks guys!" },
+    { speaker: "Lily", text: "Is this… the exit door? Did we actually make it?" },
+    { speaker: "Shiannel", text: "Yes… let’s get you home." },
+    { speaker: "Lily", text: "Me?" }
+  ];
+
+  const part2 = [
+    { speaker: "", text: "*Just before here, instead of the physical beings of her three friends before here, they suddenly morphed into a blue-grey hue of them – floating*" },
+    { speaker: "", text: "*sorrowful music begins to play*" },
+    { speaker: "Lily", text: "!?!"},
+    { speaker: "Lily", text: "What the– you guys are–" },
+    { speaker: "Victor", text: "–Ghosts." },
+    { speaker: "Jin", text: "We were survivors like you, who were kidnapped and placed in the killer's house. But… we weren’t able to make it out…" },
+    { speaker: "Victor", text: "That’s why we strive to make sure any survivors that he brings do." },
+    { speaker: "Lily", text: "But… h-how? You all looked real– Looked alive…" },
+    { speaker: "Shiannel", text: "I’m sorry we lied to you. We just wanted to make sure you made it out. And you did... now you can escape!" },
+    { speaker: "Lily", text: "I- I don't want to leave you guys." },
+    { speaker: "Victor", text: "You must… who else is going to help if he brings more survivors?" },
+    { speaker: "Lily", text: "…" },
+    { speaker: "Lily", text: "I am going to put an end to this… So that no more survivors and hurt and kidnapped, so they aren’t forced to run around this house to the killer’s satisfaction." },
+    { speaker: "Lily", text: "Thank you guys… for helping me. I will make sure you guys can rest." },
+    { speaker: "Shiannel", text: "Let’s make sure you get home first…" }
+  ];
+
+  // part one plays
+  this.dialogueBox.startSequence(part1, null, null, () => {
+
+    // if we need to change bgm to sad,
+    // room1 bgm here
+    // Fix file directory later
+    if (this.roomBGM) {
+      this.roomBGM.pause();
+      this.roomBGM.currentTime = 0;
+      this.roomBGM = null;
+    }
+    this.roomBGMName = "./bgm/sorrowful.mp3";
+    this.roomBGM = new Audio(this.roomBGMName);
+    this.roomBGM.loop = true;
+    this.roomBGM.muted = !!this.game.muted;
+    this.roomBGM.volume = (typeof this.game.volume === "number") ? this.game.volume : 0.5;
+    this.roomBGM.play().catch(() => {});
+
+    // part 2 continuting music
+    this.dialogueBox.startSequence(part2, null, null, () => {
+      this.game.examining = false;
+    });
+  });
 }
     }
 
@@ -805,7 +871,7 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
 
         // dialogue reset
 
-        this.roomIntroPlayed = { room2: false, room3: false, room4: false };
+        this.roomIntroPlayed = { room2: false, room3: false, room4: false, room5: false };
         
         // Load Room 1
         this.loadRoom("room1", 210, 100);
