@@ -20,7 +20,7 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: true,   // Door from room 1 to room 2
+        room1ToRoom2: false,   // Door from room 1 to room 2
         room2ToRoom3: false,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
@@ -496,6 +496,7 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
     // Dialogue carryover block
     if (!this.dialogueBox.active && this.wasDialogueActive) {
         this.game.E = false;
+        this.wasEPressed = false;
     }
     this.wasDialogueActive = this.dialogueBox.active;
 

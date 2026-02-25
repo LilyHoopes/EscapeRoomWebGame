@@ -28,49 +28,17 @@ class FrozenLock {
     }
     
     update() {
+        // console.log(
+        //     "lockBroken:", this.lockBroken,
+        //     "| near:", this.isNearLily(),
+        //     "| E:", this.game.E,
+        //     "| examining:", this.game.examining
+        // );
         
-    let lily = this.game.sceneManager.lily;
-    let dist = Math.sqrt(
-        Math.pow((this.x + this.width/2) - (lily.BB.x + lily.BB.width/2), 2) + 
-        Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
-    );
-    console.log(
-        "near:", this.isNearLily(),
-        "dist:", Math.round(dist),
-        "E:", this.game.E,
-        "examining:", this.game.examining,
-        "dialogue:", this.game.sceneManager.dialogueBox.active
-    );  
-
-    if (!this.lockBroken &&
-        this.isNearLily() &&
-        this.game.E &&
-        !this.game.examining &&
-        !this.game.sceneManager.dialogueBox.active) {
-
-        this.game.E = false;
-
-        // If player does NOT have pipe, show dialogue instead of opening zoom
-        if (!this.game.sceneManager.hasItem("Lead Pipe")) {
-
-            this.game.examining = true;
-
-            this.game.sceneManager.dialogueBox.openLine(
-                "I need something to break this lock...",
-                null,
-                "Lily",
-                () => {
-                    this.game.examining = false;
-                }
-            );
-
-            return;
+        if (!this.lockBroken && this.isNearLily() && this.game.E && !this.game.examining) {
+            this.openZoomView();
         }
-
-        // If player has pipe, open zoom
-        this.openZoomView();
     }
-}
     
     isNearLily() {
         let lily = this.game.sceneManager.lily;
@@ -81,7 +49,7 @@ class FrozenLock {
             Math.pow((this.y + this.height/2) - (lily.BB.y + lily.BB.height/2), 2)
         );
         
-        return distance < 200;
+        return distance < 100;
     }
     
     openZoomView() {
