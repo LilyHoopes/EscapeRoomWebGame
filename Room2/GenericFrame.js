@@ -21,10 +21,6 @@ class GenericFrame {
     
     update() {
 
-    if (this.isNearLily()) {
-        console.log("GenericFrame near! E:", this.game.E);
-    }
-
     if (
         this.isNearLily() &&
         this.game.E &&
