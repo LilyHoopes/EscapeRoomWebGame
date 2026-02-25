@@ -46,18 +46,16 @@ class Door {
 
         // Only trigger once per key press
         if (this.isTouchingLily() && this.game.E && this.canTrigger) {
-
-            this.game.E = false; // consume key immediately
-
             if (!this.isLocked) {
+                this.game.E = false; // only consume E when door is actually usable
                 this.canTrigger = false;
                 this.game.sceneManager.loadRoom(
                     this.destinationRoom,
                     this.spawnX,
                     this.spawnY
-        );
-    }
-}
+                );
+            }
+        }
 
         // Reset trigger when Lily walks away
         if (!this.isTouchingLily()) {
