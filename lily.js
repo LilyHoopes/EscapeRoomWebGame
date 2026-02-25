@@ -6,21 +6,23 @@ class Lily {
         this.scale = .2; // Add scale property (40% of original size)
         this.width = 100; // Add hitbox size
         this.height = 125;
-        this.speed = 450;
+        this.speed = 400;
         
         const sheet = ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet2_0.png");
 
         // spritesheet, xStart, yStart, width, height, frameCount, frameDuration
         this.animations = {
             idleDown:  new Animator(sheet, 0, 60,   800, 928, 2, 0.6),  // row 1: idle down
-            walkDown:  new Animator(sheet, 0, 928,  801, 800, 4, 0.15), // row 2: walk down
-            walkLeft:  new Animator(sheet, 0, 1760, 816, 744, 4, 0.15), // row 3: walk left
+            walkDown:  new Animator(sheet, 0, 928,  801, 800, 4, 0.1), // row 2: walk down
+            walkLeft:  new Animator(sheet, 70, 1760, 816, 744, 4, 0.15), // row 3: walk left
             walkRight: new Animator(sheet, 0, 2525, 815, 744, 4, 0.15), // row 4: walk right
-            walkUp:    new Animator(sheet, 0, 3270, 801, 800, 4, 0.15), // row 5: walk up
+            walkUp:    new Animator(sheet, 0, 3270, 801, 800, 4, 0.1), // row 5: walk up
             idleUp:    new Animator(sheet, 0, 4200, 790, 775, 2, 0.6),  // row 6: idle up
             idleLeft:  new Animator(sheet, 150, 5080, 805, 744, 2, 0.6),  // row 7: idle left
             idleRight: new Animator(sheet, 0, 5910, 805, 744, 2, 0.6),  // row 8: idle right
         };
+
+
         
         // Track current state
         this.currentAnimation = this.animations.idleDown;
