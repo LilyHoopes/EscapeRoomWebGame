@@ -384,7 +384,7 @@ class TalkPrompt {
 
     draw(ctx) {
         ctx.save();
-        ctx.font = "18px Arial";
+        ctx.font = "16px Arial";
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         ctx.lineWidth = 4;

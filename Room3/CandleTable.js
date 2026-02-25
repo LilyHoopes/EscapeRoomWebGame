@@ -227,8 +227,8 @@ class CandleTable {
             ctx.font = "16px Arial";
             
             let text = "Press E to examine";
-            let textX = this.x + this.width/2 - 60;
-            let textY = this.y - 10;
+            let textX = this.x + this.width/2 - 20;
+            let textY = this.y - 40;
             
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);

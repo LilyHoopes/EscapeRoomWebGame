@@ -233,13 +233,6 @@ class BookshelfZoomView {
                 ctx.fillText("Locked Book", this.closedBookX + 80, this.closedBookY + this.closedBookHeight/2); 
             }
             
-            // Message if no key
-            if (!this.hasKey) {
-                ctx.fillStyle = "white";
-                ctx.font = "18px Arial";
-                ctx.fillText("This book is locked...", this.closedBookX + 50, this.closedBookY - 20);
-                ctx.fillText("I need a key.", this.closedBookX + 80, this.closedBookY - 40);
-            }
         } else {
             // Open book
             if (this.openBookSprite && this.openBookSprite.complete) {

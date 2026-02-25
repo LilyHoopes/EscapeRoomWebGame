@@ -99,7 +99,7 @@ class Door {
             
             let text = this.isLocked ? "Door is locked" : "Press E to enter";
             let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
-            let textY = this.y - 10;
+            let textY = this.y - 20;
             
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);

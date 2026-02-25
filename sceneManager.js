@@ -20,8 +20,8 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
         };
@@ -643,8 +643,8 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
             if (!this.shiannelPrompt) {
                 this.shiannelPrompt = new TalkPrompt(
                     this.game,
-                    this.shiannelPos.x,
-                    this.shiannelPos.y - 80,
+                    this.shiannelPos.x + 63,
+                    this.shiannelPos.y - 40,
                     "E to Talk"
                 );
                 this.game.addEntity(this.shiannelPrompt);
@@ -673,8 +673,8 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
             if (!this.victorPrompt) {
                 this.victorPrompt = new TalkPrompt(
                     this.game,
-                    this.victorPos.x + 75,
-                    this.victorPos.y - 40,
+                    this.victorPos.x + 55,
+                    this.victorPos.y - 20,
                     "E to Talk"
                 );
                 this.game.addEntity(this.victorPrompt);
@@ -691,9 +691,9 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
             if (!this.jinPrompt) {
                 this.jinPrompt = new TalkPrompt(
                     this.game,
-                    this.jinPos.x + 75,
-                    this.jinPos.y - 40,
-                    "F to Talk"
+                    this.jinPos.x + 55,
+                    this.jinPos.y - 20,
+                    "E to Talk"
                 );
                 this.game.addEntity(this.jinPrompt);
             }

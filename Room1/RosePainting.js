@@ -101,8 +101,8 @@ class RosePainting {
             ctx.font = "16px Arial";
             
             let text = "Press E to Examine";
-            let textX = this.x + this.width/2 - ctx.measureText(text).width/2 - 13;
-            let textY = this.y + 178;
+            let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
+            let textY = this.y - 10;
             
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);

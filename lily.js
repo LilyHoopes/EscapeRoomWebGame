@@ -6,7 +6,7 @@ class Lily {
         this.scale = .2; // Add scale property (40% of original size)
         this.width = 100; // Add hitbox size
         this.height = 125;
-        this.speed = 400;
+        this.speed = 450;
         
         const sheet = ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet2_0.png");
 
