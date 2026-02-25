@@ -5,7 +5,8 @@ class SceneManager {
 
         this.roomIntroPlayed = {
         room2: false,
-        room3: false
+        room3: false,
+        room4: false
         };
 
         // Player state
@@ -406,6 +407,25 @@ class SceneManager {
     }
 );
 }
+
+if (roomName === "room4" && !this.roomIntroPlayed.room4) {
+
+    this.roomIntroPlayed.room4 = true;
+    this.game.examining = true;
+
+    this.dialogueBox.startSequence(
+        [
+            { speaker: "Lily", text: "I hear something..." },
+            { speaker: "Lily", text: "That sound… it is getting closer." },
+            { speaker: "Lily", text: "I need to hide. Now." }
+        ],
+        null,
+        null,
+        () => {
+            this.game.examining = false;
+        }
+    );
+}
     }
 
     // Inventory helpers
@@ -785,7 +805,7 @@ class SceneManager {
 
         // dialogue reset
 
-        this.roomIntroPlayed = { room2: false, room3: false };
+        this.roomIntroPlayed = { room2: false, room3: false, room4: false };
         
         // Load Room 1
         this.loadRoom("room1", 210, 100);
