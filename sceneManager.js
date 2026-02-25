@@ -782,10 +782,12 @@ class SceneManager {
             jin: { met: false, dialogueIndex: 0, stage: 0 }
         };
         
+
+        // dialogue reset
+
+        this.roomIntroPlayed = { room2: false, room3: false };
+        
         // Load Room 1
         this.loadRoom("room1", 210, 100);
-        
-        // resets dialogue
-        this.roomIntroPlayed = { room2: false, room3: false };
     }
 }
