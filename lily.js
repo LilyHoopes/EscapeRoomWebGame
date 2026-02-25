@@ -1,8 +1,8 @@
 class Lily {
     constructor(game, x, y) { // Add x, y parameters
         this.game = game;
-        this.x = x || 400; // Default to 50 if not provided
-        this.y = y || 400; // Default to 400 if not provided
+        this.x = x;
+        this.y = y;
         this.scale = .2; // Add scale property (40% of original size)
         this.width = 100; // Add hitbox size
         this.height = 125;

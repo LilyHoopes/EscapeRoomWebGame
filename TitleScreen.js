@@ -316,7 +316,7 @@ class TitleScreen {
             this.game.introAudio.pause();
             this.game.introAudio.currentTime = 0;
         }
-        this.game.sceneManager.loadRoom("room1", 200, 200);
+        this.game.sceneManager.loadRoom("room1", 100, 250); // this is lilys initial spawn point in room 1
     }
 
     randRange(min, max) {

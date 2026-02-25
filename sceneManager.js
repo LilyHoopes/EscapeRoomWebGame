@@ -24,7 +24,7 @@ class SceneManager {
         room2ToRoom3: true,   // Door from room 2 to room 3
         room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
-    };
+        };
 
         // Puzzle progress tracking
         this.puzzleStates = {
@@ -51,7 +51,7 @@ class SceneManager {
             jin: { met: false, dialogueIndex: 0, stage: 0 }
         };
 
-        this.lily = new Lily(this.game, 1000, 50);
+        this.lily = new Lily(this.game, 2000, 500);
 
        // ===== BGM STATE =====
         this.roomBGM = null;
@@ -808,6 +808,7 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
         this.roomIntroPlayed = { room2: false, room3: false, room4: false };
         
         // Load Room 1
-        this.loadRoom("room1", 210, 100);
+        this.loadRoom("room1", 100, 250); // this is lilys initial spawn point in room 1
+
     }
 }
