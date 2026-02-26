@@ -818,6 +818,7 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
         this.roomBGM.pause();
         this.roomBGM.currentTime = 0;
     }
+    this.clearEntities();
     
     // Show death screen
     this.game.addEntity(new DeathScreen(this.game));

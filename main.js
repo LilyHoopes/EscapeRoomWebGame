@@ -158,6 +158,8 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Start/SelectorSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/DeathScreen.png");
     ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/EscapedScreen.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/MainMenuButton.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/PlayAgainButton.png");
 
 
 ASSET_MANAGER.downloadAll(() => {
