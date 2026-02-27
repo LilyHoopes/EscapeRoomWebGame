@@ -4,8 +4,8 @@ class CodexPickup {
         this.x = x;
         this.y = y;
 
-        this.sprite = ASSET_MANAGER.getAsset("./Sprites/Room3/Codex.png");
-        this.width = 100;
+        this.sprite = ASSET_MANAGER.getAsset("./Sprites/Room3/Room3Codex.png");
+        this.width = 90;
         this.height = 80;
 
         this.BB = new BoundingBox(this.x, this.y, this.width, this.height);
@@ -26,7 +26,7 @@ class CodexPickup {
                 sm.puzzleStates.room3.codexPickedUp = true;
                 sm.puzzleStates.room3.hasCandleCodex = true;
 
-                sm.addToInventory("Candle Codex", "./Sprites/Room3/Codex.png");
+                sm.addToInventory("Candle Codex", "./Sprites/Room3/Room3Codex.png");
                 this.removeFromWorld = true;
             }
 
@@ -35,7 +35,7 @@ class CodexPickup {
     }
 
     get depth() {
-        return this.y; 
+        return (this.BB ? this.BB.bottom : this.y + this.height) - 140;
     }
 
     draw(ctx) {

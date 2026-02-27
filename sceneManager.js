@@ -21,8 +21,8 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
         room3ToRoom4: false,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
         };
@@ -810,8 +810,8 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
         if (r3.codexDropped && !r3.codexPickedUp && !this.codexEntitySpawned) {
 
             // codex drop location
-            const dropX = this.jinPos.x + 260;
-            const dropY = this.jinPos.y + 55;
+            const dropX = this.jinPos.x + 130;
+            const dropY = this.jinPos.y + 140;
 
             // location save for prompt
             r3.codexPos = { x: dropX, y: dropY };

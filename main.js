@@ -107,6 +107,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/LeafMedallion.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/CandleMedallion.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/Codex.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/Room3Codex.png");
 
     ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/TableWithBlood.png");

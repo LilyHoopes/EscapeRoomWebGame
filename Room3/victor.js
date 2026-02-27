@@ -72,7 +72,7 @@ class Victor {
     }
 
     get depth() {
-        return this.BB.bottom;
+        return (this.BB ? this.BB.bottom : this.y + this.height) - 140;
     }
 
     draw(ctx) {
