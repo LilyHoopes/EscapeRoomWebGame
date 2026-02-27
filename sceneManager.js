@@ -410,6 +410,7 @@ class SceneManager {
 
             this.dialogueBox.startSequence(
 <<<<<<< HEAD
+<<<<<<< HEAD
                 [
                     "Brr, it is freezing in here!",
                     "*Sees Shiannel huddled in the corner*",
@@ -421,6 +422,8 @@ class SceneManager {
                     this.game.examining = false;
                 }
 =======
+=======
+>>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
              [
                 "Brr, it is freezing in here!",
                 "Tucked in at the furthest corner, was a figure huddled in a ball",
@@ -722,6 +725,17 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
                     () => {
                         victorState.met = true;
                         this.game.examining = false;
+<<<<<<< HEAD
+=======
+
+                        // After stage 2 dialogue, reveal the medallion
+                        if (victorState.stage === 2) {
+                            const victor = this.game.entities.find(e => e instanceof Victor);
+                            if (victor) victor.medallionTaken = false;
+                        }
+                    }
+                );
+>>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
 
                         // After stage 2 dialogue, reveal the medallion
                         if (victorState.stage === 2) {
