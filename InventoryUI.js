@@ -4,7 +4,7 @@ class InventoryUI {
         
         // Inventory panel dimensions
         this.width = 680;
-        this.height = 520;
+        this.height = 400;
         this.x = (1380 - this.width) / 2; // Center on screen
         this.y = (882 - this.height) / 2;
         
