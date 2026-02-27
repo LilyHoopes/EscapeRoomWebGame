@@ -210,6 +210,8 @@ class MedallionDoorZoomView {
             // Save state
             this.game.sceneManager.puzzleStates.room3.medallionSlots = [...this.slotContents];
             
+            SOUND_MANAGER.play("./SFX/OpeningDoor.mp3", this.game);
+
             setTimeout(() => {
                 this.game.sceneManager.puzzleStates.room3.medallionDoor = true;
                 this.game.sceneManager.puzzleStates.room3.door3Open = true;

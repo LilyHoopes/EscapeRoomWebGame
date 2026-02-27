@@ -364,9 +364,10 @@ class SceneManager {
 
             this.dialogueBox.startSequence(
                 [
-                    "Where am I? The last thing I remember was walking to my car, and then something hard hit the back of my head.",
+                    "Where am I?",
+                    "The last thing I remember was walking to my car... and then everything went dark.",
                     "[A scream echoes in the distance]",
-                    "Was I kidnapped? Oh no, I have to find a way out of here!"
+                    "What was that?! Oh no, I have to find a way out of here!"
                 ],
                 null,
                 "Lily",
@@ -386,9 +387,10 @@ class SceneManager {
 
             this.dialogueBox.startSequence(
              [
-                 "Brr, it is freezing in here!",
-                 "*Sees Shiannel huddled in the corner*",
-                    "Oh gosh, shes not… dead is she?"
+                "Brr, it is freezing in here!",
+                "Tucked in at the furthest corner, was a figure huddled in a ball",
+                "It that a... girl?",
+                "Oh god, shes not dead is she?"
             ],
         null,
         "Lily",
@@ -405,15 +407,16 @@ class SceneManager {
     this.dialogueBox.startSequence(
     [
         { speaker: "Lily", text: "What the…" },
-        { speaker: "", text: "*Lily sees Victor and Jin within their cells*" },
+        { speaker: "", text: "Upon entering the room, Lily sees two figures within dilapidated cells that faced opposite of one another." },
         { speaker: "Lily", text: "Oh my god, are you guys okay?!" },
-        { speaker: "Victor", text: "Yes, we have been trying to find a way out, but as you can see, we're stuck. I’m Victor. This over here is Jin." },
+        { speaker: "Victor", text: "A survivor? You made it through the other rooms!" },
+        {speaker: "Victor", text: "We've been trying to find a way out, but we're stuck. I’m Victor. That guy over there is Jin."},
         { speaker: "Jin", text: "Hello, it is good to see another survivor." },
-        { speaker: "Lily", text: "Yeah, I am glad to see I am not alone in this house… We have to find a way out!" },
-        { speaker: "Victor", text: "The only way out of this room is with 3 medallions. Here, I managed to find one before the killer locked us up." },
-        { speaker: "Lily", text: "Thank you. How can I get you guys out?" },
+        { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
+        { speaker: "Victor", text: "Through the medallion door. Here, I managed to find one before the killer locked us up." },
+        { speaker: "Lily", text: "Thank you. How do I get you guys out?" },
         { speaker: "Victor", text: "Don’t worry about us, we’ll find a way. You should just focus on trying to get out of this room." },
-        { speaker: "Lily", text: "Okay.." }
+        { speaker: "Lily", text: "Okay..." }
     ],
     null,
     null,
@@ -430,9 +433,9 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
 
     this.dialogueBox.startSequence(
         [
-            { speaker: "Lily", text: "I hear something..." },
-            { speaker: "Lily", text: "That sound… it is getting closer." },
-            { speaker: "Lily", text: "I need to hide. Now." }
+            { speaker: "Lily", text: "... Huh?" },
+            { speaker: "Lily", text: "What is that sound? It sounds like it is getting closer." },
+            { speaker: "Lily", text: "I need to run. NOW!" }
         ],
         null,
         null,

@@ -91,6 +91,7 @@ class BookshelfZoomView {
             
             // If user clicks on paper, take it 
             if (this.bookUnlocked && !this.paperTaken) {
+                SOUND_MANAGER.play("./SFX/Room1/PaperRustling.mp3", this.game);
                 if (clickX >= this.paperX && clickX <= this.paperX + this.paperWidth &&
                     clickY >= this.paperY && clickY <= this.paperY + this.paperHeight) {
                     this.takePaper();
@@ -148,6 +149,8 @@ class BookshelfZoomView {
             );
             
             if (keyOverBook) {
+                SOUND_MANAGER.play("./SFX/Room1/KeyUnlock.mp3", this.game);
+                SOUND_MANAGER.play("./SFX/Room1/BookUnlocking.mp3", this.game);
                 this.unlockBook();
             } else {
                 // Snap key back to original position
