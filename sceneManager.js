@@ -859,6 +859,13 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
     resetGame() {
         // Reset health
         this.health = 3;
+
+        //reset debug (if player has debug mode on)
+        this.game.debug = false;
+        const debugCheckbox = document.getElementById("debugToggle");
+        if (debugCheckbox) {
+            debugCheckbox.checked = this.game.debug;
+        }
         
         // Clear inventory
         this.inventory = [];
