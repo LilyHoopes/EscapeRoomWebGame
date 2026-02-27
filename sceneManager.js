@@ -529,36 +529,10 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
     this.wasDialogueActive = this.dialogueBox.active;
 
     // Dialogue is open, skips all
-if (this.dialogueBox.active) {
-    this.wasEPressed = !!this.game.E;
-    return;
-}
-
-// ===== Room5 bookshelf finished (after 3 pushes) =====
-if (this.currentRoom === "room5") {
-    const r5 = this.puzzleStates.room5;
-
-    if (
-        r5.bookshelfClosed &&
-        !r5.room5DialoguePlayed &&
-        !this.dialogueBox.active   // 🔥 이 조건 추가
-    ) {
-        r5.room5DialoguePlayed = true;
-
-        this.game.examining = true;
-
-        this.dialogueBox.startSequence(
-            [
-                { speaker: "Lily", text: "Wheeew..." }
-            ],
-            null,
-            null,
-            () => {
-                this.game.examining = false;
-            }
-        );
+    if (this.dialogueBox.active) {
+        this.wasEPressed = !!this.game.E;
+        return;
     }
-}
 
     // ===== NPC talk trigger (start-only). Trigger once per key press. =====
     if (this.game.E && !this.wasEPressed && !this.dialogueBox.active) {
@@ -907,6 +881,10 @@ if (this.currentRoom === "room5") {
                 codexDropped: false,
                 codexPickedUp: false,
                 codexPos: null
+            },
+            room5: {
+                bookshelfClosed: false,
+                room5DialoguePlayed: false
             }
         };
         

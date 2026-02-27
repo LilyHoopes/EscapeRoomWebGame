@@ -17,7 +17,7 @@ class PushableBookshelf {
         this.targetX = null;
 
         this.isSliding = false;
-        this.isBlocked = false; // it is at final position?
+        this.isBlocked = false; // true when fully pushed
 
         this.killerSpawned = false;
         this.killerSpawnDelay = 2.0;
@@ -49,11 +49,9 @@ class PushableBookshelf {
         const lily = this.game.sceneManager.lily;
         if (!lily || !lily.BB) return false;
 
-        // Lily's center
         const lilyCX = lily.BB.x + lily.BB.width / 2;
         const lilyCY = lily.BB.y + lily.BB.height / 2;
 
-        // Shelf right edge + small trigger zone (80px to the right)
         const triggerLeft = this.x + this.width;
         const triggerRight = this.x + this.width + 80;
         const triggerTop = this.y;
@@ -66,40 +64,62 @@ class PushableBookshelf {
     }
 
     update() {
-        // Sliding logic
+
+        // ===== Sliding Logic =====
         if (this.isSliding && this.targetX !== null) {
             const step = this.slideSpeed * this.game.clockTick;
             const dist = this.targetX - this.x;
 
             if (Math.abs(dist) <= step) {
-                // Snap to target, sliding done
+                // Snap to final position
                 this.x = this.targetX;
                 this.targetX = null;
                 this.isSliding = false;
 
-                // If this was the final nudge, mark as blocked and notify SceneManager
+                // If this was the final push
                 if (this.nudgeCount >= this.maxNudges) {
                     this.isBlocked = true;
 
-                    // Tell SceneManager the bookshelf finished closing/moving
-                    if (
-                        this.game.sceneManager &&
-                        this.game.sceneManager.puzzleStates &&
-                        this.game.sceneManager.puzzleStates.room5
-                    ) {
-                        this.game.sceneManager.puzzleStates.room5.bookshelfClosed = true;
+                    const sm = this.game.sceneManager;
+
+                    if (sm && sm.puzzleStates && sm.puzzleStates.room5) {
+
+                        // Mark bookshelf as closed
+                        sm.puzzleStates.room5.bookshelfClosed = true;
+
+                        // Trigger one-time dialogue safely
+                        if (!sm.puzzleStates.room5.room5DialoguePlayed) {
+
+                            sm.puzzleStates.room5.room5DialoguePlayed = true;
+
+                            // Lock movement during dialogue
+                            sm.game.examining = true;
+
+                            sm.dialogueBox.startSequence(
+                                [
+                                    { speaker: "Lily", text: "Wheeew..." }
+                                ],
+                                null,
+                                null,
+                                () => {
+                                    // Restore control after dialogue
+                                    sm.game.examining = false;
+                                }
+                            );
+                        }
                     }
                 }
+
             } else {
-                // Keep sliding left (targetX is smaller than current x)
+                // Continue sliding left
                 this.x -= step;
             }
 
             this.updateBB();
-            return; // Don't allow input while sliding
+            return; // Prevent input during sliding
         }
 
-        // Killer spawn timer
+        // ===== Killer Spawn Timer =====
         if (!this.killerSpawned) {
             this.killerSpawnTimer += this.game.clockTick;
             if (this.killerSpawnTimer >= this.killerSpawnDelay) {
@@ -107,7 +127,7 @@ class PushableBookshelf {
             }
         }
 
-        // Interaction: push shelf
+        // ===== Interaction: Push Shelf =====
         if (
             !this.isBlocked &&
             !this.isSliding &&
@@ -116,7 +136,7 @@ class PushableBookshelf {
             !this.game.examining
         ) {
             this.nudge();
-            this.game.E = false; // consume the key press
+            this.game.E = false; // consume key press
         }
     }
 
@@ -140,7 +160,7 @@ class PushableBookshelf {
             ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
         }
 
-        // "Press E to push" prompt
+        // Display push prompt
         if (this.isLilyOnRightSide() && !this.isBlocked && !this.isSliding && !this.game.examining) {
             const text = this.nudgeCount === 0
                 ? "Press E to push"
