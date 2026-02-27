@@ -162,6 +162,52 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/PlayAgainButton.png");
 
 
+
+    // SFX (which is managed outside of AssetManager --> inside SoundManager duhh)
+    
+    // General SFX
+    SOUND_MANAGER.load("./SFX/OpeningDoor.mp3");
+    // TODO: walking sounds, carpet, concrete, wooden floor 
+
+    // Room 1
+    SOUND_MANAGER.load("./SFX/Room1/WomanScream.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/KeyOnPainting.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/KeyUnlock.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/PaperRustling.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/KeypadButtonBeep.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/RightCode.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/WrongCode.mp3");
+
+    // Room 2
+    SOUND_MANAGER.load("./SFX/Room2/BitterColdWind.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/LockedPaintings.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/OpeningClassicalPainting.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/PickingUpMetalPipe.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/FrozenLockBreaking.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/ClairDeLuneMuffled.mp3");
+
+    // Room 3
+    SOUND_MANAGER.load("./SFX/Room3/DraggingCandles.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/MedallionDrop.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/PickUpCoin.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/PigheadGuts.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/PlacingMedallionInSlot.mp3");
+
+    // Room 4
+
+    
+    // Room 5
+
+
+    // UI SCREENS (win, lose)
+    // You Escaped
+
+
+    // You Died
+    SOUND_MANAGER.load("./SFX/UIScreens/BloodSplatterDeathScreen.mp3");
+
+
+
 ASSET_MANAGER.downloadAll(() => {
     const canvas = document.getElementById("gameWorld");
     const ctx = canvas.getContext("2d");
