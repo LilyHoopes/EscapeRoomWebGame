@@ -3,21 +3,19 @@ class InventoryUI {
         this.game = game;
         
         // Inventory panel dimensions
-        this.width = 600;
-        this.height = 400;
+        this.width = 680;
+        this.height = 520;
         this.x = (1380 - this.width) / 2; // Center on screen
         this.y = (882 - this.height) / 2;
         
         // Grid layout for items
-        this.slotsPerRow = 3;
+        this.slotsPerRow = 4;
         this.slotSize = 120;
         this.slotPadding = 20;
-        this.startX = this.x + 100;
-        this.startY = this.y + 80;
+        this.startX = this.x + 60;
+        this.startY = this.y + 90;
 
         this.wasIPressed = true; 
-
-        
         this.removeFromWorld = false;
         this.isPopup = true;
         this.wasMouseDown = false; // Track mouse press to detect a fresh click
@@ -78,7 +76,7 @@ if (item.name === "Strange Note") {
   return;
 }
         
-        // If it's the candle codex, open the codex view
+// If it's the candle codex, open the codex view
 if (item.name === "Candle Codex") {
 
     // Consume I so the next popup does not instantly close
@@ -119,7 +117,7 @@ if (item.name === "Candle Codex") {
         // Title
         ctx.fillStyle = "white";
         ctx.font = "28px Arial";
-        ctx.fillText("INVENTORY", this.x + 220, this.y + 45);
+        ctx.fillText("INVENTORY", this.x + 260, this.y + 38);
         
         // Draw item slots
         let inventory = this.game.sceneManager.inventory;
@@ -132,29 +130,31 @@ if (item.name === "Candle Codex") {
             let slotX = this.startX + col * (this.slotSize + this.slotPadding);
             let slotY = this.startY + row * (this.slotSize + this.slotPadding);
             
-            // Draw slot background
+            // Draw slot background and slot border
             ctx.fillStyle = "#424242";
             ctx.fillRect(slotX, slotY, this.slotSize, this.slotSize);
+
+            ctx.strokeStyle = "#242121"; 
+            ctx.lineWidth = 3;
+            ctx.strokeRect(slotX, slotY, this.slotSize, this.slotSize); 
             
             // Draw item sprite
             let sprite = ASSET_MANAGER.getAsset(item.sprite);
             if (sprite && sprite.complete && sprite.naturalWidth > 0) {
-                ctx.drawImage(sprite, slotX + 10, slotY + 10, this.slotSize - 20, this.slotSize - 20);
+                if (item.name === "diamond_key") {
+                    let keyW = 40;
+                    let keyH = 80;
+                    // center it in the slot
+                    let keyX = slotX + (this.slotSize - keyW) / 2;
+                    let keyY = slotY + (this.slotSize - keyH) / 2;
+                    ctx.drawImage(sprite, keyX, keyY, keyW, keyH);
+                } else {
+                    ctx.drawImage(sprite, slotX + 10, slotY + 10, this.slotSize - 20, this.slotSize - 20);
+                }
             } else {
                 // Placeholder
                 ctx.fillStyle = "#888";
                 ctx.fillRect(slotX + 10, slotY + 10, this.slotSize - 20, this.slotSize - 20);
-            }
-            
-            // If used, darken it
-            if (item.used) {
-                ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
-                ctx.fillRect(slotX, slotY, this.slotSize, this.slotSize);
-                
-                // "USED" label
-                ctx.fillStyle = "#FF5252";
-                ctx.font = "14px Arial";
-                ctx.fillText("USED", slotX + 35, slotY + 70);
             }
             
             // Hover effect
@@ -181,7 +181,7 @@ if (item.name === "Candle Codex") {
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "16px Arial";
-        ctx.fillText("Click an item to examine it", this.x + 180, this.y + this.height - 30);
-        ctx.fillText("Press I or ESC to close", this.x + 200, this.y + this.height - 10);
+        ctx.fillText("Click an item to examine it", this.x + 245, this.y + this.height - 25);
+        ctx.fillText("Press I or ESC to close", this.x + 260, this.y + this.height - 5);
     }
 }

@@ -880,7 +880,7 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
         this.roomIntroPlayed = { room2: false, room3: false, room4: false, room5: false };
         
         // Load Room 1
-        this.loadRoom("room1", 100, 250); // this is lilys initial spawn point in room 1
+        this.loadRoom("room1", 220, 175); // this is lilys initial spawn point in room 1
 
     }
 }
