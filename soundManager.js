@@ -22,7 +22,7 @@ class SoundManager {
         // sets the volume to whatever user set it to
         // if not set, it jsut defaults to 0.5
         audio.muted = !!gameEngine.muted;
-        audio.volume = typeof gameEngine.volume === "number" ? gameEngine.volume : 0.5;
+        audio.volume = typeof gameEngine.sfxVolume === "number" ? gameEngine.sfxVolume : 0.5;
         audio.currentTime = 0;
         audio.play().catch(() => {});
     }

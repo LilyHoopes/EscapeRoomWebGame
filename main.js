@@ -285,11 +285,11 @@ musicSlider.addEventListener("input", () => {
     gameEngine.musicVolume = Number(musicSlider.value);
 
     // Apply to intro audio
-    if (gameEngine.introAudio) gameEngine.introAudio.mumusicVolumesic = gameEngine.musicVolume;
+    if (gameEngine.introAudio) gameEngine.introAudio.volume = gameEngine.musicVolume;
 
     // Apply to room BGM (if it exists)
     if (gameEngine.sceneManager && gameEngine.sceneManager.roomBGM) {
-        gameEngine.sceneManager.roomBGM.musicVolume = gameEngine.musicVolume;
+        gameEngine.sceneManager.roomBGM.volume = gameEngine.musicVolume;
     }
 });
 
