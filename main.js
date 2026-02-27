@@ -12,6 +12,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/UI/EmptyHeart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/FrostyHeart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/FrostyHeartEmpty.png");
+    ASSET_MANAGER.queueDownload("./Sprites/UI/Inventory.png");
 
 
 // room 1

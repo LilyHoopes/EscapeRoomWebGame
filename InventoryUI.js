@@ -115,9 +115,10 @@ if (item.name === "Candle Codex") {
         ctx.fillRect(this.x, this.y, this.width, this.height);
         
         // Title
-        ctx.fillStyle = "white";
-        ctx.font = "28px Arial";
-        ctx.fillText("INVENTORY", this.x + 260, this.y + 38);
+        const titleImg = ASSET_MANAGER.getAsset("./Sprites/UI/Inventory.png");
+        if (titleImg) {
+            ctx.drawImage(titleImg, this.x + 200, this.y + 10, 300, 50); // x, y, width, height
+        }
         
         // Draw item slots
         let inventory = this.game.sceneManager.inventory;
