@@ -409,8 +409,6 @@ class SceneManager {
             this.game.examining = true;
 
             this.dialogueBox.startSequence(
-<<<<<<< HEAD
-<<<<<<< HEAD
                 [
                     "Brr, it is freezing in here!",
                     "*Sees Shiannel huddled in the corner*",
@@ -421,21 +419,6 @@ class SceneManager {
                 () => {
                     this.game.examining = false;
                 }
-=======
-=======
->>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
-             [
-                "Brr, it is freezing in here!",
-                "Tucked in at the furthest corner, was a figure huddled in a ball",
-                "It that a... girl?",
-                "Oh god, shes not dead is she?"
-            ],
-        null,
-        "Lily",
-        () => {
-            this.game.examining = false;
-             }
->>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
             );
         }
         if (roomName === "room3" && !this.roomIntroPlayed.room3) {
@@ -443,7 +426,6 @@ class SceneManager {
             this.roomIntroPlayed.room3 = true;
             this.game.examining = true;
 
-<<<<<<< HEAD
             this.dialogueBox.startSequence(
                 [
                     { speaker: "Lily", text: "What the…" },
@@ -463,45 +445,6 @@ class SceneManager {
                     this.game.examining = false;
                 }
             );
-=======
-    this.dialogueBox.startSequence(
-    [
-        { speaker: "Lily", text: "What the…" },
-        { speaker: "", text: "Upon entering the room, Lily sees two figures within dilapidated cells that faced opposite of one another." },
-        { speaker: "Lily", text: "Oh my god, are you guys okay?!" },
-        { speaker: "Victor", text: "A survivor? You made it through the other rooms!" },
-        {speaker: "Victor", text: "We've been trying to find a way out, but we're stuck. I’m Victor. That guy over there is Jin."},
-        { speaker: "Jin", text: "Hello, it is good to see another survivor." },
-        { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
-        { speaker: "Victor", text: "Through the medallion door. Here, I managed to find one before the killer locked us up." },
-        { speaker: "Lily", text: "Thank you. How do I get you guys out?" },
-        { speaker: "Victor", text: "Don’t worry about us, we’ll find a way. You should just focus on trying to get out of this room." },
-        { speaker: "Lily", text: "Okay..." }
-    ],
-    null,
-    null,
-    () => {
-        this.game.examining = false;
-    }
-);
-}
-
-if (roomName === "room4" && !this.roomIntroPlayed.room4) {
-
-    this.roomIntroPlayed.room4 = true;
-    this.game.examining = true;
-
-    this.dialogueBox.startSequence(
-        [
-            { speaker: "Lily", text: "... Huh?" },
-            { speaker: "Lily", text: "What is that sound? It sounds like it is getting closer." },
-            { speaker: "Lily", text: "I need to run. NOW!" }
-        ],
-        null,
-        null,
-        () => {
-            this.game.examining = false;
->>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
         }
 
         if (roomName === "room4" && !this.roomIntroPlayed.room4) {
@@ -704,45 +647,9 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
                 // Jin
                 else if (this.isNear(this.jinPos.x, this.jinPos.y, 120)) {
 
-<<<<<<< HEAD
                     if (this.jinPrompt) {
                         this.jinPrompt.removeFromWorld = true;
                         this.jinPrompt = null;
-=======
-                // Stage logic based on candle interaction and codex status
-                if (r3.talkedAboutCandles && !r3.hasCandleCodex && victorState.stage === 0) {
-                    victorState.stage = 1;
-                }
-
-                if (r3.hasCandleCodex && victorState.stage < 2) {
-                    victorState.stage = 2;
-                }
-
-                this.dialogueBox.startSequence(
-                    Victor.getDialogue(victorState.stage),
-                    null,
-                    "Victor",
-                    () => {
-                        victorState.met = true;
-                        this.game.examining = false;
-<<<<<<< HEAD
-=======
-
-                        // After stage 2 dialogue, reveal the medallion
-                        if (victorState.stage === 2) {
-                            const victor = this.game.entities.find(e => e instanceof Victor);
-                            if (victor) victor.medallionTaken = false;
-                        }
-                    }
-                );
->>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
-
-                        // After stage 2 dialogue, reveal the medallion
-                        if (victorState.stage === 2) {
-                            const victor = this.game.entities.find(e => e instanceof Victor);
-                            if (victor) victor.medallionTaken = false;
-                        }
->>>>>>> 893e71211d7ae87d3b73a134bc316e623ecb16d8
                     }
 
                     this.game.E = false;
