@@ -21,9 +21,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-        room1ToRoom2: false,   // Door from room 1 to room 2
-        room2ToRoom3: false,   // Door from room 2 to room 3
-        room3ToRoom4: false,  // Door from room 3 to room 4 
+        room1ToRoom2: true,   // Door from room 1 to room 2
+        room2ToRoom3: true,   // Door from room 2 to room 3
+        room3ToRoom4: true,  // Door from room 3 to room 4 
         room4ToRoom5: true   // This should always be set to true
         };
 
@@ -41,7 +41,15 @@ class SceneManager {
                 candlesArranged: false,
                 candleOrder: ["yellow", "blue", "green", "purple", "pink"],
                 medallionDoor: false,
-                medallionSlots: [null, null, null]
+                medallionSlots: [null, null, null],
+                // codex drop
+                codexDropped: false,
+                codexPickedUp: false,
+                codexPos: null
+            },
+            room5: {
+                bookshelfClosed: false,
+                room5DialoguePlayed: false
             }
         };
 
@@ -77,10 +85,14 @@ class SceneManager {
         // Victor/Jin "E to Talk" prompt handles (room3)
         this.victorPrompt = null;
         this.jinPrompt = null;
+        this.codexPrompt = null;
         
         // Single source of truth for Victor/Jin positions in room3 (default)
         this.victorPos = { x: 955, y: 510 };
         this.jinPos    = { x: 300, y: 495 };
+
+        // Codex spawn tracking
+        this.codexEntitySpawned = false;
 
     }
     
@@ -229,6 +241,9 @@ class SceneManager {
             // added victor and jin
             this.game.addEntity(new Victor(this.game, 955, 510, true));
             this.game.addEntity(new Jin(this.game, 300, 495, true));
+
+            // Reset codex spawn state when entering room3
+            this.codexEntitySpawned = false;
 
             // sync talk prompt positions with NPC spawn
             this.victorPos = { x: 955, y: 510 };
@@ -430,68 +445,15 @@ if (roomName === "room4" && !this.roomIntroPlayed.room4) {
 if (roomName === "room5" && !this.roomIntroPlayed.room5) {
 
   this.roomIntroPlayed.room5 = true;
-  this.game.examining = true;
+  this.game.examining = false;
 
-  //  when there's room 5 bgm and cuts off for part, delete commented out below
-  // if (this.roomBGM) { this.roomBGM.pause(); this.roomBGM.currentTime = 0; }
-
-  const part1 = [
-    { speaker: "", text: "*Lily walks into the room, heavy breathing*" },
-    { speaker: "Lily", text: "Oh my gosh, I escaped him… He was so close." },
-    { speaker: "", text: "*Shiannel, Victor and Jin stood next to each other in the room, next to the big and final exit door*" },
-    { speaker: "Lily", text: "!!!" },
-    { speaker: "Lily", text: "Guys! Oh, thank goodness, you were all able to make it out!" },
-    { speaker: "Shiannel", text: "You did it, Lily! We’re so happy you made it out!" },
-    { speaker: "Victor", text: "The killer was ruthless, Thank god you were able to outrun him." },
-    { speaker: "Jin", text: "And you solved the puzzles like a pro! You solved them much quicker than us!" },
-    { speaker: "Lily", text: "Thanks guys!" },
-    { speaker: "Lily", text: "Is this… the exit door? Did we actually make it?" },
-    { speaker: "Shiannel", text: "Yes… let’s get you home." },
-    { speaker: "Lily", text: "Me?" }
-  ];
-
-  const part2 = [
-    { speaker: "", text: "*Just before here, instead of the physical beings of her three friends before here, they suddenly morphed into a blue-grey hue of them – floating*" },
-    { speaker: "", text: "*sorrowful music begins to play*" },
-    { speaker: "Lily", text: "!?!"},
-    { speaker: "Lily", text: "What the– you guys are–" },
-    { speaker: "Victor", text: "–Ghosts." },
-    { speaker: "Jin", text: "We were survivors like you, who were kidnapped and placed in the killer's house. But… we weren’t able to make it out…" },
-    { speaker: "Victor", text: "That’s why we strive to make sure any survivors that he brings do." },
-    { speaker: "Lily", text: "But… h-how? You all looked real– Looked alive…" },
-    { speaker: "Shiannel", text: "I’m sorry we lied to you. We just wanted to make sure you made it out. And you did... now you can escape!" },
-    { speaker: "Lily", text: "I- I don't want to leave you guys." },
-    { speaker: "Victor", text: "You must… who else is going to help if he brings more survivors?" },
-    { speaker: "Lily", text: "…" },
-    { speaker: "Lily", text: "I am going to put an end to this… So that no more survivors and hurt and kidnapped, so they aren’t forced to run around this house to the killer’s satisfaction." },
-    { speaker: "Lily", text: "Thank you guys… for helping me. I will make sure you guys can rest." },
-    { speaker: "Shiannel", text: "Let’s make sure you get home first…" }
-  ];
-
-  // part one plays
-  this.dialogueBox.startSequence(part1, null, null, () => {
-
-    // if we need to change bgm to sad,
-    // room1 bgm here
-    // Fix file directory later
-    if (this.roomBGM) {
-      this.roomBGM.pause();
-      this.roomBGM.currentTime = 0;
-      this.roomBGM = null;
+  if (this.puzzleStates.room5) {
+        this.puzzleStates.room5.bookshelfClosed = false;
+        this.puzzleStates.room5.room5DialoguePlayed = false;
     }
-    this.roomBGMName = "./bgm/sorrowful.mp3";
-    this.roomBGM = new Audio(this.roomBGMName);
-    this.roomBGM.loop = true;
-    this.roomBGM.muted = !!this.game.muted;
-    this.roomBGM.volume = (typeof this.game.volume === "number") ? this.game.volume : 0.5;
-    this.roomBGM.play().catch(() => {});
-
-    // part 2 continuting music
-    this.dialogueBox.startSequence(part2, null, null, () => {
-      this.game.examining = false;
-    });
-  });
 }
+
+ 
     }
 
     // Inventory helpers
@@ -567,10 +529,36 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
     this.wasDialogueActive = this.dialogueBox.active;
 
     // Dialogue is open, skips all
-    if (this.dialogueBox.active) {
-        this.wasEPressed = !!this.game.E;
-        return;
+if (this.dialogueBox.active) {
+    this.wasEPressed = !!this.game.E;
+    return;
+}
+
+// ===== Room5 bookshelf finished (after 3 pushes) =====
+if (this.currentRoom === "room5") {
+    const r5 = this.puzzleStates.room5;
+
+    if (
+        r5.bookshelfClosed &&
+        !r5.room5DialoguePlayed &&
+        !this.dialogueBox.active   // 🔥 이 조건 추가
+    ) {
+        r5.room5DialoguePlayed = true;
+
+        this.game.examining = true;
+
+        this.dialogueBox.startSequence(
+            [
+                { speaker: "Lily", text: "Wheeew..." }
+            ],
+            null,
+            null,
+            () => {
+                this.game.examining = false;
+            }
+        );
     }
+}
 
     // ===== NPC talk trigger (start-only). Trigger once per key press. =====
     if (this.game.E && !this.wasEPressed && !this.dialogueBox.active) {
@@ -679,13 +667,11 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
                     null,
                     "Jin",
                     () => {
-                        // Give codex once after stage 1 dialogue
-                        if (jinState.stage === 1 && !r3.hasCandleCodex) {
-                            r3.hasCandleCodex = true;
-                            this.addToInventory("Candle Codex", "./Sprites/Room3/Codex.png");
-                            jinState.stage = 2;
+                        // Give codex once after stage 1 dialogue (renewed)
+                        if (jinState.stage === 1 && !r3.codexDropped) {
+                        r3.codexDropped = true;
+                        jinState.stage = 2;
                         }
-
                         jinState.met = true;
                         this.game.examining = false;
                     }
@@ -704,7 +690,7 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
         this.wasEPressed = false; // E was released, reset
     }
     
-    // ===== Prompt updates =====
+    //Prompt updates
 
     // Room2 Shiannel prompt
     if (!this.dialogueBox.active && this.currentRoom === "room2") {
@@ -774,18 +760,52 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
                 this.jinPrompt = null;
             }
         }
+        //Codex prompt
+        const r3 = this.puzzleStates.room3;
+        const codexExists = r3.codexDropped && !r3.codexPickedUp && r3.codexPos;
 
-    } else {
-        // Not in room3, remove both prompts
-        if (this.victorPrompt) {
+        if (codexExists) {
+            const nearCodex = this.isNear(r3.codexPos.x, r3.codexPos.y, 120);
+
+            if (nearCodex) {
+                if (!this.codexPrompt) {
+                    this.codexPrompt = new TalkPrompt(
+                        this.game,
+                        r3.codexPos.x + 20,
+                        r3.codexPos.y - 25,
+                        "Press E to take"
+                    );
+                    this.game.addEntity(this.codexPrompt);
+                }
+            } else {
+                if (this.codexPrompt) {
+                    this.codexPrompt.removeFromWorld = true;
+                    this.codexPrompt = null;
+                }
+            }
+        } else {
+            if (this.codexPrompt) {
+                this.codexPrompt.removeFromWorld = true;
+                this.codexPrompt = null;
+            }
+        }
+    } 
+        else {
+         // Not in room3, remove all room3 prompts
+            if (this.victorPrompt) {
             this.victorPrompt.removeFromWorld = true;
             this.victorPrompt = null;
+         }
+            if (this.jinPrompt) {
+                this.jinPrompt.removeFromWorld = true;
+                this.jinPrompt = null;
+            }
+            if (this.codexPrompt) {
+                this.codexPrompt.removeFromWorld = true;
+                this.codexPrompt = null;
+                
+            }
         }
-        if (this.jinPrompt) {
-            this.jinPrompt.removeFromWorld = true;
-            this.jinPrompt = null;
-        }
-    }
 
     // Room 4 Killer Spawn Logic
     if (this.currentRoom === "room4" && !this.room4KillerSpawned) {
@@ -796,6 +816,26 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
             const killer = new Killer(this.game, 50, 500, this.lily);
             this.game.addEntity(killer);
             this.room4KillerSpawned = true;
+        }
+    }
+
+    // Room3 Codex Drop Spawn
+    if (this.currentRoom === "room3") {
+
+        const r3 = this.puzzleStates.room3;
+
+        if (r3.codexDropped && !r3.codexPickedUp && !this.codexEntitySpawned) {
+
+            // codex drop location
+            const dropX = this.jinPos.x + 260;
+            const dropY = this.jinPos.y + 55;
+
+            // location save for prompt
+            r3.codexPos = { x: dropX, y: dropY };
+
+            const codex = new CodexPickup(this.game, dropX, dropY);
+            this.game.entities.push(codex);
+            this.codexEntitySpawned = true;
         }
     }
 }
@@ -863,7 +903,10 @@ if (roomName === "room5" && !this.roomIntroPlayed.room5) {
                 candleOrder: ["yellow", "blue", "green", "purple", "pink"],
                 medallionDoor: false,
                 medallionSlots: [null, null, null],
-                door3Open: false
+                door3Open: false,
+                codexDropped: false,
+                codexPickedUp: false,
+                codexPos: null
             }
         };
         

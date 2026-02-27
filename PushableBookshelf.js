@@ -17,7 +17,7 @@ class PushableBookshelf {
         this.targetX = null;
 
         this.isSliding = false;
-        this.isBlocked = false; // it is at final positionm?
+        this.isBlocked = false; // it is at final position?
 
         this.killerSpawned = false;
         this.killerSpawnDelay = 2.0;
@@ -53,19 +53,20 @@ class PushableBookshelf {
         const lilyCX = lily.BB.x + lily.BB.width / 2;
         const lilyCY = lily.BB.y + lily.BB.height / 2;
 
-        // Shelf right edge + small trigger zone (60px to the right)
-        const triggerLeft  = this.x + this.width;
+        // Shelf right edge + small trigger zone (80px to the right)
+        const triggerLeft = this.x + this.width;
         const triggerRight = this.x + this.width + 80;
-        const triggerTop   = this.y;
-        const triggerBot   = this.y + this.height;
+        const triggerTop = this.y;
+        const triggerBot = this.y + this.height;
 
         return (
             lilyCX >= triggerLeft && lilyCX <= triggerRight &&
-            lilyCY >= triggerTop  && lilyCY <= triggerBot
+            lilyCY >= triggerTop && lilyCY <= triggerBot
         );
     }
 
     update() {
+        // Sliding logic
         if (this.isSliding && this.targetX !== null) {
             const step = this.slideSpeed * this.game.clockTick;
             const dist = this.targetX - this.x;
@@ -76,11 +77,21 @@ class PushableBookshelf {
                 this.targetX = null;
                 this.isSliding = false;
 
+                // If this was the final nudge, mark as blocked and notify SceneManager
                 if (this.nudgeCount >= this.maxNudges) {
                     this.isBlocked = true;
+
+                    // Tell SceneManager the bookshelf finished closing/moving
+                    if (
+                        this.game.sceneManager &&
+                        this.game.sceneManager.puzzleStates &&
+                        this.game.sceneManager.puzzleStates.room5
+                    ) {
+                        this.game.sceneManager.puzzleStates.room5.bookshelfClosed = true;
+                    }
                 }
             } else {
-                // Keep sliding left
+                // Keep sliding left (targetX is smaller than current x)
                 this.x -= step;
             }
 
@@ -88,6 +99,7 @@ class PushableBookshelf {
             return; // Don't allow input while sliding
         }
 
+        // Killer spawn timer
         if (!this.killerSpawned) {
             this.killerSpawnTimer += this.game.clockTick;
             if (this.killerSpawnTimer >= this.killerSpawnDelay) {
@@ -95,6 +107,7 @@ class PushableBookshelf {
             }
         }
 
+        // Interaction: push shelf
         if (
             !this.isBlocked &&
             !this.isSliding &&
@@ -118,7 +131,7 @@ class PushableBookshelf {
     spawnKiller() {
         this.killerSpawned = true;
         const killer = new Killer(this.game, 200, 650, this.game.sceneManager.lily);
-        killer.isRoom5Killer = true; 
+        killer.isRoom5Killer = true;
         this.game.addEntity(killer);
     }
 
