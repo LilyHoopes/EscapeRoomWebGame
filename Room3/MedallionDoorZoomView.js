@@ -245,11 +245,6 @@ class MedallionDoorZoomView {
             ctx.strokeRect(this.x, this.y, this.width, this.height);
         }
         
-        // Title
-        ctx.fillStyle = "white";
-        ctx.font = "28px Arial";
-        ctx.fillText("Place the Medallions", this.x + 350, this.y + 60);
-        
         // Draw slots
         for (let i = 0; i < 3; i++) {
             let slotX = this.slotStartX + i * this.slotSpacing;
@@ -273,8 +268,8 @@ class MedallionDoorZoomView {
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "18px Arial";
-        ctx.fillText("Drag medallions to the slots", this.x + 360, this.y + this.height - 40);
-        ctx.fillText("Press ESC to close", this.x + 420, this.y + this.height - 15);
+        ctx.fillText("Drag medallions to the slots", this.x + 450, this.y + this.height - 40);
+        ctx.fillText("Press ESC to close", this.x + 480, this.y + this.height - 10);
     }
     
     drawMedallion(ctx, type, x, y) {
