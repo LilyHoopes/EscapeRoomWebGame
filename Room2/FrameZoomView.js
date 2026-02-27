@@ -12,8 +12,6 @@ class FrameZoomView {
         this.sprite = this.frame.sprite;
         this.removeFromWorld = false;
         this.removeFromWorld = false;
-
-
     }
     
     update() {
@@ -35,6 +33,8 @@ class FrameZoomView {
                 this.game.click = null;
                 return;
             }
+
+            SOUND_MANAGER.play("./SFX/Room2/LockedPaintings.mp3", this.game);
             
             this.game.click = null;
         }
