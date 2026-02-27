@@ -31,7 +31,8 @@ class Victor {
         this.isSolid = isSolid;
         this.removeFromWorld = false;
 
-        this.medallionTaken = this.game.sceneManager.puzzleStates.room3.leafMedallion;
+        this.medallionTaken = true; // hidden until Victor gives it after stage 2
+
         
         this.medallionX = this.x -120;
         this.medallionY = this.y + 120;
