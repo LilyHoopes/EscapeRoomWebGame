@@ -119,13 +119,22 @@ class PushableBookshelf {
             return; // Prevent input during sliding
         }
 
-        // ===== Killer Spawn Timer =====
-        if (!this.killerSpawned) {
-            this.killerSpawnTimer += this.game.clockTick;
-            if (this.killerSpawnTimer >= this.killerSpawnDelay) {
-                this.spawnKiller();
-            }
-        }
+       // ===== Killer Spawn Timer =====
+if (!this.killerSpawned) {
+
+    const sm = this.game.sceneManager;
+
+    // Block spawn during intro dialogue
+    if (!sm.room5IntroFinished || sm.dialogueBox.active) {
+        return;
+    }
+
+    this.killerSpawnTimer += this.game.clockTick;
+
+    if (this.killerSpawnTimer >= this.killerSpawnDelay) {
+        this.spawnKiller();
+    }
+}
 
         // ===== Interaction: Push Shelf =====
         if (
