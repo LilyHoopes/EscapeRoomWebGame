@@ -32,7 +32,7 @@ class MusicNoteFrame {
             this.game.examining = true;
 
             this.game.sceneManager.dialogueBox.openLine(
-                "The painting is completely ruined now...",
+                "To think a weapon was hidden behind this painting...",
                 null,
                 "Lily",
                 () => {

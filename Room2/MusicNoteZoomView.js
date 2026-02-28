@@ -50,6 +50,7 @@ class MusicNoteZoomView {
             
             if (!this.frameOpened) {
                 this.frameOpened = true;
+                SOUND_MANAGER.play("./SFX/Room2/OpeningClassicalPainting.mp3", this.game);
             } 
             else if (!this.pipeTaken) {
                 if (clickX >= this.pipeX && clickX <= this.pipeX + this.pipeWidth &&
@@ -63,6 +64,8 @@ class MusicNoteZoomView {
     }
     
     takePipe() {
+
+    SOUND_MANAGER.play("./SFX/Room2/PickingUpMetalPipe.mp3", this.game);
 
     this.game.sceneManager.addToInventory("Lead Pipe", "./Sprites/Room2/Pipe.png");
     this.pipeTaken = true;
