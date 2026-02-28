@@ -61,6 +61,7 @@ class CandleTableZoomView {
     }
     
     handleDragAndDrop() {
+
         if (!this.game.mouse) return;
         
         let mx = this.game.mouse.x;
@@ -91,6 +92,9 @@ class CandleTableZoomView {
         
         // Release - swap candles
         if (this.draggingIndex !== null && !this.game.mouseDown) {
+
+            SOUND_MANAGER.play("./SFX/Room3/DraggingCandles.mp3", this.game);
+            
             // Find which slot we dropped into
             let droppedSlot = null;
             for (let i = 0; i < 5; i++) {

@@ -148,10 +148,19 @@ class BookshelfZoomView {
                 keyCenterY <= this.closedBookY + this.closedBookHeight 
             );
             
+            // Release mouse - check if over book
             if (keyOverBook) {
                 SOUND_MANAGER.play("./SFX/Room1/KeyUnlock.mp3", this.game);
-                SOUND_MANAGER.play("./SFX/Room1/BookUnlocking.mp3", this.game);
-                this.unlockBook();
+
+                // Wait for key unlock sound to finish, THEN open the book
+                const keySound = SOUND_MANAGER.cache["./SFX/Room1/KeyUnlock.mp3"];
+                const delay = keySound ? keySound.duration * 1000 : 1000; // fallback to 1 second
+
+                setTimeout(() => {
+                    SOUND_MANAGER.play("./SFX/Room1/BookUnlocking.mp3", this.game);
+                    this.unlockBook();
+                }, delay);
+
             } else {
                 // Snap key back to original position
                 this.dragKeyX = this.keyX;

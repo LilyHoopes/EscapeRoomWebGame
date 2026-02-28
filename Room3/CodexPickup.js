@@ -23,6 +23,8 @@ class CodexPickup {
         if (near && this.game.E) {
             if (!sm.puzzleStates.room3.codexPickedUp) {
 
+                SOUND_MANAGER.play("./SFX/Room1/PaperRustling.mp3", this.game);
+
                 sm.puzzleStates.room3.codexPickedUp = true;
                 sm.puzzleStates.room3.hasCandleCodex = true;
 

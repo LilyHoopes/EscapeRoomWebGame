@@ -144,6 +144,9 @@ class MedallionDoorZoomView {
             
             // Check if dropped on slot
             for (let i = 0; i < 3; i++) {
+
+                SOUND_MANAGER.play("./SFX/Room3/PlacingMedallionInSlot.mp3", this.game);
+
                 let slotX = this.slotStartX + i * this.slotSpacing;
                 let slotCenterX = slotX + this.slotWidth / 2;
                 let slotCenterY = this.slotY + this.slotHeight / 2;

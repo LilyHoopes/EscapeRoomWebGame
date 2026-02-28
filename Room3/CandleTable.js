@@ -71,7 +71,7 @@ class CandleTable {
 
     // Player has the codex, allow the puzzle
     this.game.sceneManager.dialogueBox.openLine(
-        "Hm, I can move them around… There must be a specific order that it needs to go in.",
+        "Hm, looks like I can move them around… There must be a specific order that it needs to go in.",
         null,
         "Lily",
         () => {
@@ -142,6 +142,9 @@ class CandleTable {
     }
     
     takeMedallion() {
+
+        SOUND_MANAGER.play("./SFX/Room3/PickUpCoin.mp3", this.game);
+
         this.game.sceneManager.addToInventory("Candle Medallion", "./Sprites/Room3/CandleMedallion.png");
         this.medallionTaken = true;
         this.game.sceneManager.puzzleStates.room3.candleMedallion = true;
@@ -192,6 +195,9 @@ class CandleTable {
  
         // Draw medallion if puzzle solved and not taken
         if (this.puzzleSolved && !this.medallionTaken) {
+
+            //SOUND_MANAGER.play("./SFX/Room3/MedallionDrop.mp3", this.game);
+
             if (this.medallionSprite && this.medallionSprite.complete && this.medallionSprite.naturalWidth > 0) {
                 ctx.drawImage(this.medallionSprite, this.medallionX, this.medallionY, 
                              this.medallionWidth, this.medallionHeight);

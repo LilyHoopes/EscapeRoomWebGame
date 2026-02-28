@@ -172,16 +172,17 @@ const ASSET_MANAGER = new AssetManager();
     // TODO: walking sounds, carpet, concrete, wooden floor 
 
     // Room 1
-    SOUND_MANAGER.load("./SFX/Room1/WomanScream.mp3");
-    SOUND_MANAGER.load("./SFX/Room1/KeyOnPainting.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/WomanScream.mp3", 0.4);
+    SOUND_MANAGER.load("./SFX/Room1/KeyOnPainting.mp3", 0.8);
+    SOUND_MANAGER.load("./SFX/Room1/BookOpening.mp3", 0.8);
     SOUND_MANAGER.load("./SFX/Room1/KeyUnlock.mp3");
-    SOUND_MANAGER.load("./SFX/Room1/PaperRustling.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/PaperRustling.mp3", 0.8);
     SOUND_MANAGER.load("./SFX/Room1/KeypadButtonBeep.mp3");
     SOUND_MANAGER.load("./SFX/Room1/RightCode.mp3");
     SOUND_MANAGER.load("./SFX/Room1/WrongCode.mp3");
 
     // Room 2
-    SOUND_MANAGER.load("./SFX/Room2/BitterColdWind.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/BitterColdWind.mp3", 0.2);
     SOUND_MANAGER.load("./SFX/Room2/LockedPaintings.mp3");
     SOUND_MANAGER.load("./SFX/Room2/OpeningClassicalPainting.mp3");
     SOUND_MANAGER.load("./SFX/Room2/PickingUpMetalPipe.mp3");

@@ -65,6 +65,9 @@ class Victor {
     }
 
     takeMedallion() {
+
+        SOUND_MANAGER.play("./SFX/Room3/PickUpCoin.mp3", this.game);
+
         this.game.sceneManager.addToInventory("Leaf Medallion", "./Sprites/Room3/LeafMedallion.png");
         this.medallionTaken = true;
         this.game.sceneManager.puzzleStates.room3.leafMedallion = true;

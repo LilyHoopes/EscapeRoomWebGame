@@ -2,6 +2,7 @@ class SceneManager {
     constructor(game) {
         this.game = game;
         this.currentRoom = "room1";
+        this.coldWindAudio = null;
 
         this.roomIntroPlayed = {
             room2: false,
@@ -108,6 +109,10 @@ class SceneManager {
 
 
     loadRoom(roomName, spawnX, spawnY) {
+        
+        // stops cold wind from playing in other rooms
+        SOUND_MANAGER.stop("./SFX/Room2/BitterColdWind.mp3");
+        
         this.clearEntities();
         this.currentRoom = roomName;
 
@@ -179,6 +184,10 @@ class SceneManager {
         }
 
         if (roomName === "room2") {
+
+            // // BItter cold wind plays and will cont until user leaves room 2
+            SOUND_MANAGER.playLoop("./SFX/Room2/BitterColdWind.mp3", this.game);
+
             this.game.addEntity(
                 new Background(this.game, "./Sprites/Room2/TheGalleryBackground.png", 1380, 882)
             );
@@ -383,30 +392,48 @@ class SceneManager {
         if (this.room5VictorPrompt) { this.room5VictorPrompt.removeFromWorld = true; this.room5VictorPrompt = null; }
         if (this.room5JinPrompt) { this.room5JinPrompt.removeFromWorld = true; this.room5JinPrompt = null; }
 
-        // Room 1 intro dialogue (play once per full game run)
         if (roomName === "room1" && !this.puzzleStates.room1.introPlayed) {
             this.puzzleStates.room1.introPlayed = true;
-
-            // Lock movement/interaction while the intro is playing
             this.game.examining = true;
 
             this.dialogueBox.startSequence(
                 [
                     "Where am I?",
                     "The last thing I remember was walking to my car... and then everything went dark.",
-                    "[A scream echoes in the distance]",
-                    "What was that?! Oh no, I have to find a way out of here!"
                 ],
                 null,
                 "Lily",
                 () => {
-                    this.game.examining = false;
+                    // ← fires right after "The last thing I remember" line
+                    SOUND_MANAGER.play("./SFX/Room1/WomanScream.mp3", this.game);
+
+                    this.dialogueBox.startSequence(
+                        [
+                            "[A scream echoes in the distance]",
+                        ],
+                        null,
+                        "Lily",
+                        () => {
+                            this.dialogueBox.startSequence(
+                                [
+                                    "What was that?! Oh no, I have to find a way out of here!"
+                                ],
+                                null,
+                                "Lily",
+                                () => {
+                                    this.game.examining = false;
+                                }
+                            );
+                        }
+                    );
                 }
             );
         }
 
         // Room 2 intro dialogue (play once per full game run)
         if (roomName === "room2" && !this.puzzleStates.room2.introPlayed) {
+
+            SOUND_MANAGER.play("./SFX/Room2/BitterColdWind.mp3", this.game);
 
             this.puzzleStates.room2.introPlayed = true;
 
@@ -416,7 +443,7 @@ class SceneManager {
             this.dialogueBox.startSequence(
                 [
                     "Brr, it is freezing in here!",
-                    "Tucked in at the furthest corner, was a figure huddled in a ball",
+                    "[Tucked in at the furthest corner, was a figure huddled in a ball]",
                     "It that a... girl?",
                     "Oh god, shes not dead is she?"
                 ],
@@ -436,13 +463,13 @@ class SceneManager {
                 [
                     { speaker: "Lily", text: "What the…" },
                     { speaker: "", text: "Upon entering the room, Lily sees two figures within dilapidated cells that faced opposite of one another." },
-                    { speaker: "Lily", text: "Oh my god, are you guys okay?!" },
+                    { speaker: "Lily", text: "Oh god, are you guys okay?!" },
                     { speaker: "Victor", text: "A survivor? You made it through the other rooms!" },
                     { speaker: "Victor", text: "We've been trying to find a way out, but we're stuck. I’m Victor. That guy over there is Jin." },
-                    { speaker: "Jin", text: "Hello, it is good to see another survivor." },
-                    { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
-                    { speaker: "Victor", text: "Through the medallion door. Here, I managed to find one before the killer locked us up." },
-                    { speaker: "Lily", text: "Thank you. How do I get you guys out?" },
+                    { speaker: "Jin", text: "Hey, it is good to see another survivor." },
+                   // { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
+                    //{ speaker: "Victor", text: "Through the medallion door. Here, I managed to find one before the killer locked us up." },
+                    { speaker: "Lily", text: "Hello. How do I get you guys out?" },
                     { speaker: "Victor", text: "Don’t worry about us, we’ll find a way. You should just focus on trying to get out of this room." },
                     { speaker: "Lily", text: "Okay..." }
                 ],
@@ -463,7 +490,7 @@ class SceneManager {
                 [
                     { speaker: "Lily", text: "... Huh?" },
                     { speaker: "Lily", text: "What is that sound? It sounds like it is getting closer." },
-                    { speaker: "Lily", text: "I need to run. NOW!" }
+                    { speaker: "Lily", text: "I need to run, NOW!" }
                 ],
                 null,
                 null,
@@ -485,7 +512,7 @@ class SceneManager {
 
             this.dialogueBox.startSequence(
                 [
-                    { speaker: "Shiannel", text: "Hurry, don't let him get in!" }
+                    { speaker: "Shiannel", text: "Hurry, don't let him get in! Go to the right of the bookshelf and cover the doorway!" }
                 ],
                 null,
                 null,
@@ -668,6 +695,7 @@ class SceneManager {
                             if (victorState.stage === 2) {
                                 const victor = this.game.entities.find(e => e instanceof Victor);
                                 if (victor) victor.medallionTaken = false;
+                                SOUND_MANAGER.play("./SFX/Room3/MedallionDrop.mp3", this.game);
                             }
                         }
                     );
@@ -700,6 +728,7 @@ class SceneManager {
                             if (jinState.stage === 1 && !r3.codexDropped) {
                                 r3.codexDropped = true;
                                 jinState.stage = 2;
+                                SOUND_MANAGER.play("./SFX/Room1/PaperRustling.mp3", this.game);
                             }
                             jinState.met = true;
                             this.game.examining = false;
