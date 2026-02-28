@@ -136,7 +136,9 @@ class SceneManager {
                 this.roomBGM = new Audio(nextBGM);
                 this.roomBGM.loop = true;
                 this.roomBGM.muted = !!this.game.muted;
-                this.roomBGM.volume = (typeof this.game.volume === "number") ? this.game.volume : 0.5;
+                this.roomBGM.volume = (typeof this.game.musicVolume === "number")
+                    ? this.game.musicVolume
+                    : 0.65;
                 this.roomBGM.play().catch(() => { });
             }
         }
