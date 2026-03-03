@@ -1034,6 +1034,8 @@ class SceneManager {
         if (this.roomBGM) {
             this.roomBGM.pause();
             this.roomBGM.currentTime = 0;
+            this.roomBGM = null;
+            this.roomBGMName = null;
         }
         this.clearEntities();
 
@@ -1047,6 +1049,7 @@ class SceneManager {
             this.roomBGM.pause();
             this.roomBGM.currentTime = 0;
             this.roomBGM = null;
+            this.roomBGMName = null;
         }
         console.log("in showEndingScreen method")
 

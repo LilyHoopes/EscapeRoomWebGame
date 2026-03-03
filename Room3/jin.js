@@ -9,17 +9,17 @@ class Jin {
             2, 0.6      // 2 frames, 0.6 seconds per frame
         );
         
-        this.x = x || 50;
-        this.y = y || 400;
+        this.x = x;
+        this.y = y;
         this.width = 338 * this.scale;
         this.height = 319 * this.scale;
 
 
         this.bbOffset = {//jin bb offset
-            x: 30,       
-            y: 20,     
-            w: 40,       
-            h: 40     
+            x: 0,       
+            y: 60,     
+            w: 50,       
+            h: 100     
         };
 
         this.BB = new BoundingBox(

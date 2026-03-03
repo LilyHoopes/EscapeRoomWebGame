@@ -27,10 +27,10 @@ class Killer {
         const frameHeight = this.spriteSheet.height / 4;
 
         this.animations = {
-            walkDown: new Animator(this.spriteSheet, 0, 0, 750, 750, 4, 0.2),
+            walkDown: new Animator(this.spriteSheet, 10, 0, 790, 750, 4, 0.2),
             walkRight: new Animator(this.spriteSheet, 0, 750, 760, 750, 4, 0.2), //very good
             walkLeft: new Animator(this.spriteSheet, 0, 1500, 770, 750, 4, 0.2), 
-            walkUp: new Animator(this.spriteSheet, -30, 2300, 760, 750, 4, 0.2)   //bro is too much to the left
+            walkUp: new Animator(this.spriteSheet, -30, 2300, 760, 750, 4, 0.2)  
         };
 
         this.currentAnimation = this.animations.walkDown;
@@ -40,7 +40,7 @@ class Killer {
 
     updateBB() {
         this.offsetX = 40; // shifts to right
-        this.offsetY = 80; // shifts down 
+        this.offsetY = 95; // shifts down 
 
         //killer prick
         const bbWidth = 90; 
@@ -79,7 +79,7 @@ class Killer {
             if (this.y > 1200) {
                 this.removeFromWorld = true;
             }
-            return;a
+            return;
         }
 
         if (!this.target) return;
