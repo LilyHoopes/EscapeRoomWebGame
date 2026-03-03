@@ -200,10 +200,10 @@ class SceneManager {
             this.game.addEntity(room2To3Door);
 
             // added shiannel
-            this.game.addEntity(new Shiannel(this.game, 1210, 150, true, "crouch"));
+            this.game.addEntity(new Shiannel(this.game, 640, 150, true, "crouch"));
 
             // Added: keep shiannelPos synced with Shiannel spawn position
-            this.shiannelPos = { x: 1210, y: 150 };
+            this.shiannelPos = { x: 640, y: 180 };
 
             // invisible wall
             this.game.addEntity(new InvisibleCollider(this.game, 0, 0, 1380, 150)); // top
