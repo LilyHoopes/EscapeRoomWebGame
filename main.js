@@ -12,6 +12,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/UI/EmptyHeart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/FrostyHeart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/FrostyHeartEmpty.png");
+    ASSET_MANAGER.queueDownload("./Sprites/UI/Inventory.png");
 
 
 // room 1
@@ -106,6 +107,7 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room3/LeafMedallion.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/CandleMedallion.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/Codex.png");
+    ASSET_MANAGER.queueDownload("./Sprites/Room3/Room3Codex.png");
 
     ASSET_MANAGER.queueDownload("./Sprites/Room3/TheCellsBackground.png");
     ASSET_MANAGER.queueDownload("./Sprites/Room3/TableWithBlood.png");
@@ -158,6 +160,55 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Start/SelectorSign.png");
     ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/DeathScreen.png");
     ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/EscapedScreen.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/MainMenuButton.png");
+    ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/PlayAgainButton.png");
+
+
+
+    // SFX (which is managed outside of AssetManager --> inside SoundManager duhh)
+    
+    // General SFX
+    SOUND_MANAGER.load("./SFX/OpeningDoor.mp3");
+    // TODO: walking sounds, carpet, concrete, wooden floor 
+
+    // Room 1
+    SOUND_MANAGER.load("./SFX/Room1/WomanScream.mp3", 0.4);
+    SOUND_MANAGER.load("./SFX/Room1/KeyOnPainting.mp3", 0.8);
+    SOUND_MANAGER.load("./SFX/Room1/BookOpening.mp3", 0.8);
+    SOUND_MANAGER.load("./SFX/Room1/KeyUnlock.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/PaperRustling.mp3", 0.8);
+    SOUND_MANAGER.load("./SFX/Room1/KeypadButtonBeep.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/RightCode.mp3");
+    SOUND_MANAGER.load("./SFX/Room1/WrongCode.mp3");
+
+    // Room 2
+    SOUND_MANAGER.load("./SFX/Room2/BitterColdWind.mp3", 0.2);
+    SOUND_MANAGER.load("./SFX/Room2/LockedPaintings.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/OpeningClassicalPainting.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/PickingUpMetalPipe.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/FrozenLockBreaking.mp3");
+    SOUND_MANAGER.load("./SFX/Room2/ClairDeLuneMuffled.mp3");
+
+    // Room 3
+    SOUND_MANAGER.load("./SFX/Room3/DraggingCandles.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/MedallionDrop.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/PickUpCoin.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/PigheadGuts.mp3");
+    SOUND_MANAGER.load("./SFX/Room3/PlacingMedallionInSlot.mp3");
+
+    // Room 4
+
+    
+    // Room 5
+
+
+    // UI SCREENS (win, lose)
+    // You Escaped
+
+
+    // You Died
+    SOUND_MANAGER.load("./SFX/UIScreens/BloodSplatterDeathScreen.mp3");
+
 
 
 ASSET_MANAGER.downloadAll(() => {
@@ -207,7 +258,8 @@ ASSET_MANAGER.downloadAll(() => {
     //volume, debug, mute part
     const debugToggle = document.getElementById("debugToggle");
     const muteBtn = document.getElementById("muteBtn");
-    const volumeSlider = document.getElementById("volumeSlider");
+    const musicSlider = document.getElementById("volumeSlider");
+    const sfxSlider = document.getElementById("sfxSlider");
 
     debugToggle.addEventListener("change", () => {
         gameEngine.debug = debugToggle.checked;
@@ -227,15 +279,19 @@ ASSET_MANAGER.downloadAll(() => {
     muteBtn.textContent = gameEngine.muted ? "Unmute" : "Mute";
 });
 
-volumeSlider.addEventListener("input", () => {
-    gameEngine.volume = Number(volumeSlider.value);
+sfxSlider.addEventListener("input", () => {
+    gameEngine.sfxVolume = Number(sfxSlider.value);
+});
+
+musicSlider.addEventListener("input", () => {
+    gameEngine.musicVolume = Number(musicSlider.value);
 
     // Apply to intro audio
-    if (gameEngine.introAudio) gameEngine.introAudio.volume = gameEngine.volume;
+    if (gameEngine.introAudio) gameEngine.introAudio.volume = gameEngine.musicVolume;
 
     // Apply to room BGM (if it exists)
     if (gameEngine.sceneManager && gameEngine.sceneManager.roomBGM) {
-        gameEngine.sceneManager.roomBGM.volume = gameEngine.volume;
+        gameEngine.sceneManager.roomBGM.volume = gameEngine.musicVolume;
     }
 });
 

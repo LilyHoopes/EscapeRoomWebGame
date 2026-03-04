@@ -132,6 +132,8 @@ class KeyPad {
 
     this.game.entities.forEach(entity => {
         if (entity instanceof Door && entity.destinationRoom === "room2") {
+            // sound effect for door unlocking
+            SOUND_MANAGER.play("./SFX/OpeningDoor.mp3", this.game);
             entity.unlock();
         }
     });

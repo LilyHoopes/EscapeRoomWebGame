@@ -1,8 +1,8 @@
 class Shiannel {
     constructor(game, x, y, isSolid, pose = "idle") {
         this.game = game;
-        this.x = x || 50;
-        this.y = y || 400;
+        this.x = x;
+        this.y = y;
         this.scale = 0.45;
         this.isSolid = isSolid;
         this.pose = pose;
@@ -30,28 +30,36 @@ class Shiannel {
         this.height = 416 * this.scale;
 
         this.bbOffset = {
-            x: 40,
-            y: 40,
+            x: 28,
+            y: 50,
             w: 80,
-            h: 80
+            h: 30
         };
-
-        this.BB = new BoundingBox(
-            this.x + this.bbOffset.x,
-            this.y + this.bbOffset.y,
-            this.width - this.bbOffset.w,
-            this.height - this.bbOffset.h
-        );
+        
+        
+        this.updateBB();
+        this.lastBB = this.BB;
     }
 
     update() {
-        this.BB.x = this.x + this.bbOffset.x;
-        this.BB.y = this.y + this.bbOffset.y;
+        this.updateBB();
+    }
+    updateBB() {
+        this.BB = new BoundingBox(
+        this.x + this.bbOffset.x,
+        this.y + this.bbOffset.y,
+        this.bbOffset.w,
+        this.bbOffset.h
+        );
+    }
+    updateLastBB() {
+        this.lastBB = this.BB;
     }
 
     get depth() {
         return this.BB.bottom;
     }
+
 
     draw(ctx) {
         let animator = (this.pose === "crouch")

@@ -144,6 +144,9 @@ class MedallionDoorZoomView {
             
             // Check if dropped on slot
             for (let i = 0; i < 3; i++) {
+
+                SOUND_MANAGER.play("./SFX/Room3/PlacingMedallionInSlot.mp3", this.game);
+
                 let slotX = this.slotStartX + i * this.slotSpacing;
                 let slotCenterX = slotX + this.slotWidth / 2;
                 let slotCenterY = this.slotY + this.slotHeight / 2;
@@ -163,7 +166,7 @@ class MedallionDoorZoomView {
                     placed = true;
                     
                     // Mark as used
-                    this.markMedallionUsed(this.draggingMedallion.type);
+                    this.removeMedallionsFromInventory();
                     break;
                 }
             }
@@ -181,14 +184,10 @@ class MedallionDoorZoomView {
         }
     }
     
-    markMedallionUsed(type) {
-        const nameMap = {
-            snowflake: "Snowflake Medallion",
-            candle: "Candle Medallion",
-            leaf: "Leaf Medallion"
-        };
-        
-        this.game.sceneManager.markItemAsUsed(nameMap[type]);
+    removeMedallionsFromInventory() {
+        this.game.sceneManager.removeFromInventory("Snowflake Medallion");
+        this.game.sceneManager.removeFromInventory("Candle Medallion");
+        this.game.sceneManager.removeFromInventory("Leaf Medallion");
     }
     
     checkSolution() {
@@ -210,6 +209,8 @@ class MedallionDoorZoomView {
             // Save state
             this.game.sceneManager.puzzleStates.room3.medallionSlots = [...this.slotContents];
             
+            SOUND_MANAGER.play("./SFX/OpeningDoor.mp3", this.game);
+
             setTimeout(() => {
                 this.game.sceneManager.puzzleStates.room3.medallionDoor = true;
                 this.game.sceneManager.puzzleStates.room3.door3Open = true;
@@ -243,11 +244,6 @@ class MedallionDoorZoomView {
             ctx.strokeRect(this.x, this.y, this.width, this.height);
         }
         
-        // Title
-        ctx.fillStyle = "white";
-        ctx.font = "28px Arial";
-        ctx.fillText("Place the Medallions", this.x + 350, this.y + 60);
-        
         // Draw slots
         for (let i = 0; i < 3; i++) {
             let slotX = this.slotStartX + i * this.slotSpacing;
@@ -271,8 +267,8 @@ class MedallionDoorZoomView {
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "18px Arial";
-        ctx.fillText("Drag medallions to the slots", this.x + 360, this.y + this.height - 40);
-        ctx.fillText("Press ESC to close", this.x + 420, this.y + this.height - 15);
+        ctx.fillText("Drag medallions to the slots", this.x + 450, this.y + this.height - 40);
+        ctx.fillText("Press ESC to close", this.x + 480, this.y + this.height - 10);
     }
     
     drawMedallion(ctx, type, x, y) {

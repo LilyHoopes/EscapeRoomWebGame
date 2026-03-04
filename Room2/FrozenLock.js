@@ -71,6 +71,9 @@ class FrozenLock {
             y: this.y
         };
         
+        
+        SOUND_MANAGER.play("./SFX/OpeningDoor.mp3", this.game);
+
         // Unlock the door to room 3
         this.game.sceneManager.puzzleStates.room2.door2Open = true;
 

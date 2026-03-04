@@ -21,7 +21,8 @@ class MusicNoteFrame {
         this.isNearLily() &&
         this.game.E &&
         !this.game.examining &&
-        !this.game.sceneManager.dialogueBox.active
+        !this.game.sceneManager.dialogueBox.active &&
+        this.game.sceneManager.npcStates.shiannel.met
     ) {
 
         this.game.E = false;
@@ -32,7 +33,7 @@ class MusicNoteFrame {
             this.game.examining = true;
 
             this.game.sceneManager.dialogueBox.openLine(
-                "The painting is completely ruined now...",
+                "To think a weapon was hidden behind this painting...",
                 null,
                 "Lily",
                 () => {
@@ -116,7 +117,7 @@ class MusicNoteFrame {
         }
         
         // Show interaction prompt
-        if (this.isNearLily() && !this.game.examining) {
+        if (this.isNearLily() && !this.game.examining && this.game.sceneManager.npcStates.shiannel.met) {
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3;

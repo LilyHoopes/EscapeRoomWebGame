@@ -59,8 +59,8 @@ class PaintingZoomView {
     }
     
     // if key is clicked on, add to inventory, update the painting, and change state 
-    // if key is clicked on, add to inventory, update the painting, and change state 
 takeKey() {
+    SOUND_MANAGER.play("./SFX/Room1/KeyOnPainting.mp3", this.game);
     this.game.sceneManager.addToInventory("diamond_key", "./Sprites/Room1/DiamondKey.png");
     this.painting.onKeyTaken();
     this.keyTaken = true;

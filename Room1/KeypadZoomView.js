@@ -142,6 +142,8 @@ class KeypadZoomView {
     
     pressButton(num) {
         
+        SOUND_MANAGER.play("./SFX/Room1/KeypadButtonBeep.mp3", this.game);
+
         // Show button press animation
         this.pressedButton = num;
         this.pressTimer = 0;
@@ -161,6 +163,7 @@ class KeypadZoomView {
         
         if (this.enteredCode === this.correctCode) {
     // CORRECT!
+    SOUND_MANAGER.play("./SFX/Room1/RightCode.mp3", this.game);
     this.isCorrect = true;
     this.showingResult = true;
     this.keypad.onCorrectCode();
@@ -185,6 +188,7 @@ class KeypadZoomView {
 } 
     else {
             // WRONG!
+            SOUND_MANAGER.play("./SFX/Room1/WrongCode.mp3", this.game);
             this.isCorrect = false;
             this.showingResult = true;
             this.keypad.onWrongCode();

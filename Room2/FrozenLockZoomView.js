@@ -133,6 +133,8 @@ class FrozenLockZoomView {
     
     breakLock() {
 
+    SOUND_MANAGER.play("./SFX/Room2/FrozenLockBreaking.mp3", this.game);    
+
     this.game.sceneManager.markItemAsUsed("Lead Pipe");
     this.hasPipe = false;
 

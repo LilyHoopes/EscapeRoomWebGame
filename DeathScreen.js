@@ -4,34 +4,35 @@ class DeathScreen {
         this.isPopup = true;
         this.removeFromWorld = false;
         
-        // Screen dimensions
-        this.width = 600;
-        this.height = 400;
-        this.x = (1380 - this.width) / 2;
-        this.y = (882 - this.height) / 2;
+        // Screen dimensions (fullscreen)
+        this.width = this.game.ctx.canvas.width;
+        this.height = this.game.ctx.canvas.height;
+        this.x = 0;
+        this.y = 0;
         
         // Button dimensions
-        this.buttonWidth = 250;
-        this.buttonHeight = 60;
-        this.buttonSpacing = 20;
-        
-        // Play Again button
+        this.buttonWidth = 350;
+        this.buttonHeight = 100;
+        this.buttonSpacing = 40;
+
+        // Center buttons on screen
         this.playAgainButton = {
-            x: this.x + (this.width - this.buttonWidth) / 2,
-            y: this.y + 200,
             width: this.buttonWidth,
-            height: this.buttonHeight
+            height: this.buttonHeight,
+            x: this.width / 2 - this.buttonWidth / 2,
+            y: this.height / 2 + 50
         };
-        
-        // Return to Title button
+
         this.titleButton = {
-            x: this.x + (this.width - this.buttonWidth) / 2,
-            y: this.y + 200 + this.buttonHeight + this.buttonSpacing,
             width: this.buttonWidth,
-            height: this.buttonHeight
+            height: this.buttonHeight,
+            x: this.width / 2 - this.buttonWidth / 2,
+            y: this.playAgainButton.y + this.buttonHeight + this.buttonSpacing
         };
 
         this.backgroundSprite = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/DeathScreen.png");
+        this.mainMenuButt = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/MainMenuButton.png");
+        this.playAgainButt = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/PlayAgainButton.png");
 
     }
     
@@ -80,29 +81,51 @@ class DeathScreen {
     }
     
     draw(ctx) {
-        // Darken entire screen
         ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
-        ctx.fillRect(0, 0, 1380, 882);
+        ctx.fillRect(0, 0, this.width, this.height);
+
+        ctx.drawImage(this.backgroundSprite, 0, 0, this.width, this.height);
+
         
-        // Draw death screen box
-        ctx.fillStyle = "#1A1A1A";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        
-        ctx.strokeStyle = "#8B0000";
-        ctx.lineWidth = 4;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
-        
-        // "You Died" text
-        ctx.fillStyle = "#FF0000";
-        ctx.font = "72px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("YOU DIED", this.x + this.width/2, this.y + 100);
-        
-        // Draw Play Again button
-        this.drawButton(ctx, this.playAgainButton, "Play Again");
-        
-        // Draw Return to Title button
-        this.drawButton(ctx, this.titleButton, "Return to Title");
+        ctx.drawImage(this.playAgainButt,this.playAgainButton.x,this.playAgainButton.y,this.playAgainButton.width,this.playAgainButton.height);
+
+        if (this.isHovering(this.playAgainButton)) {
+            ctx.strokeStyle = "rgb(255, 255, 255)"; 
+            ctx.lineWidth = 4;
+            ctx.strokeRect(
+                this.playAgainButton.x,
+                this.playAgainButton.y,
+                this.playAgainButton.width,
+                this.playAgainButton.height
+            );
+        }
+
+    
+        ctx.drawImage(this.mainMenuButt,this.titleButton.x,this.titleButton.y,this.titleButton.width,this.titleButton.height);
+
+        if (this.isHovering(this.titleButton)) {
+            ctx.strokeStyle = "rgb(255, 255, 255)";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(
+                this.titleButton.x,
+                this.titleButton.y,
+                this.titleButton.width,
+                this.titleButton.height
+            );
+        }
+    }
+    isHovering(button) {
+        if (!this.game.mouse) return false;
+
+        let mx = this.game.mouse.x;
+        let my = this.game.mouse.y;
+
+        return (
+            mx >= button.x &&
+            mx <= button.x + button.width &&
+            my >= button.y &&
+            my <= button.y + button.height
+        );
     }
     
     drawButton(ctx, button, text) {

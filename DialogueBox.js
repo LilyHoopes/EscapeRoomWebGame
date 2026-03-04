@@ -346,7 +346,7 @@ if (typeof first === "string") {
 
         let current = this.sequence[this.sequenceIndex];
 
-        // 🔹 NEW: support { speaker, text } objects
+
         if (typeof current === "string") {
             this._startTyping(current);
         } else {

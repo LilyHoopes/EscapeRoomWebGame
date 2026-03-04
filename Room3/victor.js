@@ -9,16 +9,16 @@ class Victor {
             2, 0.6      // 2 frames, 0.6 seconds per frame
         );
         
-        this.x = x || 50;
-        this.y = y || 400;
+        this.x = x;
+        this.y = y;
         this.width = 338 * this.scale;
         this.height = 319 * this.scale;
 
         this.bbOffset = {
-            x: -28,       
-            y: 20,     
-            w: 40,       
-            h: 40     
+            x: 5,       
+            y: 60,     
+            w: 50,       
+            h: 100     
         };
 
         this.BB = new BoundingBox(
@@ -31,7 +31,8 @@ class Victor {
         this.isSolid = isSolid;
         this.removeFromWorld = false;
 
-        this.medallionTaken = this.game.sceneManager.puzzleStates.room3.leafMedallion;
+        this.medallionTaken = true; // hidden until Victor gives it after stage 2
+
         
         this.medallionX = this.x -120;
         this.medallionY = this.y + 120;
@@ -64,6 +65,9 @@ class Victor {
     }
 
     takeMedallion() {
+
+        SOUND_MANAGER.play("./SFX/Room3/PickUpCoin.mp3", this.game);
+
         this.game.sceneManager.addToInventory("Leaf Medallion", "./Sprites/Room3/LeafMedallion.png");
         this.medallionTaken = true;
         this.game.sceneManager.puzzleStates.room3.leafMedallion = true;

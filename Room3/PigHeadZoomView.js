@@ -52,6 +52,9 @@ class PigHeadZoomView {
                 clickX >= this.medallionX && clickX <= this.medallionX + this.medallionWidth &&
                 clickY >= this.medallionY && clickY <= this.medallionY + this.medallionHeight) {
                 this.takeMedallion();
+
+                SOUND_MANAGER.play("./SFX/Room3/PigheadGuts.mp3", this.game);
+
             }
             this.game.click = null;
         }

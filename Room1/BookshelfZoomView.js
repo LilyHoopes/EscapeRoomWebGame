@@ -91,6 +91,7 @@ class BookshelfZoomView {
             
             // If user clicks on paper, take it 
             if (this.bookUnlocked && !this.paperTaken) {
+                SOUND_MANAGER.play("./SFX/Room1/PaperRustling.mp3", this.game);
                 if (clickX >= this.paperX && clickX <= this.paperX + this.paperWidth &&
                     clickY >= this.paperY && clickY <= this.paperY + this.paperHeight) {
                     this.takePaper();
@@ -147,8 +148,19 @@ class BookshelfZoomView {
                 keyCenterY <= this.closedBookY + this.closedBookHeight 
             );
             
+            // Release mouse - check if over book
             if (keyOverBook) {
-                this.unlockBook();
+                SOUND_MANAGER.play("./SFX/Room1/KeyUnlock.mp3", this.game);
+
+                // Wait for key unlock sound to finish, THEN open the book
+                const keySound = SOUND_MANAGER.cache["./SFX/Room1/KeyUnlock.mp3"];
+                const delay = keySound ? keySound.duration * 1000 : 1000; // fallback to 1 second
+
+                setTimeout(() => {
+                    SOUND_MANAGER.play("./SFX/Room1/BookUnlocking.mp3", this.game);
+                    this.unlockBook();
+                }, delay);
+
             } else {
                 // Snap key back to original position
                 this.dragKeyX = this.keyX;
