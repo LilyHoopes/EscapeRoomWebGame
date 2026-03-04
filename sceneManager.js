@@ -438,8 +438,6 @@ class SceneManager {
         // Room 2 intro dialogue (play once per full game run)
         if (roomName === "room2" && !this.puzzleStates.room2.introPlayed) {
 
-            SOUND_MANAGER.play("./SFX/Room2/BitterColdWind.mp3", this.game);
-
             this.puzzleStates.room2.introPlayed = true;
 
             // Lock movement during intro

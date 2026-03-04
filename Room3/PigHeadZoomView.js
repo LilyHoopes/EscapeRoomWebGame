@@ -136,7 +136,7 @@ class PigHeadZoomView {
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "16px Arial";
-        ctx.fillText("Press ESC or click outside to close", this.x + 250, this.y + this.height - 30);
+        ctx.fillText("Press ESC or click outside to close", this.x + 280, this.y + this.height - 10);
 
     }
 }
