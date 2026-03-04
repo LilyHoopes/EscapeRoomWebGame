@@ -643,10 +643,9 @@ class SceneManager {
 
     const shiannelEntity = this.game.entities.find(e => e instanceof Shiannel);
 
-    // stage 0만 "일어나기 연출"을 위해 2파트로 분리
     if (shi.stage === 0) {
         const part1 = [
-            { speaker: "Shiannel", text: ". . ." },
+            { speaker: "Shiannel", text: ". . . ." },
             { speaker: "Lily", text: "Hello? Are you okay?" }
         ];
 
@@ -664,7 +663,7 @@ class SceneManager {
         ];
 
         this.dialogueBox.startSequence(part1, null, null, () => {
-            // part1 끝나자마자 "일어나기"
+
             if (shiannelEntity) shiannelEntity.pose = "idle";
 
             this.dialogueBox.startSequence(part2, null, null, () => {
@@ -675,7 +674,7 @@ class SceneManager {
         });
 
     } else {
-        // stage 1,2는 기존대로
+
         this.dialogueBox.startSequence(
             Shiannel.getDialogue(shi.stage),
             null,
