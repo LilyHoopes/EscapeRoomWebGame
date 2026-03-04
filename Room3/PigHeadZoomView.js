@@ -75,7 +75,7 @@ class PigHeadZoomView {
 
         this.game.sceneManager.dialogueBox.openLine(
             "It’s a medallion! It has a snowflake on it…",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;
@@ -136,7 +136,7 @@ class PigHeadZoomView {
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "16px Arial";
-        ctx.fillText("Press ESC or click outside to close", this.x + 180, this.y + this.height + 30);
+        ctx.fillText("Press ESC or click outside to close", this.x + 180, this.y + this.height - 50);
 
     }
 }

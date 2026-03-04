@@ -50,7 +50,7 @@ class Bookshelf {
         // First description line
         this.game.sceneManager.dialogueBox.openLine(
             "Looks like a plain old bookshelf, but a certain book stands out among the rest.",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 
@@ -70,7 +70,7 @@ class Bookshelf {
 
                                 this.game.sceneManager.dialogueBox.openLine(
                                     line,
-                                    null,
+                                    "./Sprites/UI/LilyPortrait.png",
                                     "Lily",
                                     () => {
                                         this.openZoomView();

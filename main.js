@@ -7,13 +7,16 @@ const ASSET_MANAGER = new AssetManager();
     ASSET_MANAGER.queueDownload("./Sprites/Room1/lockedDORE.png"); //same asset used for each room, do i need to queue multiple then?
     ASSET_MANAGER.queueDownload("./Sprites/Room1/openDORE.png"); //same asset used for each room, do i need to queue multiple then?
 
-    // UI Hearts
+    // UI Hearts and Portraits
     ASSET_MANAGER.queueDownload("./Sprites/UI/Heart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/EmptyHeart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/FrostyHeart.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/FrostyHeartEmpty.png");
     ASSET_MANAGER.queueDownload("./Sprites/UI/Inventory.png");
-
+    ASSET_MANAGER.queueDownload("./Sprites/UI/LilyPortrait.png");
+    ASSET_MANAGER.queueDownload("./Sprites/UI/ShiannelPortrait.png");
+    ASSET_MANAGER.queueDownload("./Sprites/UI/VictorPortrait.png");
+    ASSET_MANAGER.queueDownload("./Sprites/UI/JinPortrait.png");
 
 // room 1
     ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");

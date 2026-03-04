@@ -45,7 +45,7 @@ class GenericFrame {
 
         this.game.sceneManager.dialogueBox.openLine(
             "It looks like an expensive painting...",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.sceneManager.dialogueBox.openChoice(

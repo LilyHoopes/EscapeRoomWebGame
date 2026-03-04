@@ -52,7 +52,7 @@ class FrameZoomView {
     // Show dialogue after closing
     this.game.sceneManager.dialogueBox.openLine(
         "Hm, not this one.",
-        null,
+        "./Sprites/UI/LilyPortrait.png",
         "Lily"
     );
 }

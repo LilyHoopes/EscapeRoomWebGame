@@ -267,8 +267,8 @@ class MedallionDoorZoomView {
         // Instructions
         ctx.fillStyle = "white";
         ctx.font = "18px Arial";
-        ctx.fillText("Drag medallions to the slots", this.x + 450, this.y + this.height - 40);
-        ctx.fillText("Press ESC to close", this.x + 480, this.y + this.height - 10);
+        ctx.fillText("Drag medallions to the slots", this.x + 450, this.y + this.height - 60);
+        ctx.fillText("Press ESC to close", this.x + 480, this.y + this.height - 30);
     }
     
     drawMedallion(ctx, type, x, y) {

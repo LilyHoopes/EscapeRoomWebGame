@@ -25,7 +25,7 @@ class SceneManager {
             room1ToRoom2: false,   // Door from room 1 to room 2
             room2ToRoom3: false,   // Door from room 2 to room 3
             room3ToRoom4: false,  // Door from room 3 to room 4 
-            room4ToRoom5: true   // This should always be set to true
+            room4ToRoom5: false   // This should always be set to true
         };
 
         // Puzzle progress tracking
@@ -50,7 +50,8 @@ class SceneManager {
             },
             room5: {
                 bookshelfClosed: false,
-                room5DialoguePlayed: false
+                room5DialoguePlayed: false,
+                npcTalkedTo: false 
             }
         };
 
@@ -200,7 +201,7 @@ class SceneManager {
             this.game.addEntity(room2To3Door);
 
             // added shiannel
-            this.game.addEntity(new Shiannel(this.game, 640, 150, true, "crouch"));
+            this.game.addEntity(new Shiannel(this.game, 740, 150, true, "crouch"));
 
             // Added: keep shiannelPos synced with Shiannel spawn position
             this.shiannelPos = { x: 640, y: 180 };
@@ -325,6 +326,9 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
+            
+            
+            console.log("room5DialoguePlayed on entry:", this.puzzleStates.room5.room5DialoguePlayed);
             this.game.addEntity(new Door(this.game, 700, 18, 450, 180, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", true, 1.0)); // room5 -> ending screen
 
             // Add NPCs: Shiannel, Victor and Jin
@@ -400,8 +404,9 @@ class SceneManager {
                 [
                     "Where am I?",
                     "The last thing I remember was walking to my car... and then everything went dark.",
+
                 ],
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 "Lily",
                 () => {
                     // ← fires right after "The last thing I remember" line
@@ -411,14 +416,14 @@ class SceneManager {
                         [
                             "[A scream echoes in the distance]",
                         ],
-                        null,
+                        "./Sprites/UI/LilyPortrait.png",
                         "Lily",
                         () => {
                             this.dialogueBox.startSequence(
                                 [
                                     "What was that?! Oh no, I have to find a way out of here!"
                                 ],
-                                null,
+                                "./Sprites/UI/LilyPortrait.png",
                                 "Lily",
                                 () => {
                                     this.game.examining = false;
@@ -447,7 +452,7 @@ class SceneManager {
                     "It that a... girl?",
                     "Oh god, shes not dead is she?"
                 ],
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 "Lily",
                 () => {
                     this.game.examining = false;
@@ -492,7 +497,7 @@ class SceneManager {
                     { speaker: "Lily", text: "What is that sound? It sounds like it is getting closer." },
                     { speaker: "Lily", text: "I need to run, NOW!" }
                 ],
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 null,
                 () => {
                     this.game.examining = false;
@@ -514,7 +519,7 @@ class SceneManager {
                 [
                     { speaker: "Shiannel", text: "Hurry, don't let him get in! Go to the right of the bookshelf and cover the doorway!" }
                 ],
-                null,
+                "./Sprites/UI/ShiannelPortrait.png",
                 null,
                 () => {
                     this.game.examining = false;
@@ -635,26 +640,58 @@ class SceneManager {
                     this.game.E = false;
 
                     try {
-                        this.game.examining = true;
+    this.game.examining = true;
 
-                        this.dialogueBox.startSequence(
-                            Shiannel.getDialogue(shi.stage),
-                            null,
-                            null,
-                            () => {
-                                if (shi.stage === 0) shi.stage = 1;
-                                shi.met = true;
-                                this.game.examining = false;
-                            }
-                        );
+    const shiannelEntity = this.game.entities.find(e => e instanceof Shiannel);
 
-                        triggeredNPC = true;
+    if (shi.stage === 0) {
+        const part1 = [
+            { speaker: "Shiannel", text: ". . . ." },
+            { speaker: "Lily", text: "Hello? Are you okay?" }
+        ];
 
-                    } catch (err) {
-                        console.error("Shiannel dialogue error:", err);
-                        this.game.examining = false;
-                        this.dialogueBox.close();
-                    }
+        const part2 = [
+            { speaker: "", text: "*Shiannel stands up*" },
+            { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
+            { speaker: "Lily", text: "It's good im not alone!" },
+            { speaker: "Shiannel", text: "Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!" },
+            { speaker: "Lily", text: "I guess we need something harder to hit it with then" },
+            { speaker: "Shiannel", text: "!!" },
+            { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
+            { speaker: "Lily", text: "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time." },
+            { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!" },
+            { speaker: "Lily", text: "Hm…" }
+        ];
+
+        this.dialogueBox.startSequence(part1, null, null, () => {
+
+            if (shiannelEntity) shiannelEntity.pose = "idle";
+
+            this.dialogueBox.startSequence(part2, null, null, () => {
+                shi.stage = 1;
+                shi.met = true;
+                this.game.examining = false;
+            });
+        });
+
+    } else {
+
+        this.dialogueBox.startSequence(
+            Shiannel.getDialogue(shi.stage),
+            "./Sprites/UI/ShiannelPortrait.png",
+            null,
+            () => {
+                shi.met = true;
+                this.game.examining = false;
+            }
+        );
+    }
+
+} catch (err) {
+    console.error("Shiannel dialogue error:", err);
+    this.game.examining = false;
+    this.dialogueBox.close();
+}
                 }
             }
 
@@ -686,7 +723,7 @@ class SceneManager {
 
                     this.dialogueBox.startSequence(
                         Victor.getDialogue(victorState.stage),
-                        null,
+                        "./Sprites/UI/VictorPortrait.png",
                         "Victor",
                         () => {
                             victorState.met = true;
@@ -722,7 +759,7 @@ class SceneManager {
 
                     this.dialogueBox.startSequence(
                         Jin.getDialogue(jinState.stage),
-                        null,
+                        "./Sprites/UI/JinPortrait.png",
                         "Jin",
                         () => {
                             // Give codex once after stage 1 dialogue (renewed)
@@ -754,7 +791,7 @@ class SceneManager {
                         () => {
                             this.npcStates.shiannel.met = true;
                             this.game.examining = false;
-                            this.puzzleStates.room5.room5DialoguePlayed = true; 
+                            this.puzzleStates.room5.npcTalkedTo = true; 
                         }
                     );
 
@@ -776,7 +813,7 @@ class SceneManager {
                             () => {
                                 this.npcStates.victor.met = true;
                                 this.game.examining = false;
-                                this.puzzleStates.room5.room5DialoguePlayed = true; 
+                                this.puzzleStates.room5.npcTalkedTo = true; 
                             }
                         );
 
@@ -795,7 +832,7 @@ class SceneManager {
                             () => {
                                 this.npcStates.jin.met = true;
                                 this.game.examining = false;
-                                this.puzzleStates.room5.room5DialoguePlayed = true; 
+                                this.puzzleStates.room5.npcTalkedTo = true; 
                             }
                         );
 
@@ -822,7 +859,7 @@ class SceneManager {
                 if (!this.shiannelPrompt) {
                     this.shiannelPrompt = new TalkPrompt(
                         this.game,
-                        this.shiannelPos.x + 63,
+                        this.shiannelPos.x + 163,
                         this.shiannelPos.y - 40,
                         "E to Talk"
                     );
@@ -1067,6 +1104,12 @@ class SceneManager {
     }
 
     resetGame() {
+
+        if (this.game.introAudio) {
+            this.game.introAudio.currentTime = 0;
+            this.game.introAudio.play().catch(() => {});
+        }
+
         // Reset health
         this.health = 3;
 
@@ -1101,7 +1144,8 @@ class SceneManager {
             },
             room5: {
                 bookshelfClosed: false,
-                room5DialoguePlayed: false
+                room5DialoguePlayed: false,
+                npcTalkedTo: false 
             }
         };
 
@@ -1116,6 +1160,8 @@ class SceneManager {
         // dialogue reset
 
         this.roomIntroPlayed = { room2: false, room3: false, room4: false, room5: false };
+
+        this.lily = new Lily(this.game, 2000, 500);
 
         // Load Room 1
         this.loadRoom("room1", 220, 175); // this is lilys initial spawn point in room 1

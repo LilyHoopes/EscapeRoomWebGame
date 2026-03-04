@@ -30,7 +30,7 @@ class RosePainting {
         // First description line
         this.game.sceneManager.dialogueBox.openLine(
             "Looks like a beautiful painting of a fallen rose… but it looks like there is something stuck against it.",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 

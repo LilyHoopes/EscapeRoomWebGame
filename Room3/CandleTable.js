@@ -59,7 +59,7 @@ class CandleTable {
         // Player does not have the codex yet, guide them to talk to Victor/Jin
         this.game.sceneManager.dialogueBox.openLine(
             "I should ask Victor and Jin first, maybe they know something that can help me.",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;
@@ -72,7 +72,7 @@ class CandleTable {
     // Player has the codex, allow the puzzle
     this.game.sceneManager.dialogueBox.openLine(
         "Hm, looks like I can move them around… There must be a specific order that it needs to go in.",
-        null,
+        "./Sprites/UI/LilyPortrait.png",
         "Lily",
         () => {
             this.openZoomView();
