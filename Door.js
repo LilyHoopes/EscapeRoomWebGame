@@ -13,6 +13,7 @@ class Door {
         this.canTrigger = true;
         this.depthOverride = depthOverride; 
         this.opacity = opacity; //NOTE: i made this when we were using the same door image so i have to find a way to make half of them clear, but now its a door per each room so maybe we dont need this in the final version 
+        this.showingOpen = false;
 
 
         this.lockedDORE = ASSET_MANAGER.getAsset(lockedSpritePath);
@@ -20,6 +21,22 @@ class Door {
     }
     
     update() {
+
+        if (this.destinationRoom === "ending") {
+            console.log(
+                "touching:", this.isTouchingLily(),
+                "locked:", this.isLocked,
+                "examining:", this.game.examining,
+                "room5talked:", this.game.sceneManager.puzzleStates.room5?.room5DialoguePlayed
+            );
+        }
+
+            // Ending door unlock check
+            if (this.destinationRoom === "ending" && this.isLocked) {
+                if (this.game.sceneManager.puzzleStates.room5?.room5DialoguePlayed) {
+                    this.unlock();
+                }
+            }
 
         if (!this.canTrigger) return;
     
@@ -49,11 +66,22 @@ class Door {
             if (!this.isLocked) {
                 this.game.E = false; // only consume E when door is actually usable
                 this.canTrigger = false;
-                this.game.sceneManager.loadRoom(
-                    this.destinationRoom,
-                    this.spawnX,
-                    this.spawnY
-                );
+
+            // Special ending door behaviour
+            if (this.destinationRoom === "ending") {
+                this.showingOpen = true; // show open sprite briefly
+                this.game.examining = true;
+                setTimeout(() => {
+                    this.game.sceneManager.loadRoom("ending", 0, 0);
+                }, 1500);
+                return;
+            }
+
+            this.game.sceneManager.loadRoom(
+                this.destinationRoom,
+                this.spawnX,
+                this.spawnY
+            );
             }
         }
 
@@ -81,11 +109,18 @@ class Door {
         this.isLocked = false;
     }
     
-    //NOTE: the size of the normal doors are 106x126
     draw(ctx) {
         ctx.save();
         ctx.globalAlpha = this.opacity;
-        const sprite = this.isLocked ? this.lockedDORE : this.openDORE; //if locked, use locked sprite, else, use open sprite
+
+        // Ending door always shows locked sprite until player triggers it
+        let sprite;
+        if (this.destinationRoom === "ending") {
+            sprite = this.showingOpen ? this.openDORE : this.lockedDORE;
+        } else {
+            sprite = this.isLocked ? this.lockedDORE : this.openDORE;
+        }
+
         ctx.drawImage(sprite, this.x, this.y, this.width, this.height);
         ctx.restore();
 
@@ -94,15 +129,22 @@ class Door {
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3;
             ctx.font = "16px Arial";
-            
-            let text = this.isLocked ? "Door is locked" : "Press E to enter";
+
+            let text;
+            if (this.destinationRoom === "ending") {
+                text = this.isLocked ? "Door is locked" : "Press E to Escape";
+            } else {
+                text = this.isLocked ? "Door is locked" : "Press E to enter";
+            }
+
             let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
             let textY = this.y - 20;
-            
+
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);
         }
     }
+
     get depth() {
         return this.depthOverride ?? (this.BB ? this.BB.bottom : this.y + this.height);
     }
