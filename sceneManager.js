@@ -404,8 +404,9 @@ class SceneManager {
                 [
                     "Where am I?",
                     "The last thing I remember was walking to my car... and then everything went dark.",
+
                 ],
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 "Lily",
                 () => {
                     // ← fires right after "The last thing I remember" line
@@ -415,14 +416,14 @@ class SceneManager {
                         [
                             "[A scream echoes in the distance]",
                         ],
-                        null,
+                        "./Sprites/UI/LilyPortrait.png",
                         "Lily",
                         () => {
                             this.dialogueBox.startSequence(
                                 [
                                     "What was that?! Oh no, I have to find a way out of here!"
                                 ],
-                                null,
+                                "./Sprites/UI/LilyPortrait.png",
                                 "Lily",
                                 () => {
                                     this.game.examining = false;
@@ -451,7 +452,7 @@ class SceneManager {
                     "It that a... girl?",
                     "Oh god, shes not dead is she?"
                 ],
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 "Lily",
                 () => {
                     this.game.examining = false;
@@ -496,7 +497,7 @@ class SceneManager {
                     { speaker: "Lily", text: "What is that sound? It sounds like it is getting closer." },
                     { speaker: "Lily", text: "I need to run, NOW!" }
                 ],
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 null,
                 () => {
                     this.game.examining = false;
@@ -518,7 +519,7 @@ class SceneManager {
                 [
                     { speaker: "Shiannel", text: "Hurry, don't let him get in! Go to the right of the bookshelf and cover the doorway!" }
                 ],
-                null,
+                "./Sprites/UI/ShiannelPortrait.png",
                 null,
                 () => {
                     this.game.examining = false;
