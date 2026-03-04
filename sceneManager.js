@@ -200,7 +200,7 @@ class SceneManager {
             this.game.addEntity(room2To3Door);
 
             // added shiannel
-            this.game.addEntity(new Shiannel(this.game, 640, 150, true, "crouch"));
+            this.game.addEntity(new Shiannel(this.game, 740, 150, true, "crouch"));
 
             // Added: keep shiannelPos synced with Shiannel spawn position
             this.shiannelPos = { x: 640, y: 180 };
@@ -855,7 +855,7 @@ class SceneManager {
                 if (!this.shiannelPrompt) {
                     this.shiannelPrompt = new TalkPrompt(
                         this.game,
-                        this.shiannelPos.x + 63,
+                        this.shiannelPos.x + 163,
                         this.shiannelPos.y - 40,
                         "E to Talk"
                     );
