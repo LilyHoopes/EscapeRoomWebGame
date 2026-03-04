@@ -22,9 +22,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
-            room3ToRoom4: false,  // Door from room 3 to room 4 
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: true,  // Door from room 3 to room 4 
             room4ToRoom5: true   // This should always be set to true
         };
 
@@ -1104,6 +1104,12 @@ class SceneManager {
     }
 
     resetGame() {
+
+        if (this.game.introAudio) {
+            this.game.introAudio.currentTime = 0;
+            this.game.introAudio.play().catch(() => {});
+        }
+
         // Reset health
         this.health = 3;
 
@@ -1154,6 +1160,8 @@ class SceneManager {
         // dialogue reset
 
         this.roomIntroPlayed = { room2: false, room3: false, room4: false, room5: false };
+
+        this.lily = new Lily(this.game, 2000, 500);
 
         // Load Room 1
         this.loadRoom("room1", 220, 175); // this is lilys initial spawn point in room 1

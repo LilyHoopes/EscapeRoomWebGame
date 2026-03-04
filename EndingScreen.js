@@ -59,7 +59,6 @@ class EndingScreen {
     }
     
     playAgain() {
-        this.game.sceneManager.clearEntities();
         this.game.sceneManager.resetGame();
         this.removeFromWorld = true;
     }
