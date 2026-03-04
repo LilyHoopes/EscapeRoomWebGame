@@ -166,7 +166,7 @@ class MedallionDoorZoomView {
                     placed = true;
                     
                     // Mark as used
-                    this.markMedallionUsed(this.draggingMedallion.type);
+                    this.removeMedallionsFromInventory();
                     break;
                 }
             }
@@ -184,14 +184,10 @@ class MedallionDoorZoomView {
         }
     }
     
-    markMedallionUsed(type) {
-        const nameMap = {
-            snowflake: "Snowflake Medallion",
-            candle: "Candle Medallion",
-            leaf: "Leaf Medallion"
-        };
-        
-        this.game.sceneManager.markItemAsUsed(nameMap[type]);
+    removeMedallionsFromInventory() {
+        this.game.sceneManager.removeFromInventory("Snowflake Medallion");
+        this.game.sceneManager.removeFromInventory("Candle Medallion");
+        this.game.sceneManager.removeFromInventory("Leaf Medallion");
     }
     
     checkSolution() {

@@ -537,6 +537,10 @@ class SceneManager {
         this.inventory.push({ name: itemName, sprite: spritePath, used: false });
     }
 
+    removeFromInventory(itemName) {
+        this.inventory = this.inventory.filter(i => i.name !== itemName);
+    }
+
     markItemAsUsed(itemName) {
         const item = this.inventory.find(i => i.name === itemName);
         if (item) item.used = true;
