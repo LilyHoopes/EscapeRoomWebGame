@@ -31,12 +31,11 @@ class Door {
             );
         }
 
-            // Ending door unlock check
-            if (this.destinationRoom === "ending" && this.isLocked) {
-                if (this.game.sceneManager.puzzleStates.room5?.room5DialoguePlayed) {
-                    this.unlock();
-                }
+        if (this.destinationRoom === "ending" && this.isLocked) {
+            if (this.game.sceneManager.puzzleStates.room5?.npcTalkedTo) {
+                this.unlock();
             }
+        }
 
         if (!this.canTrigger) return;
     

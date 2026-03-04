@@ -22,9 +22,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
-            room3ToRoom4: false,  // Door from room 3 to room 4 
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: true,  // Door from room 3 to room 4 
             room4ToRoom5: true   // This should always be set to true
         };
 
@@ -50,7 +50,8 @@ class SceneManager {
             },
             room5: {
                 bookshelfClosed: false,
-                room5DialoguePlayed: false
+                room5DialoguePlayed: false,
+                npcTalkedTo: false 
             }
         };
 
@@ -325,6 +326,9 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
+            
+            
+            console.log("room5DialoguePlayed on entry:", this.puzzleStates.room5.room5DialoguePlayed);
             this.game.addEntity(new Door(this.game, 700, 18, 450, 180, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", true, 1.0)); // room5 -> ending screen
 
             // Add NPCs: Shiannel, Victor and Jin
@@ -787,7 +791,7 @@ class SceneManager {
                         () => {
                             this.npcStates.shiannel.met = true;
                             this.game.examining = false;
-                            this.puzzleStates.room5.room5DialoguePlayed = true; 
+                            this.puzzleStates.room5.npcTalkedTo = true; 
                         }
                     );
 
@@ -809,7 +813,7 @@ class SceneManager {
                             () => {
                                 this.npcStates.victor.met = true;
                                 this.game.examining = false;
-                                this.puzzleStates.room5.room5DialoguePlayed = true; 
+                                this.puzzleStates.room5.npcTalkedTo = true; 
                             }
                         );
 
@@ -828,7 +832,7 @@ class SceneManager {
                             () => {
                                 this.npcStates.jin.met = true;
                                 this.game.examining = false;
-                                this.puzzleStates.room5.room5DialoguePlayed = true; 
+                                this.puzzleStates.room5.npcTalkedTo = true; 
                             }
                         );
 
@@ -1134,7 +1138,8 @@ class SceneManager {
             },
             room5: {
                 bookshelfClosed: false,
-                room5DialoguePlayed: false
+                room5DialoguePlayed: false,
+                npcTalkedTo: false 
             }
         };
 
