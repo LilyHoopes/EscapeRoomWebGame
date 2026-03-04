@@ -110,6 +110,12 @@ class SceneManager {
 
 
     loadRoom(roomName, spawnX, spawnY) {
+
+        // Stop intro audio whenever a room loads
+        if (this.game.introAudio && !this.game.introAudio.paused) {
+            this.game.introAudio.pause();
+            this.game.introAudio.currentTime = 0;
+        }
         
         // stops cold wind from playing in other rooms
         SOUND_MANAGER.stop("./SFX/Room2/BitterColdWind.mp3");
@@ -1102,11 +1108,6 @@ class SceneManager {
     }
 
     resetGame() {
-
-        if (this.game.introAudio) {
-            this.game.introAudio.currentTime = 0;
-            this.game.introAudio.play().catch(() => {});
-        }
 
         // Reset health
         this.health = 3;
