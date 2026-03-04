@@ -22,9 +22,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
-            room3ToRoom4: false,  // Door from room 3 to room 4 
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: true,  // Door from room 3 to room 4 
             room4ToRoom5: true   // This should always be set to true
         };
 
@@ -757,6 +757,13 @@ class SceneManager {
                         () => {
                             this.npcStates.shiannel.met = true;
                             this.game.examining = false;
+
+                            if (!this.puzzleStates.room5.room5DialoguePlayed) {
+                                this.puzzleStates.room5.room5DialoguePlayed = true;
+                                const finalDoor = this.game.entities.find(e => e instanceof Door && e.destinationRoom === "ending");
+                                if (finalDoor) finalDoor.unlock();
+                            }
+
                         }
                     );
 

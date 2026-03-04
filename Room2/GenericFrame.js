@@ -19,7 +19,8 @@ class GenericFrame {
             this.isNearLily() &&
             this.game.E &&
             !this.game.examining &&
-            !this.game.sceneManager.dialogueBox.active
+            !this.game.sceneManager.dialogueBox.active &&
+            this.game.sceneManager.npcStates.shiannel.met
         ) {
             this.openZoomView();
         }
@@ -97,7 +98,7 @@ class GenericFrame {
         }
 
         // Press E prompt
-        if (this.isNearLily() && !this.game.examining) {
+        if (this.isNearLily() && !this.game.examining && this.game.sceneManager.npcStates.shiannel.met) {
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3;
