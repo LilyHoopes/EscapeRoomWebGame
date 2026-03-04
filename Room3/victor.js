@@ -75,8 +75,16 @@ class Victor {
     }
 
     get depth() {
-        return this.BB.bottom;
+        let baseDepth = this.BB.bottom;
+        if (!this.medallionTaken) {
+        let lily = this.game.sceneManager.lily;
+        if (lily && lily.BB) {
+            return lily.BB.bottom - 140;
+        }
     }
+        return baseDepth;
+    }
+    
 
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);

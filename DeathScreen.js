@@ -66,8 +66,10 @@ class DeathScreen {
     }
     
     returnToTitle() {
-        // Clear all entities and show title screen
-        this.game.sceneManager.resetGame();
+        if (this.game.room1Audio) {
+        this.game.room1Audio.pause();
+        this.game.room1Audio.currentTime = 0;
+        }
         // Start intro BGM again
         if (this.game.introAudio) {
             this.game.introAudio.currentTime = 0;

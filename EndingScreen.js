@@ -5,20 +5,20 @@ class EndingScreen {
         this.removeFromWorld = false;
         
         // Screen dimensions
-        this.width = 800;
-        this.height = 500;
-        this.x = (1380 - this.width) / 2;
-        this.y = (882 - this.height) / 2;
+        this.width = this.game.ctx.canvas.width;
+        this.height = this.game.ctx.canvas.height;
+        this.x = 0;
+        this.y = 0;
         
         // Button dimensions
-        this.buttonWidth = 250;
-        this.buttonHeight = 60;
-        this.buttonSpacing = 20;
+        this.buttonWidth = 350;
+        this.buttonHeight = 100;
+        this.buttonSpacing = 40;
         
         // Play Again button
         this.playAgainButton = {
             x: this.x + (this.width - this.buttonWidth) / 2,
-            y: this.y + 300,
+            y: this.y + 500,
             width: this.buttonWidth,
             height: this.buttonHeight
         };
@@ -26,12 +26,14 @@ class EndingScreen {
         // Return to Title button
         this.titleButton = {
             x: this.x + (this.width - this.buttonWidth) / 2,
-            y: this.y + 300 + this.buttonHeight + this.buttonSpacing,
+            y: this.y + 500 + this.buttonHeight + this.buttonSpacing,
             width: this.buttonWidth,
             height: this.buttonHeight
         };
         
         this.backgroundSprite = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/EscapedScreen.png");
+        this.mainMenuButt = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/MainMenuButton.png");
+        this.playAgainButt = ASSET_MANAGER.getAsset("./Sprites/EndGameScreens/PlayAgainButton.png");
     }
     
     update() {
@@ -57,65 +59,71 @@ class EndingScreen {
     }
     
     playAgain() {
-        // Reset game and load Room 1
+        this.game.sceneManager.clearEntities();
         this.game.sceneManager.resetGame();
-        this.game.sceneManager.loadRoom("room1", 1000, 50);
         this.removeFromWorld = true;
     }
     
     returnToTitle() {
-        // Reset game state
-        this.game.sceneManager.resetGame();
         
-        // Stop room BGM
-        if (this.game.sceneManager.roomBGM) {
-            this.game.sceneManager.roomBGM.pause();
-            this.game.sceneManager.roomBGM.currentTime = 0;
-            this.game.sceneManager.roomBGM = null;
-        }
-        
-        // Start intro BGM
+        // Start intro BGM again
         if (this.game.introAudio) {
             this.game.introAudio.currentTime = 0;
             this.game.introAudio.play().catch(() => {});
         }
         
-        // Clear entities and show title
+        // Clear all entities and show title screen
         this.game.sceneManager.clearEntities();
         this.game.addEntity(new TitleScreen(this.game));
         this.removeFromWorld = true;
     }
     
     draw(ctx) {
-        // Darken entire screen
-        ctx.fillStyle = "rgba(0, 0, 0, 0.95)";
-        ctx.fillRect(0, 0, 1380, 882);
+        ctx.fillStyle = "rgba(0, 0, 0, 0.9)";
+        ctx.fillRect(0, 0, this.width, this.height);
+
+        ctx.drawImage(this.backgroundSprite, 0, 0, this.width, this.height);
+
         
-        // Draw ending screen box
-        ctx.fillStyle = "#0A0A0A";
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-        
-        ctx.strokeStyle = "#FFD700"; // Gold border
-        ctx.lineWidth = 5;
-        ctx.strokeRect(this.x, this.y, this.width, this.height);
-        
-        // "You Escaped!" text
-        ctx.fillStyle = "#FFD700";
-        ctx.font = "bold 64px Arial";
-        ctx.textAlign = "center";
-        ctx.fillText("YOU ESCAPED!", this.x + this.width/2, this.y + 100);
-        
-        // Subtitle/flavor text
-        ctx.fillStyle = "#FFFFFF";
-        ctx.font = "24px Arial";
-        ctx.fillText("You made it out alive...", this.x + this.width/2, this.y + 160);
-        ctx.fillText("For now.", this.x + this.width/2, this.y + 195);
-        
-        // Draw Play Again button
-        this.drawButton(ctx, this.playAgainButton, "Play Again");
-        
-        // Draw Return to Title button
-        this.drawButton(ctx, this.titleButton, "Return to Title");
+        ctx.drawImage(this.playAgainButt,this.playAgainButton.x,this.playAgainButton.y,this.playAgainButton.width,this.playAgainButton.height);
+
+        if (this.isHovering(this.playAgainButton)) {
+            ctx.strokeStyle = "rgb(255, 255, 255)"; 
+            ctx.lineWidth = 4;
+            ctx.strokeRect(
+                this.playAgainButton.x,
+                this.playAgainButton.y,
+                this.playAgainButton.width,
+                this.playAgainButton.height
+            );
+        }
+
+    
+        ctx.drawImage(this.mainMenuButt,this.titleButton.x,this.titleButton.y,this.titleButton.width,this.titleButton.height);
+
+        if (this.isHovering(this.titleButton)) {
+            ctx.strokeStyle = "rgb(255, 255, 255)";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(
+                this.titleButton.x,
+                this.titleButton.y,
+                this.titleButton.width,
+                this.titleButton.height
+            );
+        }
+    }
+    isHovering(button) {
+        if (!this.game.mouse) return false;
+
+        let mx = this.game.mouse.x;
+        let my = this.game.mouse.y;
+
+        return (
+            mx >= button.x &&
+            mx <= button.x + button.width &&
+            my >= button.y &&
+            my <= button.y + button.height
+        );
     }
     
     drawButton(ctx, button, text) {
@@ -132,16 +140,16 @@ class EndingScreen {
         }
         
         // Button background
-        ctx.fillStyle = isHovering ? "#555" : "#222";
+        ctx.fillStyle = isHovering ? "#555" : "#333";
         ctx.fillRect(button.x, button.y, button.width, button.height);
         
         // Button border
-        ctx.strokeStyle = isHovering ? "#FFD700" : "#666";
+        ctx.strokeStyle = isHovering ? "#FFF" : "#888";
         ctx.lineWidth = 3;
         ctx.strokeRect(button.x, button.y, button.width, button.height);
         
         // Button text
-        ctx.fillStyle = isHovering ? "#FFD700" : "#FFFFFF";
+        ctx.fillStyle = "white";
         ctx.font = "24px Arial";
         ctx.textAlign = "center";
         ctx.fillText(text, button.x + button.width/2, button.y + button.height/2 + 8);
