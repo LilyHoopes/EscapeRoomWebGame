@@ -678,7 +678,7 @@ class SceneManager {
 
         this.dialogueBox.startSequence(
             Shiannel.getDialogue(shi.stage),
-            null,
+            "./Sprites/UI/ShiannelPortrait.png",
             null,
             () => {
                 shi.met = true;
@@ -723,7 +723,7 @@ class SceneManager {
 
                     this.dialogueBox.startSequence(
                         Victor.getDialogue(victorState.stage),
-                        null,
+                        "./Sprites/UI/VictorPortrait.png",
                         "Victor",
                         () => {
                             victorState.met = true;
@@ -759,7 +759,7 @@ class SceneManager {
 
                     this.dialogueBox.startSequence(
                         Jin.getDialogue(jinState.stage),
-                        null,
+                        "./Sprites/UI/JinPortrait.png",
                         "Jin",
                         () => {
                             // Give codex once after stage 1 dialogue (renewed)

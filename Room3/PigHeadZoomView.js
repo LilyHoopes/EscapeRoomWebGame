@@ -75,7 +75,7 @@ class PigHeadZoomView {
 
         this.game.sceneManager.dialogueBox.openLine(
             "It’s a medallion! It has a snowflake on it…",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;
