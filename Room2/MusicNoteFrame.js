@@ -49,7 +49,7 @@ class MusicNoteFrame {
 
         this.game.sceneManager.dialogueBox.openLine(
             "This painting looks expensive...",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 

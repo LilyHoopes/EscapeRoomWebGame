@@ -25,14 +25,14 @@ class PigHead {
         // Line 1
         this.game.sceneManager.dialogueBox.openLine(
             "Eugh… it stinks…",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 
                 // Line 2 (after Line 1 closes)
                 this.game.sceneManager.dialogueBox.openLine(
                     "Wait! Something is shining inside its mouth…",
-                    null,
+                    "./Sprites/UI/LilyPortrait.png",
                     "Lily",
                     () => {
 

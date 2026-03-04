@@ -177,7 +177,7 @@ class KeypadZoomView {
 
         this.game.sceneManager.dialogueBox.openLine(
             "I did it! But where does this lead to?",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;

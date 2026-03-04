@@ -56,7 +56,7 @@ class KeyPad {
         // First description line
         this.game.sceneManager.dialogueBox.openLine(
             "Looks like a keypad. It requires a 3 digit code.",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 

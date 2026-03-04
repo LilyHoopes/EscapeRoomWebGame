@@ -72,7 +72,7 @@ class CandleTable {
     // Player has the codex, allow the puzzle
     this.game.sceneManager.dialogueBox.openLine(
         "Hm, looks like I can move them around… There must be a specific order that it needs to go in.",
-        null,
+        "./Sprites/UI/LilyPortrait.png",
         "Lily",
         () => {
             this.openZoomView();

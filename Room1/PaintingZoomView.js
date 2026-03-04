@@ -74,7 +74,7 @@ takeKey() {
 
         this.game.sceneManager.dialogueBox.openLine(
             "It’s a diamond key!",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;
