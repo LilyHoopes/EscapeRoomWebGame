@@ -97,12 +97,31 @@ class PushableBookshelf {
 
                             sm.dialogueBox.startSequence(
                                 [
-                                    { speaker: "Lily", text: "Wheeew..." }
+                                    { speaker: "Lily", text: "Oh my gosh... I escaped him. He was so close." },
+                                    { speaker: "Lily", text: "!!!" },
+                                    { speaker: "Lily", text: "Guys! Oh, thank goodness—you were all able to make it out!" }
                                 ],
                                 null,
                                 null,
                                 () => {
-                                    // Restore control after dialogue
+
+                                    const sm = this.game.sceneManager;
+
+
+                                    if (sm.roomBGM) {
+                                        sm.roomBGM.pause();
+                                        sm.roomBGM.currentTime = 0;
+                                    }
+
+
+                                    sm.roomBGM = new Audio("./bgm/House of Souls Room5.mp3");
+                                    sm.roomBGM.loop = true;
+                                    sm.roomBGM.volume = sm.game.musicVolume ?? 0.65;
+                                    sm.roomBGM.muted = !!sm.game.muted;
+                                    sm.roomBGM.play().catch(() => { });
+
+                                    sm.roomBGMName = "room5";
+
                                     sm.game.examining = false;
                                 }
                             );
@@ -119,22 +138,22 @@ class PushableBookshelf {
             return; // Prevent input during sliding
         }
 
-       // ===== Killer Spawn Timer =====
-if (!this.killerSpawned) {
+        // ===== Killer Spawn Timer =====
+        if (!this.killerSpawned) {
 
-    const sm = this.game.sceneManager;
+            const sm = this.game.sceneManager;
 
-    // Block spawn during intro dialogue
-    if (!sm.room5IntroFinished || sm.dialogueBox.active) {
-        return;
-    }
+            // Block spawn during intro dialogue
+            if (!sm.room5IntroFinished || sm.dialogueBox.active) {
+                return;
+            }
 
-    this.killerSpawnTimer += this.game.clockTick;
+            this.killerSpawnTimer += this.game.clockTick;
 
-    if (this.killerSpawnTimer >= this.killerSpawnDelay) {
-        this.spawnKiller();
-    }
-}
+            if (this.killerSpawnTimer >= this.killerSpawnDelay) {
+                this.spawnKiller();
+            }
+        }
 
         // ===== Interaction: Push Shelf =====
         if (

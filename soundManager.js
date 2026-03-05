@@ -27,20 +27,20 @@ class SoundManager {
         audio.play().catch(() => {});
     }
 
-    // plays a sound file on repeatt
+    // plays sound file on repeat if not already playing
     playLoop(path, gameEngine) {
         const audio = this.cache[path];
         if (!audio) return;
 
-        // reloads source so it restarts when done/stopped
-        audio.src = path;
-        audio.load();
-
         audio.muted = !!gameEngine.muted;
         audio.volume = typeof gameEngine.sfxVolume === "number" ? gameEngine.sfxVolume : 0.5;
         audio.loop = true;
-        audio.currentTime = 0;
-        audio.play().catch(() => {});
+
+        // Only restart if it's not already playing
+        if (audio.paused) {
+            audio.currentTime = 0;
+            audio.play().catch(() => {});
+        }
     }
 
     // stops the looping sound

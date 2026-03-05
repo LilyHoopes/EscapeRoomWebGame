@@ -86,13 +86,14 @@ class DialogueBox {
 
         this._setSpeakerAndPortrait(portraitPath, speakerName);
 
-let first = this.sequence[0];
-if (typeof first === "string") {
-    this._startTyping(first);
-} else {
-    this.speakerName = first.speaker || "";
-    this._startTyping(first.text || "");
-}
+        let first = this.sequence[0];
+        if (typeof first === "string") {
+            this._startTyping(first);
+        } else {
+            this.speakerName = first.speaker || "";
+            this._startTyping(first.text || "");
+            this._setPortraitBySpeaker(first.speaker);
+        }
     }
 
     openChoice(promptText, choices, speakerName = "Prompt") {
@@ -220,6 +221,33 @@ if (typeof first === "string") {
         }
 
         this._syncPrevInputs();
+    }
+
+        _setPortraitBySpeaker(speaker) {
+            const map = {
+                "Lily":         "./Sprites/UI/LilyPortrait.png",
+                "Shiannel":     "./Sprites/UI/ShiannelPortrait.png",
+                "Victor":       "./Sprites/UI/VictorPortrait.png",
+                "Jin":          "./Sprites/UI/JinPortrait.png",
+                "Ghost Shiannel": "./Sprites/UI/ShiannelGhostPortrait.png",
+                "Ghost Victor":   "./Sprites/UI/VictorGhostPortrait.png",
+                "Ghost Jin":      "./Sprites/UI/JinGhostPortrait.png",
+            };
+
+        const path = map[speaker];
+        if (path) {
+            const img = ASSET_MANAGER.getAsset(path);
+            if (img) {
+                this.portraitImg = img;
+                this.portraitReady = true;
+            } else {
+                this.portraitImg = null;
+                this.portraitReady = false;
+            }
+        } else {
+            this.portraitImg = null;
+            this.portraitReady = false;
+        }
     }
 
     draw(ctx) {
@@ -352,15 +380,14 @@ if (typeof first === "string") {
         } else {
             this.speakerName = current.speaker || "";
             this._startTyping(current.text || "");
+            this._setPortraitBySpeaker(current.speaker);
         }
 
         return;
     }
-
     // Single line: close and fire onClose
     this.close();
 }
-
     _syncPrevInputs() {
         this._prevE = !!this.game.E;
         this._prevEnter = !!this.game.enter;

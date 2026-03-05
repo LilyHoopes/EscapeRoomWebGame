@@ -58,24 +58,23 @@ class Jin {
         return [
             "Hello, it is good to see another survivor.",
             "Stay calm, the room is designed to confuse you.",
-            "Look for patterns, not objects."
+            "You got this, if you have any questions come to us."
         ];
     }
 
     if (stage === 1) {
         return [
-            "!!!",
-            "Yes, we do! Here, I found a codex with the same colors as the candles.",
-            "There’s a riddle on it, but we weren’t quick enough to solve it before the killer came.",
-            "Hurry, take it!",
-            "*Lily obtained a codex for the colored candles*",
-            "Hm, let me see if I can solve it…"
+            "The candles?",
+            "Yeah, I actually I found a codex that I think has something to do with the candles.",
+            "There’s a riddle on it, but I wasn't able to solve it before the killer came.",
+            "Here, take it!",
+            "[Jin reaches in his pocket and took out a folded note. He unravels it and slips it through the bars, the paper falling to the ground]"
         ];
     }
 
     if (stage === 2) {
         return [
-            "I gotta get out of here soon."
+            "You gotta get out of here soon."
         ];
     }
 

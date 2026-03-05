@@ -55,6 +55,7 @@ class StartSplashScreen {
         const sy = this.cropY;
 
         ctx.imageSmoothingEnabled = false;
+        
         ctx.drawImage(
             sheet,
             sx, sy, this.cropW, this.cropH,

@@ -50,7 +50,7 @@ class Bookshelf {
         // First description line
         this.game.sceneManager.dialogueBox.openLine(
             "Looks like a plain old bookshelf, but a certain book stands out among the rest.",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 
@@ -65,12 +65,12 @@ class Bookshelf {
                                 const hasKey = this.game.sceneManager.hasItem("diamond_key");
 
                                 const line = hasKey
-                                    ? "I have the key for this."
+                                    ? "I have the key for this!"
                                     : "It’s a book with a diamond-shaped lock. Looks like a key can fit in there…";
 
                                 this.game.sceneManager.dialogueBox.openLine(
                                     line,
-                                    null,
+                                    "./Sprites/UI/LilyPortrait.png",
                                     "Lily",
                                     () => {
                                         this.openZoomView();

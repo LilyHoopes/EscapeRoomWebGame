@@ -75,8 +75,16 @@ class Victor {
     }
 
     get depth() {
-        return this.BB.bottom;
+        let baseDepth = this.BB.bottom;
+        if (!this.medallionTaken) {
+        let lily = this.game.sceneManager.lily;
+        if (lily && lily.BB) {
+            return lily.BB.bottom - 140;
+        }
     }
+        return baseDepth;
+    }
+    
 
     draw(ctx) {
         this.animator.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
@@ -120,26 +128,25 @@ static getDialogue(stage) {
 
     if (stage === 0) {
         return [
-            "Lily... you're here.",
-            "Be careful. That table feels wrong."
+            "Be careful, just try to interact with everything that you can."
         ];
     }
 
     if (stage === 1) {
         return [
-            "Those candles... the colors matter.",
-            "If you can find something that explains the order, it might unlock something."
+            "There's a puzzle that has something to do with the candles.",
+            "If you can find something that explains the order, it might give you something."
         ];
     }
 
     if (stage === 2) {
         return [
-            "We don't have much time. Keep going."
+            "I also found this medallion before he found us. Take this as well, it will be more useful to you than it will be to me."
         ];
     }
 
     return [
-        "Keep moving."
+        "You don't have much time."
     ];
 }
 }

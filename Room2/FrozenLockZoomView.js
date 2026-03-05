@@ -153,7 +153,7 @@ class FrozenLockZoomView {
 
         this.game.sceneManager.dialogueBox.openLine(
             "We did it! We are out!",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;

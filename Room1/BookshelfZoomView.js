@@ -204,8 +204,8 @@ class BookshelfZoomView {
         this.game.examining = true;
 
         this.game.sceneManager.dialogueBox.openLine(
-            "A note! It gives me a 3 digit number. I wonder what this is for",
-            null,
+            "A note! It gives me some numbers, I wonder what this is for...",
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;

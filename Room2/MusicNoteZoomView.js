@@ -81,7 +81,7 @@ class MusicNoteZoomView {
 
         this.game.sceneManager.dialogueBox.openLine(
             "I found it!",
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
                 this.game.examining = false;

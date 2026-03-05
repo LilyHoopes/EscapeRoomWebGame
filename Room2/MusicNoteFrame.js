@@ -34,7 +34,7 @@ class MusicNoteFrame {
 
             this.game.sceneManager.dialogueBox.openLine(
                 "To think a weapon was hidden behind this painting...",
-                null,
+                "./Sprites/UI/LilyPortrait.png",
                 "Lily",
                 () => {
                     this.game.examining = false;
@@ -48,8 +48,8 @@ class MusicNoteFrame {
         this.game.examining = true;
 
         this.game.sceneManager.dialogueBox.openLine(
-            "This painting looks expensive...",
-            null,
+            "Huh, a music note...",
+            "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
 
