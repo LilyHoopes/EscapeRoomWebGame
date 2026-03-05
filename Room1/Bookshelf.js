@@ -65,7 +65,7 @@ class Bookshelf {
                                 const hasKey = this.game.sceneManager.hasItem("diamond_key");
 
                                 const line = hasKey
-                                    ? "I have the key for this."
+                                    ? "I have the key for this!"
                                     : "It’s a book with a diamond-shaped lock. Looks like a key can fit in there…";
 
                                 this.game.sceneManager.dialogueBox.openLine(

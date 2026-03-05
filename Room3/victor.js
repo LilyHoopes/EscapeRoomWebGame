@@ -128,21 +128,20 @@ static getDialogue(stage) {
 
     if (stage === 0) {
         return [
-            "Lily... you're here.",
-            "Be careful. That table feels wrong."
+            "Be careful, just try to interact with everything that you can."
         ];
     }
 
     if (stage === 1) {
         return [
-            "Those candles... the colors matter.",
-            "If you can find something that explains the order, it might unlock something."
+            "There's a puzzle that has something to do with the candles.",
+            "If you can find something that explains the order, it might give you something."
         ];
     }
 
     if (stage === 2) {
         return [
-            "We don't have much time. Keep going."
+            "You don't have much time. Keep going."
         ];
     }
 

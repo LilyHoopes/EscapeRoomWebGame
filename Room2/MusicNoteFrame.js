@@ -48,7 +48,7 @@ class MusicNoteFrame {
         this.game.examining = true;
 
         this.game.sceneManager.dialogueBox.openLine(
-            "This painting looks expensive...",
+            "Huh, a music note...",
             "./Sprites/UI/LilyPortrait.png",
             "Lily",
             () => {
