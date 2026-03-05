@@ -224,12 +224,15 @@ class DialogueBox {
     }
 
         _setPortraitBySpeaker(speaker) {
-        const map = {
-            "Lily":     "./Sprites/UI/LilyPortrait.png",
-            "Shiannel": "./Sprites/UI/ShiannelPortrait.png",
-            "Victor":   "./Sprites/UI/VictorPortrait.png",
-            "Jin":      "./Sprites/UI/JinPortrait.png",
-        };
+            const map = {
+                "Lily":         "./Sprites/UI/LilyPortrait.png",
+                "Shiannel":     "./Sprites/UI/ShiannelPortrait.png",
+                "Victor":       "./Sprites/UI/VictorPortrait.png",
+                "Jin":          "./Sprites/UI/JinPortrait.png",
+                "Ghost Shiannel": "./Sprites/UI/ShiannelGhostPortrait.png",
+                "Ghost Victor":   "./Sprites/UI/VictorGhostPortrait.png",
+                "Ghost Jin":      "./Sprites/UI/JinGhostPortrait.png",
+            };
 
         const path = map[speaker];
         if (path) {

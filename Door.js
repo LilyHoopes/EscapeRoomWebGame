@@ -22,17 +22,8 @@ class Door {
     
     update() {
 
-        if (this.destinationRoom === "ending") {
-            console.log(
-                "touching:", this.isTouchingLily(),
-                "locked:", this.isLocked,
-                "examining:", this.game.examining,
-                "room5talked:", this.game.sceneManager.puzzleStates.room5?.room5DialoguePlayed
-            );
-        }
-
         if (this.destinationRoom === "ending" && this.isLocked) {
-            if (this.game.sceneManager.puzzleStates.room5?.npcTalkedTo) {
+            if (this.game.sceneManager.puzzleStates.room5?.postTalkSequencePlayed) {
                 this.unlock();
             }
         }

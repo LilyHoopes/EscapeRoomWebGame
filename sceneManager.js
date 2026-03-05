@@ -22,9 +22,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
-            room3ToRoom4: false,  // Door from room 3 to room 4 
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: true,  // Door from room 3 to room 4 
             room4ToRoom5: true   // This should always be set to true
         };
 
@@ -685,18 +685,18 @@ class SceneManager {
 
         this.dialogueBox.startSequence(
             [
-                { speaker: "Lily", text: "!?!" },
-                { speaker: "Lily", text: "What the... You guys are..." },
-                { speaker: "Victor", text: "We are ghosts." },
-                { speaker: "Jin", text: "We were survivors like you, kidnapped and placed in the killer's house. But... we weren't able to make it out..." },
-                { speaker: "Victor", text: "That's why we strive to help any new survivors he brings here." },
-                { speaker: "Lily", text: "But... h-how? You all looked real, looked alive..." },
-                { speaker: "Shiannel", text: "I'm sorry we lied to you. We just wanted to make sure you made it out. And you did... now you can escape!" },
-                { speaker: "Lily", text: "I... I don't want to leave you guys." },
-                { speaker: "Victor", text: "You must... Who else is going to help if he brings more survivors?" },
-                { speaker: "Lily", text: "..." },
-                { speaker: "Lily", text: "I'm going to put an end to this, so that no more people are hurt and kidnapped, so they aren't forced to run through this house for the killer's sick satisfaction." },
-                { speaker: "Lily", text: "Thank you... for helping me. I will make sure you can finally rest." }
+                { speaker: "Lily",          text: "!?!" },
+                { speaker: "Lily",          text: "What the... You guys are..." },
+                { speaker: "Ghost Victor",   text: "We are ghosts." },
+                { speaker: "Ghost Jin",      text: "We were survivors like you..." },
+                { speaker: "Ghost Victor",   text: "That's why we strive to help any new survivors he brings here." },
+                { speaker: "Lily",          text: "But... h-how? You all looked real, looked alive..." },
+                { speaker: "Ghost Shiannel", text: "I'm sorry we lied to you..." },
+                { speaker: "Lily",          text: "I... I don't want to leave you guys." },
+                { speaker: "Ghost Victor",   text: "You must... Who else is going to help if he brings more survivors?" },
+                { speaker: "Lily",          text: "..." },
+                { speaker: "Lily",          text: "I'm going to put an end to this..." },
+                { speaker: "Lily",          text: "Thank you... for helping me. I will make sure you can finally rest." }
             ],
             null,
             null,
@@ -902,13 +902,13 @@ class SceneManager {
                     this.game.E = false;
                     this.game.examining = true;
 
-                    this.dialogueBox.startSequence(
-                        [
-                            "You did it, Lily!",
-                            "We're so happy you made it!"
-                        ],
-                        null,
-                        "Shiannel",
+                this.dialogueBox.startSequence(
+                    [
+                        { speaker: "Shiannel", text: "You did it, Lily!" },
+                        { speaker: "Shiannel", text: "We're so happy you made it!" }
+                    ],
+                    null,
+                    "Shiannel",
                         () => {
                             this.npcStates.shiannel.met = true;
                             this.game.examining = false;
@@ -931,7 +931,7 @@ class SceneManager {
 
                         this.dialogueBox.startSequence(
                             [
-                                "The killer was ruthless. Thank god you were able to outrun him."
+                                { speaker: "Victor", text: "The killer was ruthless. Thank god you were able to outrun him." }
                             ],
                             null,
                             "Victor",
@@ -954,7 +954,7 @@ class SceneManager {
 
                         this.dialogueBox.startSequence(
                             [
-                                "You solved the puzzles like a pro! You were much quicker than we were!"
+                                { speaker: "Jin", text: "You solved the puzzles like a pro! You were much quicker than we were!" }
                             ],
                             null,
                             "Jin",

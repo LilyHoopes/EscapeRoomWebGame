@@ -17,6 +17,9 @@ ASSET_MANAGER.queueDownload("./Sprites/UI/LilyPortrait.png");
 ASSET_MANAGER.queueDownload("./Sprites/UI/ShiannelPortrait.png");
 ASSET_MANAGER.queueDownload("./Sprites/UI/VictorPortrait.png");
 ASSET_MANAGER.queueDownload("./Sprites/UI/JinPortrait.png");
+ASSET_MANAGER.queueDownload("./Sprites/UI/ShiannelGhostPortrait.png");
+ASSET_MANAGER.queueDownload("./Sprites/UI/VictorGhostPortrait.png");
+ASSET_MANAGER.queueDownload("./Sprites/UI/JinGhostPortrait.png");
 
 // room 1
 ASSET_MANAGER.queueDownload("./Sprites/FillerFurniture/Bookshelf.png");
