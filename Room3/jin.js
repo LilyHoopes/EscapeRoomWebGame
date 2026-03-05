@@ -66,7 +66,7 @@ class Jin {
         return [
             "The candles?",
             "Yeah, I actually I found a codex that I think has something to do with the candles.",
-            "There’s a riddle on it, but we weren’t able to solve it before the killer came.",
+            "There’s a riddle on it, but I wasn't able to solve it before the killer came.",
             "Here, take it!",
             "[Jin reaches in his pocket and took out a folded note. He unravels it and slips it through the bars, the paper falling to the ground]"
         ];

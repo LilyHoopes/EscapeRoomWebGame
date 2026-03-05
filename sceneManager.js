@@ -484,12 +484,12 @@ class SceneManager {
                     // { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
                     //{ speaker: "Victor", text: "Through the medallion door. Here, I managed to find one before the killer locked us up." },
                     { speaker: "Lily", text: "Hi... How do I get you guys out?" },
-                    { speaker: "Victor", text: "Don’t worry about us, worry about yourself. You should just focus on trying to get out of this room." },
+                    { speaker: "Victor", text: "Don’t worry about us. You should just focus on trying to get out of this room." },
                     { speaker: "Lily", text: "Okay..." }
                 ],
                 null,
                 null,
-                () => {
+                () => { 
                     this.game.examining = false;
                 }
             );

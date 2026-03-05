@@ -141,12 +141,12 @@ static getDialogue(stage) {
 
     if (stage === 2) {
         return [
-            "You don't have much time. Keep going."
+            "I also found this medallion before he found us. Take this as well, it will be more useful to you than it will be to me."
         ];
     }
 
     return [
-        "Keep moving."
+        "You don't have much time."
     ];
 }
 }
