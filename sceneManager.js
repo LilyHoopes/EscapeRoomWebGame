@@ -22,9 +22,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
-            room3ToRoom4: false,  // Door from room 3 to room 4 
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: true,  // Door from room 3 to room 4 
             room4ToRoom5: false   // This should always be set to true
         };
 
@@ -51,7 +51,10 @@ class SceneManager {
             room5: {
                 bookshelfClosed: false,
                 room5DialoguePlayed: false,
-                npcTalkedTo: false 
+                talkedToShiannel: false,
+                talkedToVictor: false,
+                talkedToJin: false,
+                postTalkSequencePlayed: false
             }
         };
 
@@ -116,10 +119,10 @@ class SceneManager {
             this.game.introAudio.pause();
             this.game.introAudio.currentTime = 0;
         }
-        
+
         // stops cold wind from playing in other rooms
         SOUND_MANAGER.stop("./SFX/Room2/BitterColdWind.mp3");
-        
+
         this.clearEntities();
         this.currentRoom = roomName;
 
@@ -332,8 +335,8 @@ class SceneManager {
             );
 
             this.game.addEntity(new Door(this.game, 110, 800, 275, 187, "room4", 1100, 700, "./Sprites/Room1/lockedDORE.png", "./Sprites/Room1/openDORE.png", false, 0.0)); // room5 -> room4
-            
-            
+
+
             console.log("room5DialoguePlayed on entry:", this.puzzleStates.room5.room5DialoguePlayed);
             this.game.addEntity(new Door(this.game, 700, 18, 450, 180, "ending", 0, 0, "./Sprites/Room5/FinalDoorLocked.png", "./Sprites/Room5/FinalDoorOpen.png", true, 1.0)); // room5 -> ending screen
 
@@ -476,7 +479,7 @@ class SceneManager {
                     { speaker: "Victor", text: "A survivor? You made it through the other rooms!" },
                     { speaker: "Victor", text: "We've been trying to find a way out, but we're stuck. I’m Victor. That guy over there is Jin." },
                     { speaker: "Jin", text: "Hey, it is good to see another survivor." },
-                   // { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
+                    // { speaker: "Lily", text: "I am glad to see I am not alone in this house… But how do we get out of this room?" },
                     //{ speaker: "Victor", text: "Through the medallion door. Here, I managed to find one before the killer locked us up." },
                     { speaker: "Lily", text: "Hello. How do I get you guys out?" },
                     { speaker: "Victor", text: "Don’t worry about us, we’ll find a way. You should just focus on trying to get out of this room." },
@@ -593,6 +596,35 @@ class SceneManager {
         return (dx * dx + dy * dy) <= (range * range);
     }
 
+    tryStartRoom5PostTalkSequence() {
+        const r5 = this.puzzleStates.room5;
+        if (!r5) return;
+
+        // blocks re-playing
+        if (r5.postTalkSequencePlayed) return;
+
+        // runs after 3 dialogues
+        if (!(r5.talkedToShiannel && r5.talkedToVictor && r5.talkedToJin)) return;
+
+        r5.postTalkSequencePlayed = true;
+
+        this.game.examining = true;
+
+        this.dialogueBox.startSequence(
+            [
+                { speaker: "Lily", text: "Thanks, guys!" },
+                { speaker: "Lily", text: "Is this... the exit door? Did we actually make it?" },
+                { speaker: "Shiannel", text: "Yes... let's get you home." },
+                { speaker: "Lily", text: "Me?" }
+            ],
+            null,
+            null,
+            () => {
+                this.game.examining = false;
+            }
+        );
+    }
+
     update() {
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
 
@@ -644,58 +676,58 @@ class SceneManager {
                     this.game.E = false;
 
                     try {
-    this.game.examining = true;
+                        this.game.examining = true;
 
-    const shiannelEntity = this.game.entities.find(e => e instanceof Shiannel);
+                        const shiannelEntity = this.game.entities.find(e => e instanceof Shiannel);
 
-    if (shi.stage === 0) {
-        const part1 = [
-            { speaker: "Shiannel", text: ". . . ." },
-            { speaker: "Lily", text: "Hello? Are you okay?" }
-        ];
+                        if (shi.stage === 0) {
+                            const part1 = [
+                                { speaker: "Shiannel", text: ". . . ." },
+                                { speaker: "Lily", text: "Hello? Are you okay?" }
+                            ];
 
-        const part2 = [
-            { speaker: "", text: "*Shiannel stands up*" },
-            { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
-            { speaker: "Lily", text: "It's good im not alone!" },
-            { speaker: "Shiannel", text: "Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!" },
-            { speaker: "Lily", text: "I guess we need something harder to hit it with then" },
-            { speaker: "Shiannel", text: "!!" },
-            { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
-            { speaker: "Lily", text: "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time." },
-            { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!" },
-            { speaker: "Lily", text: "Hm…" }
-        ];
+                            const part2 = [
+                                { speaker: "", text: "*Shiannel stands up*" },
+                                { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
+                                { speaker: "Lily", text: "It's good im not alone!" },
+                                { speaker: "Shiannel", text: "Yes! But, we have a problem, T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!" },
+                                { speaker: "Lily", text: "I guess we need something harder to hit it with then" },
+                                { speaker: "Shiannel", text: "!!" },
+                                { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room. But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet, I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
+                                { speaker: "Lily", text: "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time." },
+                                { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s c-creepy!" },
+                                { speaker: "Lily", text: "Hm…" }
+                            ];
 
-        this.dialogueBox.startSequence(part1, null, null, () => {
+                            this.dialogueBox.startSequence(part1, null, null, () => {
 
-            if (shiannelEntity) shiannelEntity.pose = "idle";
+                                if (shiannelEntity) shiannelEntity.pose = "idle";
 
-            this.dialogueBox.startSequence(part2, null, null, () => {
-                shi.stage = 1;
-                shi.met = true;
-                this.game.examining = false;
-            });
-        });
+                                this.dialogueBox.startSequence(part2, null, null, () => {
+                                    shi.stage = 1;
+                                    shi.met = true;
+                                    this.game.examining = false;
+                                });
+                            });
 
-    } else {
+                        } else {
 
-        this.dialogueBox.startSequence(
-            Shiannel.getDialogue(shi.stage),
-            "./Sprites/UI/ShiannelPortrait.png",
-            null,
-            () => {
-                shi.met = true;
-                this.game.examining = false;
-            }
-        );
-    }
+                            this.dialogueBox.startSequence(
+                                Shiannel.getDialogue(shi.stage),
+                                "./Sprites/UI/ShiannelPortrait.png",
+                                null,
+                                () => {
+                                    shi.met = true;
+                                    this.game.examining = false;
+                                }
+                            );
+                        }
 
-} catch (err) {
-    console.error("Shiannel dialogue error:", err);
-    this.game.examining = false;
-    this.dialogueBox.close();
-}
+                    } catch (err) {
+                        console.error("Shiannel dialogue error:", err);
+                        this.game.examining = false;
+                        this.dialogueBox.close();
+                    }
                 }
             }
 
@@ -789,13 +821,18 @@ class SceneManager {
                     this.game.examining = true;
 
                     this.dialogueBox.startSequence(
-                        ["test1"],
+                        [
+                            "You did it, Lily!",
+                            "We're so happy you made it!"
+                        ],
                         null,
                         "Shiannel",
                         () => {
                             this.npcStates.shiannel.met = true;
                             this.game.examining = false;
-                            this.puzzleStates.room5.npcTalkedTo = true; 
+
+                            this.puzzleStates.room5.talkedToShiannel = true;
+                            this.tryStartRoom5PostTalkSequence();
                         }
                     );
 
@@ -811,13 +848,17 @@ class SceneManager {
                         this.game.examining = true;
 
                         this.dialogueBox.startSequence(
-                            ["test2"],
+                            [
+                                "The killer was ruthless. Thank god you were able to outrun him."
+                            ],
                             null,
                             "Victor",
                             () => {
                                 this.npcStates.victor.met = true;
                                 this.game.examining = false;
-                                this.puzzleStates.room5.npcTalkedTo = true; 
+
+                                this.puzzleStates.room5.talkedToVictor = true;
+                                this.tryStartRoom5PostTalkSequence();
                             }
                         );
 
@@ -830,13 +871,17 @@ class SceneManager {
                         this.game.examining = true;
 
                         this.dialogueBox.startSequence(
-                            ["test3"],
+                            [
+                                "And you solved the puzzles like a pro! You were much quicker than us!"
+                            ],
                             null,
                             "Jin",
                             () => {
                                 this.npcStates.jin.met = true;
                                 this.game.examining = false;
-                                this.puzzleStates.room5.npcTalkedTo = true; 
+
+                                this.puzzleStates.room5.talkedToJin = true;
+                                this.tryStartRoom5PostTalkSequence();
                             }
                         );
 
@@ -1144,7 +1189,10 @@ class SceneManager {
             room5: {
                 bookshelfClosed: false,
                 room5DialoguePlayed: false,
-                npcTalkedTo: false 
+                talkedToShiannel: false,
+                talkedToVictor: false,
+                talkedToJin: false,
+                postTalkSequencePlayed: false
             }
         };
 
