@@ -4,7 +4,6 @@ class GhostNPC {
     this.x = x;
     this.y = y;
 
-    this.depth = 9999;
 
     this.spritePath = spritePath;
     this.sprite = null;
@@ -17,12 +16,30 @@ class GhostNPC {
     this.frameDuration = cfg.frameDuration ?? 0.25;
 
     this.scale = cfg.scale ?? 0.4;
-
+    this.width = this.frameWidth * this.scale;
+    this.height = this.frameHeight * this.scale;
     this.anim = null;
 
     this.removeFromWorld = false;
-    this.isSolid = false;
     this.isPopup = false;
+    this.bbOffset = {
+        x: 10,
+        y: 40,
+        w: 40,
+        h: 100
+    };
+
+    this.BB = new BoundingBox(
+        this.x + this.bbOffset.x,
+        this.y + this.bbOffset.y,
+        this.width - this.bbOffset.w,
+        this.height - this.bbOffset.h
+    );
+
+    this.isSolid = true;
+  }
+  get depth() {
+    return this.BB.bottom;
   }
 
   update() {
@@ -40,11 +57,20 @@ class GhostNPC {
         );
       }
     }
+    if (this.BB) {
+      this.BB.x = this.x + this.bbOffset.x;
+      this.BB.y = this.y + this.bbOffset.y;
+    }
   }
 
   draw(ctx) {
     if (!this.anim) return;
     this.anim.drawFrame(this.game.clockTick, ctx, this.x, this.y, this.scale);
+
+    if (this.game.debug) {
+            ctx.strokeStyle = "red";
+            ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+        }
   }
 }
 

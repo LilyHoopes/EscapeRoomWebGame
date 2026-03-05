@@ -22,10 +22,10 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
-            room3ToRoom4: false,  // Door from room 3 to room 4 
-            room4ToRoom5: false   // This should always be set to true
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
+            room3ToRoom4: true,  // Door from room 3 to room 4 
+            room4ToRoom5: true   // This should always be set to true
         };
 
         // Puzzle progress tracking
@@ -656,19 +656,20 @@ class SceneManager {
         if (vic) vic.removeFromWorld = true;
         if (jin) jin.removeFromWorld = true;
 
-        //ghost frames
+//ghost frames
         const ghostCfg = {
             frames: 2,
-            startX: 128,
-            startY: 128,
-            frameWidth: 360,
-            frameHeight: 350,
+            startX: 0,
+            startY: 0,
+            frameWidth: 284,
+            frameHeight: 380,
             frameDuration: 0.5,
             scale: 0.4
         };
 
         this.game.addEntity(
-            new GhostNPC(this.game, shiX, shiY, "./Sprites/Room5/Ghost_ShiannelSpreadSheet.png", ghostCfg)
+            new GhostNPC(this.game, shiX, shiY, "./Sprites/Room5/Ghost_ShiannelSpreadSheet.png", {frames: 2, startX: 0, startY: 0, frameWidth: 345, 
+                frameHeight: 390, frameDuration: 0.5, scale: 0.4})
         );
 
         this.game.addEntity(
