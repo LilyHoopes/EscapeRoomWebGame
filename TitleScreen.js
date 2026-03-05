@@ -332,7 +332,7 @@ class TitleScreen {
 
     ctx.save();
 
-    // lightningAlpha 기반으로 flash 밝기 조절
+  
     ctx.globalAlpha = this.lightningAlpha * 0.35;
 
     ctx.fillStyle = "#ffffff";
