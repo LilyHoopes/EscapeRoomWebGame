@@ -275,6 +275,7 @@ class TitleScreen {
 
             ctx.restore();
         }
+        this.drawFlash(ctx);
     }
 
     drawLightning(ctx) {
@@ -297,7 +298,7 @@ class TitleScreen {
 
         ctx.save();
         ctx.globalCompositeOperation = "screen";
-        ctx.globalAlpha = this.lightningAlpha * 0.2;
+        ctx.globalAlpha = this.lightningAlpha * 0.55;
 
         ctx.drawImage(
             sheet,
@@ -322,4 +323,21 @@ class TitleScreen {
     randRange(min, max) {
         return min + Math.random() * (max - min);
     }
+
+    drawFlash(ctx) {
+    if (this.lightningPhase === "idle") return;
+
+    const cw = ctx.canvas.width;
+    const ch = ctx.canvas.height;
+
+    ctx.save();
+
+    // lightningAlpha 기반으로 flash 밝기 조절
+    ctx.globalAlpha = this.lightningAlpha * 0.35;
+
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, cw, ch);
+
+    ctx.restore();
+}
 }
