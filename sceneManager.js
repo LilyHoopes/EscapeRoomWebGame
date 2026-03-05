@@ -133,7 +133,7 @@ class SceneManager {
             room2: "./bgm/House of Souls Room2.mp3",
             room3: "./bgm/House of Souls Room3.mp3",
             room4: "./bgm/House of Souls Room4.mp3",
-            // room5: "./bgm/House of Souls Room5.mp3",
+            //room5: "./bgm/House of Souls Room5.mp3", -- leave it as comment
         };
 
         const nextBGM = bgmMap[roomName] || null;
@@ -625,82 +625,83 @@ class SceneManager {
             }
         );
     }
-    
- revealRoom5GhostsAndFinalDialogue() {
-    const r5 = this.puzzleStates.room5;
-    if (!r5 || r5.ghostRevealPlayed) return;
-    r5.ghostRevealPlayed = true;
 
-    // Remove room5 talk prompts immediately
-    if (this.room5ShiannelPrompt) { this.room5ShiannelPrompt.removeFromWorld = true; this.room5ShiannelPrompt = null; }
-    if (this.room5VictorPrompt) { this.room5VictorPrompt.removeFromWorld = true; this.room5VictorPrompt = null; }
-    if (this.room5JinPrompt) { this.room5JinPrompt.removeFromWorld = true; this.room5JinPrompt = null; }
+    revealRoom5GhostsAndFinalDialogue() {
+        const r5 = this.puzzleStates.room5;
+        if (!r5 || r5.ghostRevealPlayed) return;
+        r5.ghostRevealPlayed = true;
 
-    // Find original NPC entities
-    const shi = this.game.entities.find(e => e instanceof Shiannel);
-    const vic = this.game.entities.find(e => e instanceof Victor);
-    const jin = this.game.entities.find(e => e instanceof Jin);
+        // Remove room5 talk prompts immediately
+        if (this.room5ShiannelPrompt) { this.room5ShiannelPrompt.removeFromWorld = true; this.room5ShiannelPrompt = null; }
+        if (this.room5VictorPrompt) { this.room5VictorPrompt.removeFromWorld = true; this.room5VictorPrompt = null; }
+        if (this.room5JinPrompt) { this.room5JinPrompt.removeFromWorld = true; this.room5JinPrompt = null; }
 
-    // Cache positions (fallback to stored positions if entity not found)
-    const shiX = shi ? shi.x : this.room5ShiannelPos.x;
-    const shiY = shi ? shi.y : this.room5ShiannelPos.y;
+        // Find original NPC entities
+        const shi = this.game.entities.find(e => e instanceof Shiannel);
+        const vic = this.game.entities.find(e => e instanceof Victor);
+        const jin = this.game.entities.find(e => e instanceof Jin);
 
-    const vicX = vic ? vic.x : this.room5VictorPos.x;
-    const vicY = vic ? vic.y : this.room5VictorPos.y;
+        // Cache positions (fallback to stored positions if entity not found)
+        const shiX = shi ? shi.x : this.room5ShiannelPos.x;
+        const shiY = shi ? shi.y : this.room5ShiannelPos.y;
 
-    const jinX = jin ? jin.x : this.room5JinPos.x;
-    const jinY = jin ? jin.y : this.room5JinPos.y;
+        const vicX = vic ? vic.x : this.room5VictorPos.x;
+        const vicY = vic ? vic.y : this.room5VictorPos.y;
 
-    // Remove original NPCs from world
-    if (shi) shi.removeFromWorld = true;
-    if (vic) vic.removeFromWorld = true;
-    if (jin) jin.removeFromWorld = true;
+        const jinX = jin ? jin.x : this.room5JinPos.x;
+        const jinY = jin ? jin.y : this.room5JinPos.y;
 
-   const ghostCfg = {
-  frames: 2,
-  startX: 128,
-  startY: 128,
-  frameWidth: 360,
-  frameHeight: 350,
-  frameDuration: 0.5,
-  scale: 0.4
-};
+        // Remove original NPCs from world
+        if (shi) shi.removeFromWorld = true;
+        if (vic) vic.removeFromWorld = true;
+        if (jin) jin.removeFromWorld = true;
 
-this.game.addEntity(
-  new GhostNPC(this.game, shiX, shiY, "./Sprites/Room5/Ghost_ShiannelSpreadSheet.png", ghostCfg)
-);
+        //ghost frames
+        const ghostCfg = {
+            frames: 2,
+            startX: 128,
+            startY: 128,
+            frameWidth: 360,
+            frameHeight: 350,
+            frameDuration: 0.5,
+            scale: 0.4
+        };
 
-this.game.addEntity(
-  new GhostNPC(this.game, vicX, vicY, "./Sprites/Room5/Ghost_VictorSpreadSheet.png", ghostCfg)
-);
+        this.game.addEntity(
+            new GhostNPC(this.game, shiX, shiY, "./Sprites/Room5/Ghost_ShiannelSpreadSheet.png", ghostCfg)
+        );
 
-this.game.addEntity(
-  new GhostNPC(this.game, jinX, jinY, "./Sprites/Room5/Ghost_JinSpreadSheet.png", ghostCfg)
-);
+        this.game.addEntity(
+            new GhostNPC(this.game, vicX, vicY, "./Sprites/Room5/Ghost_VictorSpreadSheet.png", ghostCfg)
+        );
 
-    // Lock player while final dialogue plays
-    this.game.examining = true;
+        this.game.addEntity(
+            new GhostNPC(this.game, jinX, jinY, "./Sprites/Room5/Ghost_JinSpreadSheet.png", ghostCfg)
+        );
 
-    this.dialogueBox.startSequence(
-        [
-            { speaker: "Lily", text: "!?!" },
-            { speaker: "Lily", text: "What the... You guys are..." },
-            { speaker: "Victor", text: "Ghosts." },
-            { speaker: "Jin", text: "We were survivors like you, kidnapped and placed in the killer's house. But... we weren't able to make it out..." },
-            { speaker: "Victor", text: "That's why we strive to help any new survivors he brings here." },
-            { speaker: "Lily", text: "But... h-how? You all looked real, looked alive..." },
-            { speaker: "Shiannel", text: "I'm sorry we lied to you. We just wanted to make sure you made it out. And you did... now you can escape!" },
-            { speaker: "Lily", text: "I... I don't want to leave you guys." },
-            { speaker: "Victor", text: "You must... Who else is going to help if he brings more survivors?" },
-            { speaker: "Lily", text: "..." },
-            { speaker: "Lily", text: "I'm going to put an end to this, so that no more people are hurt and kidnapped, so they aren't forced to run through this house for the killer's sick satisfaction." },
-            { speaker: "Lily", text: "Thank you... for helping me. I will make sure you can finally rest." }
-        ],
-        null,
-        null,
-        () => { this.game.examining = false; }
-    );
-}
+        // Lock player while final dialogue plays
+        this.game.examining = true;
+
+        this.dialogueBox.startSequence(
+            [
+                { speaker: "Lily", text: "!?!" },
+                { speaker: "Lily", text: "What the... You guys are..." },
+                { speaker: "Victor", text: "Ghosts." },
+                { speaker: "Jin", text: "We were survivors like you, kidnapped and placed in the killer's house. But... we weren't able to make it out..." },
+                { speaker: "Victor", text: "That's why we strive to help any new survivors he brings here." },
+                { speaker: "Lily", text: "But... h-how? You all looked real, looked alive..." },
+                { speaker: "Shiannel", text: "I'm sorry we lied to you. We just wanted to make sure you made it out. And you did... now you can escape!" },
+                { speaker: "Lily", text: "I... I don't want to leave you guys." },
+                { speaker: "Victor", text: "You must... Who else is going to help if he brings more survivors?" },
+                { speaker: "Lily", text: "..." },
+                { speaker: "Lily", text: "I'm going to put an end to this, so that no more people are hurt and kidnapped, so they aren't forced to run through this house for the killer's sick satisfaction." },
+                { speaker: "Lily", text: "Thank you... for helping me. I will make sure you can finally rest." }
+            ],
+            null,
+            null,
+            () => { this.game.examining = false; }
+        );
+    }
 
     update() {
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);

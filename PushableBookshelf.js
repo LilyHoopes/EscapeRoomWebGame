@@ -103,10 +103,27 @@ class PushableBookshelf {
                                 ],
                                 null,
                                 null,
-                                () => {
-                                    // Restore control after dialogue
-                                    sm.game.examining = false;
-                                }
+() => {
+
+    const sm = this.game.sceneManager;
+
+
+    if (sm.roomBGM) {
+        sm.roomBGM.pause();
+        sm.roomBGM.currentTime = 0;
+    }
+
+
+    sm.roomBGM = new Audio("./bgm/House of Souls Room5.mp3");
+    sm.roomBGM.loop = true;
+    sm.roomBGM.volume = sm.game.musicVolume ?? 0.65;
+    sm.roomBGM.muted = !!sm.game.muted;
+    sm.roomBGM.play().catch(()=>{});
+
+    sm.roomBGMName = "room5";
+
+    sm.game.examining = false;
+}
                             );
                         }
                     }
