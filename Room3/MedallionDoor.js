@@ -49,10 +49,42 @@ class MedallionDoor {
     }
     
     openZoomView() {
+
+    const sm = this.game.sceneManager;
+
+    const hasAllMedallions =
+        sm.hasItem("Snowflake Medallion") &&
+        sm.hasItem("Candle Medallion") &&
+        sm.hasItem("Leaf Medallion");
+
+    const r3 = sm.puzzleStates.room3;
+
+    // dialogue once when all medallions obtained
+    if (hasAllMedallions && !r3.medallionDialoguePlayed) {
+
+        r3.medallionDialoguePlayed = true;
+
+        this.game.examining = true;
+        this.game.E = false;
+
+        sm.dialogueBox.startSequence(
+            [
+                { speaker: "Lily", text: "test1" }
+            ],
+            null,
+            null,
+            () => {
+                this.game.addEntity(new MedallionDoorZoomView(this.game, this));
+            }
+        );
+
+    } else {
+
         this.game.addEntity(new MedallionDoorZoomView(this.game, this));
         this.game.examining = true;
         this.game.E = false;
     }
+}
 
     draw(ctx) {
 
