@@ -20,7 +20,7 @@ class PushableBookshelf {
         this.isBlocked = false; // true when fully pushed
 
         this.killerSpawned = false;
-        this.killerSpawnDelay = 2.0;
+        this.killerSpawnDelay = 2.1;
         this.killerSpawnTimer = 0;
 
         this.isSolid = true;
@@ -28,7 +28,7 @@ class PushableBookshelf {
 
         this.sprite = ASSET_MANAGER.getAsset("./Sprites/FillerFurniture/BackOfBookshelf.png");
 
-        this.bbOffset = { x: 0, y: 0, w: 0, h: 40 };
+        this.bbOffset = { x: 0, y: 60, w: 0, h: 40 };
         this.updateBB();
     }
 
@@ -184,6 +184,12 @@ class PushableBookshelf {
     }
 
     draw(ctx) {
+
+        if (this.game.debug) {
+                    ctx.strokeStyle = "red";
+                    ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
+                }
+
         if (this.sprite && this.sprite.complete && this.sprite.naturalWidth > 0) {
             ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
         }
