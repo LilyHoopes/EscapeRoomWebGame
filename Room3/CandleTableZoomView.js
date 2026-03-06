@@ -132,7 +132,7 @@ class CandleTableZoomView {
         
         if (correct && !this.table.puzzleSolved) {
             this.table.onPuzzleSolved();
-            setTimeout(() => this.close(), 1500); // Close after 1.5s
+            setTimeout(() => this.close(), 500); // Close after .5s
         }
     }
     
