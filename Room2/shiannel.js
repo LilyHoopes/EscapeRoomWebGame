@@ -82,7 +82,7 @@ class Shiannel {
             { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
             { speaker: "Lily", text: "Hi, it's good to see that I'm not alone!" },
             { speaker: "Shiannel", text: "I feel the same... But, we have a problem." },
-            { speaker: "Shiannel", text: "T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!" },
+            { speaker: "Shiannel", text: "Th-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it won't budge!" },
             { speaker: "Lily", text: "Hm..." },
             { speaker: "Lily", text: "Well, I guess we'll need something harder to hit it with then." },
             { speaker: "Shiannel", text: "!!!" },
