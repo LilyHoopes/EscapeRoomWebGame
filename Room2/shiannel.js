@@ -89,7 +89,7 @@ class Shiannel {
             { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room." },
             { speaker: "Shiannel", text: "But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet." },
             { speaker: "Shiannel", text: "But I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
-            { speaker: "Lily", text: "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time." },
+            { speaker: "Lily", text: "You just stay there, I’ll start looking. But where should I even begin? I don’t want to waste time." },
             { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s creepy!" },
             { speaker: "Lily", text: "Hm…" }
         ];
@@ -98,7 +98,7 @@ class Shiannel {
         // stage 1: after first convo, before door opens
         if (stage === 1) {
             return [
-                { speaker: "Shiannel", text: "Ugh, I can't feel my hands." }
+                { speaker: "Shiannel", text: "Classical music must be his favorite..." },
             ];
         }
 

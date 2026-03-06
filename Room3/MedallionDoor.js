@@ -69,9 +69,12 @@ class MedallionDoor {
 
         sm.dialogueBox.startSequence(
             [
-                { speaker: "Lily", text: "test1" }
+                { speaker: "Lily", text: "Okay, I have all medallions! Huh? What's this?" },
+                { speaker: "", text: "[Lily notices something scratched onto the door, some sort of message.]" },
+                { speaker: "Lily", text: " \"Room order\" ...? Huh. it must be some sort of hint for the medallions." },
+                
             ],
-            null,
+            "./Sprites/UI/LilyPortrait.png",
             null,
             () => {
                 this.game.addEntity(new MedallionDoorZoomView(this.game, this));
