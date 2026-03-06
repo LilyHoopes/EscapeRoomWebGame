@@ -2,8 +2,7 @@ class DeathScreen {
     constructor(game) {
         this.game = game;
         this.isPopup = true;
-        this.removeFromWorld = false;
-        
+        this.removeFromWorld = false;    
         // Screen dimensions (fullscreen)
         this.width = this.game.ctx.canvas.width;
         this.height = this.game.ctx.canvas.height;
