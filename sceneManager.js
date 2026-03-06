@@ -46,7 +46,8 @@ class SceneManager {
                 // codex drop
                 codexDropped: false,
                 codexPickedUp: false,
-                codexPos: null
+                codexPos: null,
+                medallionDialoguePlayed: false,
             },
             room5: {
                 bookshelfClosed: false,
@@ -525,7 +526,7 @@ class SceneManager {
 
             this.dialogueBox.startSequence(
                 [
-                    { speaker: "Shiannel", text: "Hurry, don't let him get in! Go to the right of the bookshelf and cover the doorway!" }
+                    { speaker: "Shiannel", text: "Hurry, don't let him get in! Go to the right of the bookshelf and press 'E' three times to block the doorway!" }
                 ],
                 "./Sprites/UI/ShiannelPortrait.png",
                 null,
@@ -1266,7 +1267,8 @@ class SceneManager {
                 door3Open: false,
                 codexDropped: false,
                 codexPickedUp: false,
-                codexPos: null
+                codexPos: null,
+                medallionDialoguePlayed: false,
             },
             room5: {
                 bookshelfClosed: false,

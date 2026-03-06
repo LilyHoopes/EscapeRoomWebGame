@@ -49,10 +49,45 @@ class MedallionDoor {
     }
     
     openZoomView() {
+
+    const sm = this.game.sceneManager;
+
+    const hasAllMedallions =
+        sm.hasItem("Snowflake Medallion") &&
+        sm.hasItem("Candle Medallion") &&
+        sm.hasItem("Leaf Medallion");
+
+    const r3 = sm.puzzleStates.room3;
+
+    // dialogue once when all medallions obtained
+    if (hasAllMedallions && !r3.medallionDialoguePlayed) {
+
+        r3.medallionDialoguePlayed = true;
+
+        this.game.examining = true;
+        this.game.E = false;
+
+        sm.dialogueBox.startSequence(
+            [
+                { speaker: "Lily", text: "Okay, I have all medallions! Huh? What's this?" },
+                { speaker: "", text: "[Lily notices something scratched onto the door, some sort of message.]" },
+                { speaker: "Lily", text: " \"Room order\" ...? Huh. it must be some sort of hint for the medallions." },
+                
+            ],
+            "./Sprites/UI/LilyPortrait.png",
+            null,
+            () => {
+                this.game.addEntity(new MedallionDoorZoomView(this.game, this));
+            }
+        );
+
+    } else {
+
         this.game.addEntity(new MedallionDoorZoomView(this.game, this));
         this.game.examining = true;
         this.game.E = false;
     }
+}
 
     draw(ctx) {
 
