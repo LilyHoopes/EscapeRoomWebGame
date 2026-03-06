@@ -320,7 +320,7 @@ class DialogueBox {
 
             ctx.textAlign = "right";
             ctx.font = "16px Arial";
-            ctx.fillText("Left/Right to choose, Enter to confirm", boxX + boxW - 30, boxY + boxH - 15);
+            ctx.fillText("A/D to choose, E to confirm", boxX + boxW - 30, boxY + boxH - 15);
             ctx.textAlign = "left";
         } else {
             wrapText(ctx, this.displayText, textX, textY, textMaxW, 28);

@@ -171,6 +171,7 @@ class PushableBookshelf {
     nudge() {
         if (this.nudgeCount >= this.maxNudges) return;
 
+        SOUND_MANAGER.play("./SFX/Room5/BookshelfSliding.mp3", this.game);
         this.nudgeCount++;
         this.targetX = this.x - this.nudgeDistance;
         this.isSliding = true;
