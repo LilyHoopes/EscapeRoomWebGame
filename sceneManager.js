@@ -770,14 +770,14 @@ class SceneManager {
                                 { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
                                 { speaker: "Lily", text: "Hi, it's good to see that I'm not alone!" },
                                 { speaker: "Shiannel", text: "I feel the same... But, we have a problem." },
-                                { speaker: "Shiannel", text: "T-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it wont budge!" },
+                                { speaker: "Shiannel", text: "Th-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it won't budge!" },
                                 { speaker: "Lily", text: "Hm..." },
                                 { speaker: "Lily", text: "Well, I guess we'll need something harder to hit it with then." },
                                 { speaker: "Shiannel", text: "!!!" },
                                 { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room." },
-                                { speaker: "Shiannel", text: "But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet." },
+                                { speaker: "Shiannel", text: "But he a-always makes me close my eyes before he puts it away. I haven't been able to f-find it yet." },
                                 { speaker: "Shiannel", text: "But I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
-                                { speaker: "Lily", text: "You just stay there, i’ll start looking. But where should I even begin? I don’t want to waste time." },
+                                { speaker: "Lily", text: "You just stay there, I’ll start looking. But where should I even begin? I don’t want to waste time." },
                                 { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s creepy!" },
                                 { speaker: "Lily", text: "Hm…" }
                             ];
