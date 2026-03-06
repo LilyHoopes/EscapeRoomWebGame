@@ -210,7 +210,7 @@ SOUND_MANAGER.load("./SFX/Room3/PlacingMedallionInSlot.mp3");
 
 
 // Room 5
-
+SOUND_MANAGER.load("./SFX/Room5/BookshelfSliding.mp3");
 
 
 // UI SCREENS (win, lose)
