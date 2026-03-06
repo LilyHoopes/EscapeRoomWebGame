@@ -11,10 +11,13 @@ class FrameZoomView {
         
         this.sprite = this.frame.sprite;
         this.removeFromWorld = false;
-        this.removeFromWorld = false;
     }
     
     update() {
+        if (this.game.sceneManager.health <= 0) {
+            this.removeFromWorld = true;
+            return;
+        }
         // ESC to close
         if (this.game.keys["Escape"]) {
             this.close();
