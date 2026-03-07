@@ -180,6 +180,9 @@ ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/PlayAgainButton.png");
 // General SFX
 SOUND_MANAGER.load("./SFX/OpeningDoor.mp3");
 // TODO: walking sounds, carpet, concrete, wooden floor 
+SOUND_MANAGER.load("./SFX/WalkingOnWood1.mp3");
+SOUND_MANAGER.load("./SFX/WalkingOnCarpet.mp3");
+SOUND_MANAGER.load("./SFX/WalkingOnConcrete.mp3");  
 
 // Room 1
 SOUND_MANAGER.load("./SFX/Room1/WomanScream.mp3", 0.4);

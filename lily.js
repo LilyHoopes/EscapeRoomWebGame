@@ -7,6 +7,19 @@ class Lily {
         this.width = 100; // Add hitbox size
         this.height = 125;
         this.speed = 450;
+
+        // this.footstepTimer = 0;
+        // this.footStepCoolDown = 0.35 // seconds between each step 
+        // this.wasMoving = false; // tacks if Lily was moving in the last frame or nah
+        // this.isLooping = false;
+
+        this.footstepTimer = 0;
+        this.footstepCooldown = 0.35;
+        this.wasMoving = false;
+        this.isLooping = false;
+        this.walkLoopAudio = new Audio("./SFX/WalkingOnWood.mp3");
+        this.walkLoopAudio.loop = true;
+        this.walkLoopAudio.volume = 0.4;
         
         const sheet = ASSET_MANAGER.getAsset("./Sprites/LilySpriteSheet2_0.png");
 
@@ -47,58 +60,118 @@ class Lily {
     }
 
     update() {
-
-         // Stop movement when dialogue or zoom is active
+        // stops movement when dialogue or zoom is active
         const sm = this.game.sceneManager;
-        if (this.game.examining || (sm && sm.dialogueBox && sm.dialogueBox.active)) {
-        this.currentAnimation = this.animations.idleDown;
-        return;
-    }
+        if (this.game.examining || (sm && sm.dialogueBox && sm.dialogueBox.active) || this.game.E) {
+            this.currentAnimation = this.animations.idleDown;
+            // Always stop footsteps every frame when frozen, no conditions
+            this.walkLoopAudio.pause();
+            this.walkLoopAudio.currentTime = 0;
+            this.isLooping = false;
+            this.wasMoving = false;
+            SOUND_MANAGER.stop("./SFX/WalkingOnWood1.mp3");
+            return;
+        }
 
         let dx = 0;
         let dy = 0;
-        //console.log("Keys:", this.game.left, this.game.right, this.game.up, this.game.down);
 
         let moving = false;
         
-        // Handle movement and set appropriate animation
+        // handles movement and set appropriate animation
         if (this.game.left) {
             dx -= this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkLeft;
             this.facing = "left";
             moving = true;
-            //console.log("Moving left!");
-
         }
         if (this.game.right) {
             dx += this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkRight;
             this.facing = "right";
             moving = true;
-            //console.log("Moving right!");
         }
         if (this.game.up) {
             dy -= this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkUp;
             this.facing = "up";
             moving = true;
-            //console.log("Moving up!");            
         }
         if (this.game.down) {
             dy += this.speed * this.game.clockTick;
             this.currentAnimation = this.animations.walkDown;
             this.facing = "down";
             moving = true;
-            //console.log("Moving down!");            
         }
         
+        // Footstep sounds
+        // if (moving) {
+        //     if (!this.wasMoving) {
+        //         // just started moving - play tap once, reset loop flag
+        //         this.isLooping = false;
+        //         SOUND_MANAGER.stop("./SFX/WalkingOnWood.mp3");
+        //         SOUND_MANAGER.play("./SFX/WalkingOnWood1.mp3", this.game);
+        //         this.footstepTimer = this.footstepCooldown;
+        //     }
+
+        //     this.footstepTimer -= this.game.clockTick;
+
+        //     if (this.footstepTimer <= 0 && !this.isLooping) {
+        //         // tap sound finished, start loop ONCE
+        //         this.isLooping = true;
+        //         SOUND_MANAGER.playLoop("./SFX/WalkingOnWood.mp3", this.game);
+        //     }
+
+        //     this.wasMoving = true;
+        // } else {
+        //     if (this.wasMoving) {
+        //         // lily stopped - kill everything
+        //         SOUND_MANAGER.stop("./SFX/WalkingOnWood.mp3");
+        //         SOUND_MANAGER.stop("./SFX/WalkingOnWood1.mp3");
+        //         this.isLooping = false;
+        //     }
+        //     this.footstepTimer = 0;
+        //     this.wasMoving = false;
+        // }
+
+       // Footstep sound
+        if (moving) {
+            if (!this.wasMoving) {
+                // just started - play tap once
+                this.isLooping = false;
+                this.walkLoopAudio.pause();
+                this.walkLoopAudio.currentTime = 0;
+                SOUND_MANAGER.play("./SFX/WalkingOnWood1.mp3", this.game);
+                this.footstepTimer = this.footstepCooldown;
+            }
+
+            this.footstepTimer -= this.game.clockTick;
+
+            if (this.footstepTimer <= 0 && !this.isLooping) {
+                // tap finished, start loop
+                this.isLooping = true;
+                this.walkLoopAudio.play().catch(() => {});
+            }
+
+            this.wasMoving = true;
+
+            } else {
+                // stops the audio when lily isnt moving
+                this.walkLoopAudio.pause();
+                this.walkLoopAudio.currentTime = 0;
+                this.isLooping = false;
+                SOUND_MANAGER.stop("./SFX/WalkingOnWood1.mp3");
+                this.footstepTimer = 0;
+                this.wasMoving = false;
+            } 
+
         // If not moving, use idle animation
         if (!moving) {
             switch (this.facing) {
                 case "up":    this.currentAnimation = this.animations.idleUp;    break;
                 case "left":  this.currentAnimation = this.animations.idleLeft;  break;
                 case "right": this.currentAnimation = this.animations.idleRight; break;
-                default:      this.currentAnimation = this.animations.idleDown;      break; 
+                default:      this.currentAnimation = this.animations.idleDown;  break; 
             }
         }
 
@@ -113,10 +186,6 @@ class Lily {
         this.updateLastBB();
         this.updateBB();
         this.handleVerticalCollisions();
-
-        //to keep lily detained in room
-        //this.x = Math.max(-50, Math.min(this.x, 1350 - this.width));
-        //this.y = Math.max(100, Math.min(this.y, 850 - this.height));
     }
 
    handleHorizontalCollisions() { 

@@ -125,6 +125,14 @@ class SceneManager {
         // stops cold wind from playing in other rooms
         SOUND_MANAGER.stop("./SFX/Room2/BitterColdWind.mp3");
 
+        // stops footsteps of lily when entering another room
+        if (this.lily && this.lily.walkLoopAudio) {
+            this.lily.walkLoopAudio.pause();
+            this.lily.walkLoopAudio.currentTime = 0;
+            this.lily.isLooping = false;
+            this.lily.wasMoving = false;
+        }
+
         this.clearEntities();
         this.currentRoom = roomName;
 
