@@ -804,6 +804,9 @@ class SceneManager {
                                 this.dialogueBox.startSequence(part2, null, null, () => {
                                     shi.stage = 1;
                                     shi.met = true;
+
+                                    SOUND_MANAGER.play("./SFX/Room2/ClairDeLuneMuffled.mp3", this.game);
+                                    
                                     this.game.examining = false;
                                 });
                             });
@@ -1209,6 +1212,7 @@ class SceneManager {
     takeDamage() {
         if (this.health <= 0) return; // Already dead
 
+        SOUND_MANAGER.play("./SFX/HeartDeplete.mp3", this.game);
         this.health--;
 
         if (this.health <= 0) {
@@ -1269,7 +1273,7 @@ class SceneManager {
 
         setTimeout(() => {
             SOUND_MANAGER.play("./SFX/UIScreens/WinMusic2.mp3", this.game);
-        }, 1000);
+        }, 1200);
 
         // Clear entities and show ending
         this.clearEntities();
