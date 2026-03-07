@@ -23,6 +23,13 @@ class Killer {
 
         this.spriteSheet = ASSET_MANAGER.getAsset("./Sprites/Room4/Killer_Spritesheet.png");
 
+        // killer walk
+        this.footstepTimer = 0;
+        this.footstepCooldown = 0.4;
+        this.killerWalkAudio = new Audio("./SFX/KillerWalk2.mp3");
+        this.killerWalkAudio.loop = true;
+        this.killerWalkAudio.volume = 0.5;
+
         const frameWidth = this.spriteSheet.width / 4;
         const frameHeight = this.spriteSheet.height / 4;
 
@@ -76,6 +83,11 @@ class Killer {
             this.y += 200 * this.game.clockTick;
             this.currentAnimation = this.animations.walkDown;
             this.updateBB();
+
+            // stop killerr walk sound when giving up and walking down
+            this.killerWalkAudio.pause();
+            this.killerWalkAudio.currentTime = 0;
+
             if (this.y > 1200) {
                 this.removeFromWorld = true;
             }
@@ -96,6 +108,7 @@ class Killer {
             dx = (diffX / distance) * this.speed * this.game.clockTick;
             dy = (diffY / distance) * this.speed * this.game.clockTick;
         }
+
         // Determine facing direction
         if (Math.abs(diffX) > Math.abs(diffY)) {
             if (diffX > 0) {
@@ -113,6 +126,11 @@ class Killer {
                 this.currentAnimation = this.animations.walkUp;
                 this.facing = "up";
             }
+        }
+
+        // FOOTSTEP SOUNDS WHEN MOVING  
+        if (this.killerWalkAudio.paused) {
+            this.killerWalkAudio.play().catch(() => {});
         }
 
         //xmovement

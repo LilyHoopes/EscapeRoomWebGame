@@ -59,12 +59,14 @@ class DeathScreen {
     
     playAgain() {
         // Reset everything and load Room 1
+        SOUND_MANAGER.stop("./SFX/Room2/ClairDeLuneMuffled.mp3");
         this.game.sceneManager.clearEntities();
         this.game.sceneManager.resetGame();
         this.removeFromWorld = true;
     }
     
     returnToTitle() {
+        SOUND_MANAGER.stop("./SFX/Room2/ClairDeLuneMuffled.mp3");
         if (this.game.room1Audio) {
         this.game.room1Audio.pause();
         this.game.room1Audio.currentTime = 0;
