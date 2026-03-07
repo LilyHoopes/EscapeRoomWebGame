@@ -8,11 +8,7 @@ class Lily {
         this.height = 125;
         this.speed = 450;
 
-        // this.footstepTimer = 0;
-        // this.footStepCoolDown = 0.35 // seconds between each step 
-        // this.wasMoving = false; // tacks if Lily was moving in the last frame or nah
-        // this.isLooping = false;
-
+        // walking stuffs
         this.footstepTimer = 0;
         this.footstepCooldown = 0.35;
         this.wasMoving = false;
@@ -103,38 +99,8 @@ class Lily {
             this.facing = "down";
             moving = true;
         }
-        
-        // Footstep sounds
-        // if (moving) {
-        //     if (!this.wasMoving) {
-        //         // just started moving - play tap once, reset loop flag
-        //         this.isLooping = false;
-        //         SOUND_MANAGER.stop("./SFX/WalkingOnWood.mp3");
-        //         SOUND_MANAGER.play("./SFX/WalkingOnWood1.mp3", this.game);
-        //         this.footstepTimer = this.footstepCooldown;
-        //     }
 
-        //     this.footstepTimer -= this.game.clockTick;
-
-        //     if (this.footstepTimer <= 0 && !this.isLooping) {
-        //         // tap sound finished, start loop ONCE
-        //         this.isLooping = true;
-        //         SOUND_MANAGER.playLoop("./SFX/WalkingOnWood.mp3", this.game);
-        //     }
-
-        //     this.wasMoving = true;
-        // } else {
-        //     if (this.wasMoving) {
-        //         // lily stopped - kill everything
-        //         SOUND_MANAGER.stop("./SFX/WalkingOnWood.mp3");
-        //         SOUND_MANAGER.stop("./SFX/WalkingOnWood1.mp3");
-        //         this.isLooping = false;
-        //     }
-        //     this.footstepTimer = 0;
-        //     this.wasMoving = false;
-        // }
-
-       // Footstep sound
+       // Footstep soundss
         if (moving) {
             if (!this.wasMoving) {
                 // just started - play tap once
