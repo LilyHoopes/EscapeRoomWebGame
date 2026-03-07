@@ -59,12 +59,19 @@ class EndingScreen {
     }
     
     playAgain() {
+        // stop the win music if it's still playing
+        SOUND_MANAGER.stop("./SFX/UIScreens/WinMusic2.mp3");
+        SOUND_MANAGER.stop("./SFX/UIScreens/WalkingOnGrass.mp3");
+
         this.game.sceneManager.resetGame();
         this.removeFromWorld = true;
     }
     
     returnToTitle() {
-        
+        // stop the win music if it's still playing
+        SOUND_MANAGER.stop("./SFX/UIScreens/WinMusic2.mp3");
+        SOUND_MANAGER.stop("./SFX/UIScreens/WalkingOnGrass.mp3");
+
         // Start intro BGM again
         if (this.game.introAudio) {
             this.game.introAudio.currentTime = 0;

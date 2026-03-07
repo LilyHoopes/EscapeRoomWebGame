@@ -1264,6 +1264,13 @@ class SceneManager {
         }
         console.log("in showEndingScreen method")
 
+        // music for ending screen
+        SOUND_MANAGER.play("./SFX/UIScreens/WalkingOnGrass.mp3", this.game);
+
+        setTimeout(() => {
+            SOUND_MANAGER.play("./SFX/UIScreens/WinMusic2.mp3", this.game);
+        }, 1000);
+
         // Clear entities and show ending
         this.clearEntities();
         this.game.addEntity(new EndingScreen(this.game));

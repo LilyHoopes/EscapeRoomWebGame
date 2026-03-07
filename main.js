@@ -179,6 +179,8 @@ ASSET_MANAGER.queueDownload("./Sprites/EndGameScreens/PlayAgainButton.png");
 
 // General SFX
 SOUND_MANAGER.load("./SFX/OpeningDoor.mp3");
+SOUND_MANAGER.load("./SFX/HeartDeplete.mp3");
+
 // TODO: walking sounds, carpet, concrete, wooden floor 
 SOUND_MANAGER.load("./SFX/WalkingOnWood1.mp3");
 SOUND_MANAGER.load("./SFX/KillerWalk2.mp3");
@@ -186,6 +188,8 @@ SOUND_MANAGER.load("./SFX/KillerWalk22.mp3");
 
 // UI Screens
 SOUND_MANAGER.load("./SFX/UIScreens/BloodSplatterDeathScreen.mp3");  
+SOUND_MANAGER.load("./SFX/UIScreens/WinMusic2.mp3");
+SOUND_MANAGER.load("./SFX/UIScreens/WalkingOnGrass.mp3");
 
 // Room 1
 SOUND_MANAGER.load("./SFX/Room1/WomanScream.mp3", 0.4);
@@ -203,7 +207,7 @@ SOUND_MANAGER.load("./SFX/Room2/LockedPaintings.mp3");
 SOUND_MANAGER.load("./SFX/Room2/OpeningClassicalPainting.mp3");
 SOUND_MANAGER.load("./SFX/Room2/PickingUpMetalPipe.mp3");
 SOUND_MANAGER.load("./SFX/Room2/FrozenLockBreaking.mp3");
-SOUND_MANAGER.load("./SFX/Room2/ClairDeLuneMuffled.mp3");
+SOUND_MANAGER.load("./SFX/Room2/ClairDeLuneMuffled.mp3", 0.8);
 
 // Room 3
 SOUND_MANAGER.load("./SFX/Room3/DraggingCandles.mp3");
