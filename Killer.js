@@ -26,7 +26,7 @@ class Killer {
         // killer walk
         this.footstepTimer = 0;
         this.footstepCooldown = 0.4;
-        this.killerWalkAudio = new Audio("./SFX/KillerWalk2.mp3");
+        this.killerWalkAudio = new Audio("./SFX/KillerWalk22.mp3");
         this.killerWalkAudio.loop = true;
         this.killerWalkAudio.volume = 0.5;
 
