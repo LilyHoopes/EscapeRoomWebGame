@@ -149,7 +149,7 @@ class SceneManager {
         // BGM applicator
         const bgmMap = {
             room1: "./bgm/House of Souls Room1.mp3",
-            room2: "./bgm/House of Souls Room2.mp3",
+            //room2: "./bgm/House of Souls Room2.mp3",
             room3: "./bgm/House of Souls Room3.mp3",
             room4: "./bgm/House of Souls Room4.mp3",
             //room5: "./bgm/House of Souls Room5.mp3", -- leave it as comment
@@ -173,7 +173,7 @@ class SceneManager {
                 this.roomBGM.muted = !!this.game.muted;
                 this.roomBGM.volume = (typeof this.game.musicVolume === "number")
                     ? this.game.musicVolume
-                    : 0.65;
+                    : 0.4; // does not even change it? 
                 this.roomBGM.play().catch(() => { });
             }
         }

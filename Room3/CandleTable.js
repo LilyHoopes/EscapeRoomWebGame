@@ -139,6 +139,7 @@ class CandleTable {
     onPuzzleSolved() {
         this.puzzleSolved = true;
         this.game.sceneManager.puzzleStates.room3.candlesArranged = true;
+        SOUND_MANAGER.play("./SFX/Room3/MedallionDrop.mp3", this.game);
     }
     
     takeMedallion() {
