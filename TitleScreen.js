@@ -245,10 +245,10 @@ class TitleScreen {
             ctx.fillText("Controls", 80, 120);
 
             ctx.font = "20px Arial";
-            ctx.fillText("WASD: Move", 80, 170);
+            ctx.fillText("WASD or Arrow Keys: Move", 80, 170);
             ctx.fillText("E: Interact", 80, 205);
             ctx.fillText("I: Inventory", 80, 240);
-            ctx.fillText("Enter / Click: Back", 80, 275);
+            ctx.fillText("Enter / Click / Esc: Back", 80, 275);
         }
 
         // ===== DEBUG HITBOX DRAW =====

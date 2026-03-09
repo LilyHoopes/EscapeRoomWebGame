@@ -48,6 +48,19 @@ class DialogueBox {
         this._prevEnter = false;
         this._prevLeft = false;
         this._prevRight = false;
+
+        this.typingSoundTimer = 0;
+        this.typingSoundCooldown = 0.08;
+        this.voiceAudio = {
+            "Lily":           new Audio("./SFX/Voices/lily.mp3"),
+            "Shiannel":       new Audio("./SFX/Voices/shiannel.mp3"),
+            "Victor":         new Audio("./SFX/Voices/victor.mp3"),
+            "Jin":            new Audio("./SFX/Voices/jin.mp3"),
+            "Ghost Shiannel": new Audio("./SFX/Voices/shiannel.mp3"),
+            "Ghost Victor":   new Audio("./SFX/Voices/victor.mp3"),
+            "Ghost Jin":      new Audio("./SFX/Voices/jin.mp3"),
+        };
+
     }
 
     // ===== Public API =====
@@ -165,14 +178,34 @@ class DialogueBox {
         if (this.mode === "line" && this.isTyping) {
             const dt = (this.game && typeof this.game.clockTick === "number") ? this.game.clockTick : (1 / 60);
             this.typeTimer += dt;
+            this.typingSoundTimer -= dt;
 
             const charsToAdd = Math.floor(this.typeTimer * this.typeSpeed);
             if (charsToAdd > 0) {
                 this.typeTimer -= charsToAdd / this.typeSpeed;
                 this.charIndex = Math.min(this.fullText.length, this.charIndex + charsToAdd);
                 this.displayText = this.fullText.slice(0, this.charIndex);
+
                 if (this.charIndex >= this.fullText.length) {
                     this.isTyping = false;
+                }
+
+                // plays bleep bloops for each character
+                // but not for narration (which are in [brackets])
+                if (this.typingSoundTimer <= 0) {
+                    const isNarration = this.fullText.trim().startsWith("[");
+
+                    if (!isNarration) {
+                        const audio = this.voiceAudio[this.speakerName];
+                        if (audio) {
+                            audio.volume = typeof this.game.sfxVolume === "number" ? this.game.sfxVolume : 0.4;
+                            audio.muted = !!this.game.muted;
+                            audio.currentTime = 0;
+                            audio.play().catch(() => {});
+                        }
+                    }
+
+                    this.typingSoundTimer = this.typingSoundCooldown;
                 }
             }
         }

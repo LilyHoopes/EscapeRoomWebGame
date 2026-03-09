@@ -25,6 +25,7 @@ class PigHeadZoomView {
         
         this.medallionTaken = this.PigHead.medallionTaken;
         this.removeFromWorld = false;
+        this.medallionJustTaken = false;
     }
     
     update() {
@@ -62,31 +63,37 @@ class PigHeadZoomView {
     
     // if medallion is clicked on, add to inventory, update pighead image, and change state 
     takeMedallion() {
-    this.game.sceneManager.addToInventory("Snowflake Medallion", "./Sprites/Room3/SnowflakeMedallion.png");        
-    this.PigHead.onMedallionTaken();
-    this.medallionTaken = true;
-
-    // Close zoom first
-    this.close();
-
-    // Small delay so zoom fully disappears before dialogue
-    setTimeout(() => {
-        this.game.examining = true;
-
-        this.game.sceneManager.dialogueBox.openLine(
-            "It’s a medallion! It has a snowflake on it…",
-            "./Sprites/UI/LilyPortrait.png",
-            "Lily",
-            () => {
-                this.game.examining = false;
-            }
+        this.game.sceneManager.addToInventory(
+            "Snowflake Medallion",
+            "./Sprites/Room3/SnowflakeMedallion.png"
         );
-    }, 0);
-}
+
+        this.PigHead.onMedallionTaken();
+        this.medallionTaken = true;
+        this.medallionJustTaken = true;
+
+        SOUND_MANAGER.play("./SFX/Room3/PigheadGuts.mp3", this.game);
+    }
     
     close() {
-        this.removeFromWorld = true; // remove zoomed PigHead from world 
+        this.removeFromWorld = true;
         this.game.examining = false;
+
+        if (this.medallionJustTaken) {
+            setTimeout(() => {
+                this.game.examining = true;
+
+                this.game.sceneManager.dialogueBox.openLine(
+                    "It’s a medallion! It has a snowflake on it…",
+                    "./Sprites/UI/LilyPortrait.png",
+                    "Lily",
+                    () => {
+                        this.game.examining = false;
+                    }
+                );
+            }, 0);
+            this.medallionJustTaken = false;
+        }
     }
     
     draw(ctx) {

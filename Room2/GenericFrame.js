@@ -30,6 +30,10 @@ class GenericFrame {
         let lily = this.game.sceneManager.lily;
         if (!lily.BB) return false;
 
+         if (lily.BB.y + lily.BB.height < this.y + this.height * 0.5) {
+            return false;
+        }
+
         let distance = Math.sqrt(
             Math.pow((this.x + this.width  / 2) - (lily.BB.x + lily.BB.width  / 2), 2) +
             Math.pow((this.y + this.height / 2) - (lily.BB.y + lily.BB.height / 2), 2)
