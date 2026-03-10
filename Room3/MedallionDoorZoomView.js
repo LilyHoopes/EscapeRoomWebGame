@@ -66,8 +66,8 @@ class MedallionDoorZoomView {
     }
     
     update() {
-        // ESC to close
-        if (this.game.keys["Escape"]) {
+        // ESC to close — disabled while dragging
+        if (this.game.keys["Escape"] && !this.draggingMedallion) {
             this.close();
             return;
         }
@@ -185,9 +185,7 @@ class MedallionDoorZoomView {
     }
     
     removeMedallionsFromInventory() {
-        this.game.sceneManager.removeFromInventory("Snowflake Medallion");
-        this.game.sceneManager.removeFromInventory("Candle Medallion");
-        this.game.sceneManager.removeFromInventory("Leaf Medallion");
+ 
     }
     
     checkSolution() {
@@ -220,9 +218,32 @@ class MedallionDoorZoomView {
     }
     
     close() {
-        // Save current state
+        // Sync real inventory to match what's in slots + availableMedallions
+        // First restore all medallions to inventory
+        const nameMap = {
+            snowflake: "Snowflake Medallion",
+            candle: "Candle Medallion",
+            leaf: "Leaf Medallion"
+        };
+        const spriteMap = {
+            snowflake: "./Sprites/Room3/SnowflakeMedallion.png",
+            candle: "./Sprites/Room3/CandleMedallion.png",
+            leaf: "./Sprites/Room3/LeafMedallion.png"
+        };
+
+        // Remove all medallions from real inventory first
+        this.game.sceneManager.removeFromInventory("Snowflake Medallion");
+        this.game.sceneManager.removeFromInventory("Candle Medallion");
+        this.game.sceneManager.removeFromInventory("Leaf Medallion");
+
+        // Re-add only the ones sitting in availableMedallions (not placed in slots)
+        for (const type of this.availableMedallions) {
+            this.game.sceneManager.addToInventory(nameMap[type], spriteMap[type]);
+        }
+
+        // Save slot state
         this.game.sceneManager.puzzleStates.room3.medallionSlots = [...this.slotContents];
-        
+
         this.removeFromWorld = true;
         this.game.examining = false;
     }

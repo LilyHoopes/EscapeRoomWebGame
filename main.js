@@ -202,7 +202,7 @@ SOUND_MANAGER.load("./SFX/Room2/LockedPaintings.mp3");
 SOUND_MANAGER.load("./SFX/Room2/OpeningClassicalPainting.mp3");
 SOUND_MANAGER.load("./SFX/Room2/PickingUpMetalPipe.mp3");
 SOUND_MANAGER.load("./SFX/Room2/FrozenLockBreaking.mp3");
-SOUND_MANAGER.load("./SFX/Room2/ClairDeLuneMuffled.mp3", 0.8);
+SOUND_MANAGER.load("./SFX/Room2/ClairDeLuneMuffled.mp3", 1.0); // the classical music 
 
 // Room 3
 SOUND_MANAGER.load("./SFX/Room3/DraggingCandles.mp3");
