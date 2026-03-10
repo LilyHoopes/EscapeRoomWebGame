@@ -62,8 +62,8 @@ class KeypadZoomView {
         
         // Track keyboard input
         this.lastKeyPressed = null;
-        
         this.removeFromWorld = false;
+        this.game.click = null;
     }
     
     update() {
