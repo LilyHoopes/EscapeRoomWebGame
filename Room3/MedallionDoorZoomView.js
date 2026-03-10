@@ -66,8 +66,8 @@ class MedallionDoorZoomView {
     }
     
     update() {
-        // ESC to close
-        if (this.game.keys["Escape"]) {
+        // ESC to close — disabled while dragging
+        if (this.game.keys["Escape"] && !this.draggingMedallion) {
             this.close();
             return;
         }
