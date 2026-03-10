@@ -31,7 +31,7 @@ class SceneManager {
         // Puzzle progress tracking
         this.puzzleStates = {
             room1: { door1Open: false, hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: { door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null, introPlayed: false },
+            room2: { door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null, introPlayed: false, saidGoodbyeToShiannel: false, nudgedToShiannel: false },
             room3: {
                 door3Open: false,
                 snowflakeMedallion: false,
@@ -768,6 +768,8 @@ class SceneManager {
                     // stage control
                     if (this.puzzleStates.room2.lockBroken) {
                         shi.stage = 2;
+                    } else if (this.puzzleStates.room2.pipeObtained && shi.stage === 1) {
+                        shi.stage = 1; // keep at 1 but serve different dialogue below
                     }
 
                     // Consume E immediately so it does not retrigger
@@ -821,8 +823,12 @@ class SceneManager {
                                 "./Sprites/UI/ShiannelPortrait.png",
                                 null,
                                 () => {
-                                    shi.met = true;
-                                    this.game.examining = false;
+                                shi.met = true;
+                                this.game.examining = false;
+                                // if this was the goodbye dialogue, mark it done
+                                    if (shi.stage === 2) {
+                                        this.puzzleStates.room2.saidGoodbyeToShiannel = true;
+                                    }
                                 }
                             );
                         }
@@ -1305,7 +1311,7 @@ class SceneManager {
         // Reset all puzzle states
         this.puzzleStates = {
             room1: { door1Open: false, hasKey: false, bookUnlocked: false, paperTaken: false, codeEntered: false },
-            room2: { door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null, introPlayed: false },
+            room2: { door2Open: false, pipeObtained: false, lockBroken: false, lockPosition: null, introPlayed: false, saidGoodbyeToShiannel: false, nudgedToShiannel: false },
             room3: {
                 snowflakeMedallion: false,
                 candleMedallion: false,

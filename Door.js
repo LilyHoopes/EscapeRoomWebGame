@@ -57,6 +57,35 @@ class Door {
                 this.game.E = false; // only consume E when door is actually usable
                 this.canTrigger = false;
 
+            // Room 2 -> Room 3: must say goodbye to Shiannel first
+            if (this.destinationRoom === "room3") {
+                const r2 = this.game.sceneManager.puzzleStates.room2;
+                const shi = this.game.sceneManager.npcStates.shiannel;
+
+                // block if Shiannel hasn't had her goodbye yet
+                if (!r2.saidGoodbyeToShiannel) {
+                    // only show the nudge dialogue once
+                    if (!r2.nudgedToShiannel) {
+                        r2.nudgedToShiannel = true;
+                        this.game.examining = true;
+
+                        this.game.sceneManager.dialogueBox.startSequence(
+                            [{ speaker: "Lily", text: "Hmm... I should let Shiannel know I got the door open first." }],
+                            null, null,
+                            () => {
+                                this.game.examining = false;
+                                this.canTrigger = true;
+                                this.game.sceneManager.npcStates.shiannel.stage = 2;
+                            }
+                        );
+                    } else {
+                        // nudge already shown, just reset canTrigger so they can walk away
+                        this.canTrigger = true;
+                    }
+                    return;
+                }
+            }
+
             // Special ending door behaviour
             if (this.destinationRoom === "ending") {
                 this.showingOpen = true; // show open sprite briefly
