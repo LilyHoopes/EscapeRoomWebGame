@@ -157,7 +157,7 @@ class Door {
             }
 
             let textX = this.x + this.width/2 - ctx.measureText(text).width/2;
-            let textY = this.y - 20;
+            let textY = this.destinationRoom === "ending" ? this.y + 40 : this.y - 20;
 
             ctx.strokeText(text, textX, textY);
             ctx.fillText(text, textX, textY);
