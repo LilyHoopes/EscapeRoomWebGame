@@ -42,10 +42,16 @@ class CodexPickup {
 
     draw(ctx) {
 
-        ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        if (this.sprite && this.sprite.complete && this.sprite.naturalWidth > 0) {
+            ctx.drawImage(this.sprite, this.x, this.y, this.width, this.height);
+        } else {
+            // fallback placeholder
+            ctx.fillStyle = "yellow";
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
 
         if (this.game.debug) {
-            ctx.strokeStyle = "Red";
+            ctx.strokeStyle = "red";
             ctx.strokeRect(this.BB.x, this.BB.y, this.BB.width, this.BB.height);
         }
     }

@@ -22,8 +22,8 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: false,   // Door from room 1 to room 2
-            room2ToRoom3: false,   // Door from room 2 to room 3
+            room1ToRoom2: true,   // Door from room 1 to room 2
+            room2ToRoom3: true,   // Door from room 2 to room 3
             room3ToRoom4: false,  // Door from room 3 to room 4 
             room4ToRoom5: true   // This should always be set to true
         };
@@ -508,7 +508,7 @@ class SceneManager {
                 ],
                 null,
                 null,
-                () => { 
+                () => {
                     this.game.examining = false;
                 }
             );
@@ -675,7 +675,7 @@ class SceneManager {
         if (vic) vic.removeFromWorld = true;
         if (jin) jin.removeFromWorld = true;
 
-//ghost frames
+        //ghost frames
         const ghostCfg = {
             frames: 2,
             startX: 0,
@@ -687,8 +687,10 @@ class SceneManager {
         };
 
         this.game.addEntity(
-            new GhostNPC(this.game, shiX, shiY, "./Sprites/Room5/Ghost_ShiannelSpreadSheet.png", {frames: 2, startX: 0, startY: 0, frameWidth: 345, 
-                frameHeight: 390, frameDuration: 0.5, scale: 0.4})
+            new GhostNPC(this.game, shiX, shiY, "./Sprites/Room5/Ghost_ShiannelSpreadSheet.png", {
+                frames: 2, startX: 0, startY: 0, frameWidth: 345,
+                frameHeight: 390, frameDuration: 0.5, scale: 0.4
+            })
         );
 
         this.game.addEntity(
@@ -704,18 +706,18 @@ class SceneManager {
 
         this.dialogueBox.startSequence(
             [
-                { speaker: "Lily",          text: "!?!" },
-                { speaker: "Lily",          text: "What the... You guys are..." },
-                { speaker: "Ghost Victor",   text: "We are ghosts." },
-                { speaker: "Ghost Jin",      text: "We were survivors like you..." },
-                { speaker: "Ghost Victor",   text: "That's why we strive to help any new survivors he brings here." },
-                { speaker: "Lily",          text: "But... h-how? You all looked real, looked alive..." },
+                { speaker: "Lily", text: "!?!" },
+                { speaker: "Lily", text: "What the... You guys are..." },
+                { speaker: "Ghost Victor", text: "We are ghosts." },
+                { speaker: "Ghost Jin", text: "We were survivors like you..." },
+                { speaker: "Ghost Victor", text: "That's why we strive to help any new survivors he brings here." },
+                { speaker: "Lily", text: "But... h-how? You all looked real, looked alive..." },
                 { speaker: "Ghost Shiannel", text: "I'm sorry we lied to you..." },
-                { speaker: "Lily",          text: "I... I don't want to leave you guys." },
-                { speaker: "Ghost Victor",   text: "You must... Who else is going to help if he brings more survivors?" },
-                { speaker: "Lily",          text: "..." },
-                { speaker: "Lily",          text: "I'm going to put an end to this..." },
-                { speaker: "Lily",          text: "Thank you... for helping me. I will make sure you can finally rest." }
+                { speaker: "Lily", text: "I... I don't want to leave you guys." },
+                { speaker: "Ghost Victor", text: "You must... Who else is going to help if he brings more survivors?" },
+                { speaker: "Lily", text: "..." },
+                { speaker: "Lily", text: "I'm going to put an end to this..." },
+                { speaker: "Lily", text: "Thank you... for helping me. I will make sure you can finally rest." }
             ],
             null,
             null,
@@ -811,7 +813,7 @@ class SceneManager {
                                     shi.met = true;
 
                                     SOUND_MANAGER.play("./SFX/Room2/ClairDeLuneMuffled.mp3", this.game);
-                                    
+
                                     this.game.examining = false;
                                 });
                             });
@@ -823,9 +825,9 @@ class SceneManager {
                                 "./Sprites/UI/ShiannelPortrait.png",
                                 null,
                                 () => {
-                                shi.met = true;
-                                this.game.examining = false;
-                                // if this was the goodbye dialogue, mark it done
+                                    shi.met = true;
+                                    this.game.examining = false;
+                                    // if this was the goodbye dialogue, mark it done
                                     if (shi.stage === 2) {
                                         this.puzzleStates.room2.saidGoodbyeToShiannel = true;
                                     }
@@ -848,7 +850,7 @@ class SceneManager {
                 const r3 = this.puzzleStates.room3;
 
                 // Victor
-                if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220)) {
+                if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220) && !r3.leafMedallion) {
 
                     if (this.victorPrompt) {
                         this.victorPrompt.removeFromWorld = true;
@@ -888,7 +890,7 @@ class SceneManager {
                 }
 
                 // Jin
-                else if (this.isNear(this.jinPos.x, this.jinPos.y, 120)) {
+                else if (this.isNear(this.jinPos.x, this.jinPos.y, 120) && !r3.codexDropped) {
 
                     if (this.jinPrompt) {
                         this.jinPrompt.removeFromWorld = true;
@@ -930,13 +932,13 @@ class SceneManager {
                     this.game.E = false;
                     this.game.examining = true;
 
-                this.dialogueBox.startSequence(
-                    [
-                        { speaker: "Shiannel", text: "You did it, Lily!" },
-                        { speaker: "Shiannel", text: "We're so happy you made it!" }
-                    ],
-                    null,
-                    "Shiannel",
+                    this.dialogueBox.startSequence(
+                        [
+                            { speaker: "Shiannel", text: "You did it, Lily!" },
+                            { speaker: "Shiannel", text: "We're so happy you made it!" }
+                        ],
+                        null,
+                        "Shiannel",
                         () => {
                             this.npcStates.shiannel.met = true;
                             this.game.examining = false;
@@ -1038,76 +1040,78 @@ class SceneManager {
         }
 
         // Room3 Victor/Jin prompts
-        if (!this.dialogueBox.active && this.currentRoom === "room3") {
+if (!this.dialogueBox.active && this.currentRoom === "room3") {
 
-            const nearVictor = this.isNear(this.victorPos.x, this.victorPos.y, 220);
-            const nearJin = this.isNear(this.jinPos.x, this.jinPos.y, 120);
+    const r3 = this.puzzleStates.room3;
 
-            // Victor prompt
-            if (nearVictor) {
-                if (!this.victorPrompt) {
-                    this.victorPrompt = new TalkPrompt(
-                        this.game,
-                        this.victorPos.x + 55,
-                        this.victorPos.y - 20,
-                        "E to Talk"
-                    );
-                    this.game.addEntity(this.victorPrompt);
-                }
-            } else {
-                if (this.victorPrompt) {
-                    this.victorPrompt.removeFromWorld = true;
-                    this.victorPrompt = null;
-                }
+    const nearVictor = this.isNear(this.victorPos.x, this.victorPos.y, 220) && !r3.leafMedallion;
+    const nearJin = this.isNear(this.jinPos.x, this.jinPos.y, 120) && !r3.codexDropped;
+
+    // Victor prompt
+    if (nearVictor) {
+        if (!this.victorPrompt) {
+            this.victorPrompt = new TalkPrompt(
+                this.game,
+                this.victorPos.x + 55,
+                this.victorPos.y - 20,
+                "E to Talk"
+            );
+            this.game.addEntity(this.victorPrompt);
+        }
+    } else {
+        if (this.victorPrompt) {
+            this.victorPrompt.removeFromWorld = true;
+            this.victorPrompt = null;
+        }
+    }
+
+    // Jin prompt
+    if (nearJin) {
+        if (!this.jinPrompt) {
+            this.jinPrompt = new TalkPrompt(
+                this.game,
+                this.jinPos.x + 55,
+                this.jinPos.y - 20,
+                "E to Talk"
+            );
+            this.game.addEntity(this.jinPrompt);
+        }
+    } else {
+        if (this.jinPrompt) {
+            this.jinPrompt.removeFromWorld = true;
+            this.jinPrompt = null;
+        }
+    }
+
+    // Codex prompt
+    const codexExists = r3.codexDropped && !r3.codexPickedUp && r3.codexPos;
+
+    if (codexExists) {
+        const nearCodex = this.isNear(r3.codexPos.x, r3.codexPos.y, 120);
+
+        if (nearCodex) {
+            if (!this.codexPrompt) {
+                this.codexPrompt = new TalkPrompt(
+                    this.game,
+                    r3.codexPos.x + 20,
+                    r3.codexPos.y - 25,
+                    "Press E to take"
+                );
+                this.game.addEntity(this.codexPrompt);
             }
-
-            // Jin prompt
-            if (nearJin) {
-                if (!this.jinPrompt) {
-                    this.jinPrompt = new TalkPrompt(
-                        this.game,
-                        this.jinPos.x + 55,
-                        this.jinPos.y - 20,
-                        "E to Talk"
-                    );
-                    this.game.addEntity(this.jinPrompt);
-                }
-            } else {
-                if (this.jinPrompt) {
-                    this.jinPrompt.removeFromWorld = true;
-                    this.jinPrompt = null;
-                }
-            }
-            //Codex prompt
-            const r3 = this.puzzleStates.room3;
-            const codexExists = r3.codexDropped && !r3.codexPickedUp && r3.codexPos;
-
-            if (codexExists) {
-                const nearCodex = this.isNear(r3.codexPos.x, r3.codexPos.y, 120);
-
-                if (nearCodex) {
-                    if (!this.codexPrompt) {
-                        this.codexPrompt = new TalkPrompt(
-                            this.game,
-                            r3.codexPos.x + 20,
-                            r3.codexPos.y - 25,
-                            "Press E to take"
-                        );
-                        this.game.addEntity(this.codexPrompt);
-                    }
-                } else {
-                    if (this.codexPrompt) {
-                        this.codexPrompt.removeFromWorld = true;
-                        this.codexPrompt = null;
-                    }
-                }
-            } else {
-                if (this.codexPrompt) {
-                    this.codexPrompt.removeFromWorld = true;
-                    this.codexPrompt = null;
-                }
+        } else {
+            if (this.codexPrompt) {
+                this.codexPrompt.removeFromWorld = true;
+                this.codexPrompt = null;
             }
         }
+    } else {
+        if (this.codexPrompt) {
+            this.codexPrompt.removeFromWorld = true;
+            this.codexPrompt = null;
+        }
+    }
+}
         else {
             // Not in room3, remove all room3 prompts
             if (this.victorPrompt) {
@@ -1239,7 +1243,7 @@ class SceneManager {
             this.roomBGMName = null;
         }
 
-         // stops killer footsteps
+        // stops killer footsteps
         const killer = this.game.entities.find(e => e instanceof Killer);
         if (killer && killer.killerWalkAudio) {
             killer.killerWalkAudio.pause();

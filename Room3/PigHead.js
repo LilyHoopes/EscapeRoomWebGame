@@ -17,7 +17,7 @@ class PigHead {
     
     update() {
     // Only allows interaction if not already examining
-    if (this.isNearLily() && this.game.E && !this.game.examining) {
+    if (this.isNearLily() && this.game.E && !this.game.examining && !this.medallionTaken) {
 
         this.game.examining = true;
         this.game.E = false;
@@ -99,7 +99,7 @@ class PigHead {
         }
         
         // Show interaction prompt
-        if (this.isNearLily() && !this.game.examining) {
+        if (this.isNearLily() && !this.game.examining && !this.medallionTaken) {
             ctx.fillStyle = "white";
             ctx.strokeStyle = "black";
             ctx.lineWidth = 3;
