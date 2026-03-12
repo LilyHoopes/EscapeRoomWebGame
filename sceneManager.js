@@ -22,9 +22,9 @@ class SceneManager {
 
         // set true to unlock door for easier testing, false to lock it
         this.debugDoorUnlocks = {
-            room1ToRoom2: true,   // Door from room 1 to room 2
-            room2ToRoom3: true,   // Door from room 2 to room 3
-            room3ToRoom4: true,  // Door from room 3 to room 4 
+            room1ToRoom2: false,   // Door from room 1 to room 2
+            room2ToRoom3: false,   // Door from room 2 to room 3
+            room3ToRoom4: false,  // Door from room 3 to room 4 
             room4ToRoom5: true   // This should always be set to true
         };
 
@@ -852,7 +852,7 @@ class SceneManager {
                 const r3 = this.puzzleStates.room3;
 
                 // Victor
-                if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220) && !r3.leafMedallion) {
+                if (this.victorPos && this.isNear(this.victorPos.x, this.victorPos.y, 220) && victorState.stage < 2) {
 
                     if (this.victorPrompt) {
                         this.victorPrompt.removeFromWorld = true;
@@ -1046,7 +1046,7 @@ if (!this.dialogueBox.active && this.currentRoom === "room3") {
 
     const r3 = this.puzzleStates.room3;
 
-    const nearVictor = this.isNear(this.victorPos.x, this.victorPos.y, 220) && !r3.leafMedallion;
+    const nearVictor = this.isNear(this.victorPos.x, this.victorPos.y, 220) && this.npcStates.victor.stage < 2;
     const nearJin = this.isNear(this.jinPos.x, this.jinPos.y, 120) && !r3.codexDropped;
 
     // Victor prompt
