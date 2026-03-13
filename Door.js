@@ -88,6 +88,7 @@ class Door {
 
             // Special ending door behaviour
             if (this.destinationRoom === "ending") {
+                SOUND_MANAGER.play("./SFX/OpeningDoor.mp3", this.game);
                 this.showingOpen = true; // show open sprite briefly
                 this.game.examining = true;
                 setTimeout(() => {

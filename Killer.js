@@ -128,6 +128,12 @@ class Killer {
             }
         }
 
+        // mutes footsteps when game is muted
+        // gotta sync the mute state
+        if (this.killerWalkAudio) { // checks if audio is loaded
+            this.killerWalkAudio.muted = !!this.game.muted;
+        }
+
         // FOOTSTEP SOUNDS WHEN MOVING  
         if (this.killerWalkAudio.paused) {
             this.killerWalkAudio.play().catch(() => {});
