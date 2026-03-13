@@ -100,6 +100,10 @@ class Lily {
             moving = true;
         }
 
+        // mutes footsteps when game is muted
+        // gotta sync the mute state
+        this.walkLoopAudio.muted = !!this.game.muted;
+
        // Footstep soundss
         if (moving) {
             if (!this.wasMoving) {
