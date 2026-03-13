@@ -729,7 +729,6 @@ class SceneManager {
 
     update() {
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
-
         // Inventory toggle
         if (!inventoryOpen) {
             if (this.game.I && !this.wasIPressed && !this.game.examining) {
@@ -928,12 +927,12 @@ class SceneManager {
             }
             // ROOM 5: Shiannel / Victor / Jin
             if (this.currentRoom === "room5") {
-
+                const r5 = this.puzzleStates.room5;
                 // Shiannel
                 if (this.isNear(this.room5ShiannelPos.x, this.room5ShiannelPos.y, 120)) {
                     this.game.E = false;
                     this.game.examining = true;
-
+                    if (!r5.ghostRevealPlayed) {
                     this.dialogueBox.startSequence(
                         [
                             { speaker: "Shiannel", text: "You did it, Lily!" },
@@ -951,19 +950,30 @@ class SceneManager {
                     );
 
                     triggeredNPC = true;
+                } else {
+                    this.dialogueBox.startSequence(
+                        [
+                            { speaker: "Ghost Shiannel", text: "You did it, Lily!" },
+                            { speaker: "Ghost Shiannel", text: "We're so happy you made it!" }
+                        ],
+                        null,
+                        "Ghost Shiannel",
+                        () => {
+                            this.game.examining = false;
+                        }
+                    );
+                }
                 }
 
                 // Victor (use actual entity position, better from left side)
                 else {
-                    const victorEntity = this.game.entities.find(e => e instanceof Victor);
-
-                    if (victorEntity && this.isNear(victorEntity.x - 40, victorEntity.y + 20, 150)) {
+                    if (this.isNear(this.room5VictorPos.x - 40, this.room5VictorPos.y + 20, 150)) {
                         this.game.E = false;
                         this.game.examining = true;
-
+                        if (!r5.ghostRevealPlayed) {
                         this.dialogueBox.startSequence(
                             [
-                                { speaker: "Victor", text: "The killer was ruthless. Thank god you were able to outrun him." }
+                                { speaker: "Victor", text: "I'm impressed... Well done... Well done..."}
                             ],
                             null,
                             "Victor",
@@ -977,13 +987,25 @@ class SceneManager {
                         );
 
                         triggeredNPC = true;
+                    } else {
+                        this.dialogueBox.startSequence(
+                            [
+                                { speaker: "Ghost Victor", text: "I'm impressed... Well done... Well done..."}
+                            ],
+                            null,
+                            "Ghost Victor",
+                            () => {
+                                this.game.examining = false;
+                            }
+                        );
+                    }
                     }
 
                     // Jin (only check if Victor did NOT trigger)
                     else if (this.isNear(this.room5JinPos.x - 60, this.room5JinPos.y, 120)) {
                         this.game.E = false;
                         this.game.examining = true;
-
+                        if (!r5.ghostRevealPlayed) {
                         this.dialogueBox.startSequence(
                             [
                                 { speaker: "Jin", text: "You solved the puzzles like a pro! You were much quicker than we were!" }
@@ -1000,6 +1022,18 @@ class SceneManager {
                         );
 
                         triggeredNPC = true;
+                    } else {
+                        this.dialogueBox.startSequence(
+                            [
+                                { speaker: "Ghost Jin", text: "You solved the puzzles like a pro! You were much quicker than we were!" }
+                            ],
+                            null,
+                            "Ghost Jin",
+                            () => {
+                                this.game.examining = false;
+                            }
+                        );
+                    }
                     }
                 }
             }
