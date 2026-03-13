@@ -728,6 +728,7 @@ class SceneManager {
     }
 
     update() {
+
         const inventoryOpen = this.game.entities.some(e => e instanceof InventoryUI);
         // Inventory toggle
         if (!inventoryOpen) {

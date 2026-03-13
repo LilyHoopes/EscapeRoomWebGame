@@ -17,7 +17,7 @@ class GameEngine {
         this.debug = false;
         this.muted = false;
         this.musicVolume = 0.3; // the ACTUAL music vol 
-        this.sfxVolume = 0.65
+        this.sfxVolume = 0.45
 
         // Keyboard flags (used by gameplay and TitleScreen)
         this.left = false;
