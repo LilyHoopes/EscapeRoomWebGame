@@ -76,37 +76,43 @@ class Shiannel {
 
         // Dialogue data lives with the NPC, SceneManager decides when to play it.
     static getDialogue(stage) {
-        // stage 0: first conversation
-        if (stage === 0) {
-            return [
-            { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
-            { speaker: "Lily", text: "Hi, it's good to see that I'm not alone!" },
-            { speaker: "Shiannel", text: "I feel the same... But, we have a problem." },
-            { speaker: "Shiannel", text: "Th-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it won't budge!" },
-            { speaker: "Lily", text: "Hm..." },
-            { speaker: "Lily", text: "Well, I guess we'll need something harder to hit it with then." },
-            { speaker: "Shiannel", text: "!!!" },
-            { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room." },
-            { speaker: "Shiannel", text: "But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet." },
-            { speaker: "Shiannel", text: "But I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
-            { speaker: "Lily", text: "You just stay there, I’ll start looking. But where should I even begin? I don’t want to waste time." },
-            { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music. It’s creepy!" },
-            { speaker: "Lily", text: "Hm…" }
-        ];
+
+    // stage 0
+    if (stage === 0) {
+        return {
+            intro: [
+                { speaker: "Shiannel", text: ". . . ." },
+                { speaker: "Lily", text: "Hello? Are you okay?" }
+            ],
+
+            main: [
+                { speaker: "Shiannel", text: "Another survivor! Thank g-goodness, I have been stuck in this room for so long! It’s f-freezing!" },
+                { speaker: "Lily", text: "Hi, it's good to see that I'm not alone!" },
+                { speaker: "Shiannel", text: "I feel the same... But, we have a problem." },
+                { speaker: "Shiannel", text: "Th-the exit door has a lock and it’s frozen s-solid! I tried to break it with my h-hands but it won't budge!" },
+                { speaker: "Lily", text: "Hm..." },
+                { speaker: "Lily", text: "Well, I guess we'll need something harder to hit it with then." },
+                { speaker: "Shiannel", text: "!!!" },
+                { speaker: "Shiannel", text: "The k-killer! He hides a weapon here within this room." },
+                { speaker: "Shiannel", text: "But he a-always makes me close my eyes before he puts it away. I havent been able to f-find it yet." },
+                { speaker: "Shiannel", text: "But I can’t move as fast anymore, the cold is getting to me. It’s so… c-cold!" },
+                { speaker: "Lily", text: "You just stay there, I’ll start looking." },
+                { speaker: "Shiannel", text: "I’m not sure, b-but whenever he’s home, he always play’s c-classical music." },
+                { speaker: "Lily", text: "Hm…" }
+            ]
+        };
     }
 
-        // stage 1: after first convo, before door opens
-        if (stage === 1) {
-            return [
-                { speaker: "Shiannel", text: "Classical music must be his favorite..." },
-            ];
-        }
-
-        // stage 2: after door opens
+    if (stage === 1) {
         return [
-            { speaker: "Shiannel", text: "Yes! You did it! Keep going, I’ll keep watch in case he comes back!" }
+            { speaker: "Shiannel", text: "Classical music must be his favorite..." }
         ];
     }
+
+    return [
+        { speaker: "Shiannel", text: "Yes! You did it! Keep going, I’ll keep watch in case he comes back!" }
+    ];
+}
 
     
 }
